@@ -8,4 +8,7 @@ public class PetGender : BaseEntity
 {
     [Required]
     public string Name { get; set; }
+    
+    public virtual ICollection<Pet> Pets { get; set; }
+    
 }
