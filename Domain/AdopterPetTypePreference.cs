@@ -11,10 +11,10 @@ public class AdopterPetTypePreference
         public Adopter Adopter { get; set; } = null!;
 
         [Required]
-        [Column("pet_size_id", TypeName = "UUID")]
-        [ForeignKey(nameof(PetSize))]
-        public Guid PetSizeId { get; set; }
-        public PetSize PetSize { get; set; } = null!;
+        [Column("type_id", TypeName = "UUID")]
+        [ForeignKey(nameof(PetType))]
+        public Guid PetTypeId { get; set; }
+        public PetType PetType { get; set; } = null!;
     }
 
 }
