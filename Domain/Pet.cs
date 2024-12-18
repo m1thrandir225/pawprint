@@ -1,4 +1,6 @@
-﻿namespace Domain;
+﻿using System.ComponentModel.DataAnnotations;
+using System.ComponentModel.DataAnnotations.Schema;
+namespace Domain;
 
 public class Pet : BaseEntity
 {
@@ -7,7 +9,7 @@ public class Pet : BaseEntity
     public string Name { get; set; }
 
     [Required]
-    [Column("pet_type_id", TypeName = "UUID")]
+    [Column("type_id", TypeName = "UUID")]
     [ForeignKey(nameof(PetType))]
     public Guid PetTypeId { get; set; }
     public PetType PetType { get; set; } = null!;
@@ -59,7 +61,33 @@ public class Pet : BaseEntity
     [ForeignKey(nameof(MedicalRecord))]
     public Guid? MedicalRecordId { get; set; }
     public MedicalRecord? MedicalRecord { get; set; }
+    
+    [Column("good_with_children")]
+    public bool GoodWithChildren { get; set; }
+    
+    [Column("good_with_cats")]
+    public bool GoodWithCats { get; set; }
+    
+    [Column("good_with_dogs")]
+    public bool GoodWithDogs { get; set; }
+    
+    [Column("energy_level")]
+    public int EnergyLevel { get; set; }
+    
+    [Column("description"), TypeName("TEXT")]
+    public string? Description { get; set; }
+    
+    [Column("special_requirements"), TypeName("TEXT")]
+    public string? SpecialRequirements { get; set; }
+    
+    [Column("behaviorial_notes"), TypeName("TEXT")]
+    public string? BehaviorialNotes { get; set; }
+    
+    [Column("intake_date"), TypeName("DATE")]
+    public DateTime? IntakeDate { get; set; }
+    
 
     // One-to-many relationship with OwnerPetListing
     public ICollection<OwnerPetListing> OwnerPetListings { get; set; } = new List<OwnerPetListing>();
+    public ICollection<Adoption> Adoption { get; set; } = new List<Adoption>();
 }
