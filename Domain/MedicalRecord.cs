@@ -7,20 +7,20 @@ namespace Domain;
 [Table("medical_records")]
 public class MedicalRecord : BaseEntity
 {
-    [Column("vet_id", TypeName = "UUID")]
-    [ForeignKey(nameof(Veterinarian))]
-    public Guid VetId { get; set; }
+    // [Column("vet_id", TypeName = "UUID")]
+    [ForeignKey(nameof(Veterinarian))] public Guid VetId { get; set; }
+    
+    public bool SpayNeuterStatus { get; set; }
 
-    [Column("microchip_number", TypeName = "VARCHAR(255)")]
-    public string? MicrochipNumber { get; set; }
-
-    [Column("spay_neuter_status", TypeName = "BOOLEAN")]
-    public bool NeuterStatus { get; set; } = false;
-
-    [Column("last_medical_checkup")]
     public DateOnly? LastMedicalCheckup { get; set; }
-    [Required]
-    public Veterinarian Veterinarian { get; init; }
+    
+    public string? MicrochipNumber { get; set; }
+    
+    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    // [Required] public Veterinarian Veterinarian { get; init; }
 
-
+    // Don't know if Required is needed.
+    [Required] public virtual Veterinarian Veterinarian { get; set; }
+    public virtual ICollection<MedicalCondition> MedicalConditions { get; set; }
+    public virtual ICollection<Vaccination> Vaccinations { get; set; }
 }
