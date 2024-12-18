@@ -1,6 +1,6 @@
 namespace Domain;
 
-public class Adoption
+public class Adoption: BaseEntity
 {
     // Foreign key notations is not required if it's named like this.
     public Guid Id { get; set; }
