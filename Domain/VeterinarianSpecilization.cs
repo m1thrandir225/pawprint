@@ -7,6 +7,7 @@ namespace Domain;
 [Table("vet_specializations")]
 public class VeterinarianSpecilization : BaseEntity
 {
+    [Required]
     [Column("vet_id", TypeName = "UUID")]
     [ForeignKey(nameof(Veterinarian))]
     [DeleteBehavior(DeleteBehavior.Cascade)]
