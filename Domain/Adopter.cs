@@ -1,6 +1,6 @@
 namespace Domain;
 
-public class Adopter
+public class Adopter :BaseEntity
 {
     public Guid Id { get; set; }
     public string FirstName { get; set; }
