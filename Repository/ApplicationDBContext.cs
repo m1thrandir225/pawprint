@@ -10,6 +10,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<HealthStatus> HealthStatuses { get; set; }
     public DbSet<AdoptionStatus> AdoptionStatuses { get; set; }
     public DbSet<AdopterPetTypePreference> AdopterPetTypePreferences { get; set; }
+    public DbSet<AdopterPetGenderPreference> AdopterPetGenderPreferences { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -22,6 +23,9 @@ public class ApplicationDbContext : DbContext
         // Composite Key Configuration for AdopterPetTypePreference
         modelBuilder.Entity<AdopterPetTypePreference>()
             .HasKey(ap => new { ap.AdopterId, ap.PetTypeId });
+
+        modelBuilder.Entity<AdopterPetGenderPreference>()
+            .HasKey(entity => new { entity.AdopterId, entity.PetGenderId });
     }
 
 }
