@@ -24,7 +24,9 @@ public class OwnerPetListing : BaseEntity
     
     [Column("review_date", TypeName = "TIMESTAMPTZ")]
     public DateTime ReviewDate { get; set; } = DateTime.Now;
+
     [Column("submission_date", TypeName = "TIMESTAMPTZ")]
     public DateTime SubmissionDate { get; set; } = DateTime.Now;
+
     public virtual ICollection<OwnerPetListingDocumets> OwnerPetListingDocuments { get; set; } = null!;
 }
