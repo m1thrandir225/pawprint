@@ -13,5 +13,5 @@ public class PetSize : BaseEntity
 
     // One-to-many relationship with Pet and AdopterPetSizesPreference
     public virtual ICollection<Pet> Pets { get; set; } = new List<Pet>();
-    public virtual ICollection<AdopterPetSizesPreference> AdopterPetSizesPreference { get; set; } = new List<AdopterPetSizesPreference>();
+    public virtual ICollection<AdopterPetSizePreference> AdopterPetSizesPreference { get; set; } = new List<AdopterPetSizePreference>();
 }

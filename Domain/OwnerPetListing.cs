@@ -1,5 +1,7 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Domain.enums;
+
 namespace Domain;
 
 public class OwnerPetListing : BaseEntity
@@ -27,6 +29,9 @@ public class OwnerPetListing : BaseEntity
 
     [Column("submission_date", TypeName = "TIMESTAMPTZ")]
     public DateTime SubmissionDate { get; set; } = DateTime.Now;
+
+    [Column("approved", TypeName = "INTEGER")]
+    public ApprovalStatus Approved { get; set; } = ApprovalStatus.PENDING;
 
     public virtual ICollection<OwnerPetListingDocumets> OwnerPetListingDocuments { get; set; } = null!;
 }
