@@ -2,18 +2,13 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace Domain;
 
+[Table("pets")]
 public class Pet : BaseEntity
 {
     [Required]
     [Column("name", TypeName = "VARCHAR(255)")]
     public string Name { get; set; }
-
-    [Required]
-    [Column("type_id", TypeName = "UUID")]
-    [ForeignKey(nameof(PetType))]
-    public Guid PetTypeId { get; set; }
-    public PetType PetType { get; set; } = null!;
-
+    
     [Column("breed", TypeName = "VARCHAR(255)")]
     public string? Breed { get; set; }
 
@@ -28,6 +23,12 @@ public class Pet : BaseEntity
     public int AgeYears { get; set; }
 
     [Required]
+    [Column("type_id", TypeName = "UUID")]
+    [ForeignKey(nameof(PetType))]
+    public Guid PetTypeId { get; set; }
+    public PetType PetType { get; set; } = null!;
+
+    [Required]
     [Column("gender_id", TypeName = "UUID")]
     [ForeignKey(nameof(PetGender))]
     public Guid PetGenderId { get; set; }
@@ -40,12 +41,6 @@ public class Pet : BaseEntity
     public PetSize PetSize { get; set; } = null!;
 
     [Required]
-    [Column("shelter_id", TypeName = "UUID")]
-    [ForeignKey(nameof(Shelter))]
-    public Guid ShelterId { get; set; }
-    public Shelter Shelter { get; set; } = null!;
-
-    [Required]
     [Column("adoption_status_id", TypeName = "UUID")]
     [ForeignKey(nameof(AdoptionStatus))]
     public Guid AdoptionStatusId { get; set; }
@@ -56,20 +51,15 @@ public class Pet : BaseEntity
     [ForeignKey(nameof(HealthStatus))]
     public Guid HealthStatusId { get; set; }
     public HealthStatus HealthStatus { get; set; } = null!;
-
-    [Column("medical_record_id", TypeName = "UUID")]
-    [ForeignKey(nameof(MedicalRecord))]
-    public Guid? MedicalRecordId { get; set; }
-    public MedicalRecord? MedicalRecord { get; set; }
     
-    [Column("good_with_children")]
-    public bool GoodWithChildren { get; set; }
+    [Column("good_with_children"), TypeName = "BOOLEAN"]
+    public bool GoodWithChildren { get; set; } = false;
     
-    [Column("good_with_cats")]
-    public bool GoodWithCats { get; set; }
+    [Column("good_with_cats"), TypeName = "BOOLEAN"]
+    public bool GoodWithCats { get; set; } = false;
     
-    [Column("good_with_dogs")]
-    public bool GoodWithDogs { get; set; }
+    [Column("good_with_dogs"), TypeName = "BOOLEAN"]
+    public bool GoodWithDogs { get; set; } = false;
     
     [Column("energy_level")]
     public int EnergyLevel { get; set; }
@@ -87,7 +77,8 @@ public class Pet : BaseEntity
     public DateTime? IntakeDate { get; set; }
     
 
-    // One-to-many relationship with OwnerPetListing
-    public ICollection<OwnerPetListing> OwnerPetListings { get; set; } = new List<OwnerPetListing>();
-    public ICollection<Adoption> Adoption { get; set; } = new List<Adoption>();
+    
+    public virtual ICollection<OwnerPetListing> OwnerPetListings { get; set; } = new List<OwnerPetListing>();
+    public virtual ICollection<ShelterPetListing> ShelterPetListings { get; set; } = new List<ShelterPetListing>();
+    public virtual ICollection<Adoption> Adoption { get; set; } = new List<Adoption>();
 }
