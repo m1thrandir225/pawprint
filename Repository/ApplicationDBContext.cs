@@ -11,6 +11,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<AdoptionStatus> AdoptionStatuses { get; set; }
     public DbSet<AdopterPetTypePreference> AdopterPetTypePreferences { get; set; }
     public DbSet<AdopterPetGenderPreference> AdopterPetGenderPreferences { get; set; }
+    public DbSet<AdopterPetSizePreference> AdopterPetSizePreferences { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
@@ -26,6 +27,9 @@ public class ApplicationDbContext : DbContext
 
         modelBuilder.Entity<AdopterPetGenderPreference>()
             .HasKey(entity => new { entity.AdopterId, entity.PetGenderId });
+
+        modelBuilder.Entity<AdopterPetSizePreference>()
+            .HasKey(entity => new {entity.AdopterId, entity.PetSizeId});
     }
 
 }
