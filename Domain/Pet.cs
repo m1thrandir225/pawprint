@@ -81,5 +81,5 @@ public class Pet : BaseEntity
 
     public virtual ICollection<OwnerPetListing> OwnerPetListings { get; set; } = new List<OwnerPetListing>();
     public virtual ICollection<ShelterPetListing> ShelterPetListings { get; set; } = new List<ShelterPetListing>();
-    public virtual ICollection<Adoption> Adoption { get; set; } = new List<Adoption>();
+    public virtual ICollection<Adoption> Adoptions { get; set; } = new List<Adoption>();
 }
