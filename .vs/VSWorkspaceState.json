@@ -1,0 +1,16 @@
+{
+  "ExpandedNodes": [
+    "",
+    "\\Domain",
+    "\\pawprint",
+    "\\Repository",
+    "\\Service",
+    "\\Web",
+    "\\Web\\Models",
+    "\\Web\\Properties",
+    "\\Web\\Views",
+    "\\Web\\wwwroot"
+  ],
+  "SelectedNode": "\\Domain\\Shelter.cs",
+  "PreviewInSolutionExplorer": false
+}
