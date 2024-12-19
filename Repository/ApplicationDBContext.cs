@@ -22,8 +22,6 @@ public class ApplicationDbContext : DbContext
         // Composite Key Configuration for AdopterPetTypePreference
         modelBuilder.Entity<AdopterPetTypePreference>()
             .HasKey(ap => new { ap.AdopterId, ap.PetTypeId });
-
-      d
     }
 
 }
