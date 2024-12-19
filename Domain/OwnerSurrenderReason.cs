@@ -2,6 +2,7 @@
 using System.ComponentModel.DataAnnotations.Schema;
 namespace Domain;
 
+[Table("owner_surrender_reasons")]
 public class OwnerSurrenderReason : BaseEntity
 {
     [Required]
