@@ -33,5 +33,5 @@ public class OwnerPetListing : BaseEntity
     [Column("approved", TypeName = "INTEGER")]
     public ApprovalStatus Approved { get; set; } = ApprovalStatus.PENDING;
 
-    public virtual ICollection<OwnerPetListingDocumets> OwnerPetListingDocuments { get; set; } = null!;
+    public virtual ICollection<OwnerPetListingDocument> OwnerPetListingDocuments { get; set; } = null!;
 }
