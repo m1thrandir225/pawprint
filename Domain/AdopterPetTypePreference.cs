@@ -1,8 +1,9 @@
 ﻿namespace Domain;
 
+[Table("adopter_pet_type_preferences")]
 public class AdopterPetTypePreference
 {
-    public class AdopterPetTypePreference : BaseEntity
+    public class AdopterPetTypePreference :
     {
         [Required]
         [Column("adopter_id", TypeName = "UUID")]
