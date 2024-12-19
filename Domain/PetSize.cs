@@ -10,4 +10,8 @@ public class PetSize : BaseEntity
     [Required]
     [Column("name", TypeName = "VARCHAR(255)")]
     public string Name { get; set; }
+
+    // One-to-many relationship with Pet and AdopterPetSizesPreference
+    public virtual ICollection<Pet> Pets { get; set; } = new List<Pet>();
+    public virtual ICollection<AdopterPetSizesPreference> AdopterPetSizesPreference { get; set; } = new List<AdopterPetSizesPreference>();
 }
