@@ -10,5 +10,4 @@ public class PetType : BaseEntity
     public string Name { get; set; }
     
     public virtual ICollection<Pet> Pets { get; set; }
-    // public virtual ICollection<OwnerPetListing> OwnerPetListings { get; set; }
 }
