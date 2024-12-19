@@ -7,6 +7,7 @@ namespace Domain;
 public class AdoptionStatus: BaseEntity
 {
     [Required]
+    [Column("name", TypeName = "TEXT")]
     public string Name { get; set; }
 
     public virtual ICollection<Pet> Pets { get; set; }
