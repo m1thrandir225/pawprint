@@ -9,7 +9,7 @@ public class AdopterPetTypePreference
     [Column("adopter_id", TypeName = "UUID")]
     [ForeignKey(nameof(Adopter))]
     public Guid AdopterId { get; set; }
-    public Adopter Adopter { get; set; } = null!;
+    public User Adopter { get; set; } = null!;
 
     [Required]
     [Column("type_id", TypeName = "UUID")]

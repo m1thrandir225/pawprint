@@ -11,7 +11,7 @@ public class AdopterPetGenderPreference
     public Guid AdopterId { get; set; }
 
     [Required]
-    public Adopter Adopter { get; set; } = null!;
+    public User Adopter { get; set; } = null!;
 
     [Required]
     [Column("gender_id", TypeName = "UUID")]

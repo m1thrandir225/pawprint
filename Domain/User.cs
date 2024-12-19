@@ -4,7 +4,11 @@ using Microsoft.AspNetCore.Identity;
 
 namespace Domain;
 
-public class CustomUser : IdentityUser
+/*
+ * Email, Phone Number & Roles are inherited from IdentityUser
+ */
+[Table("users")]
+public class User : IdentityUser
 {
     [Required]
     [Column("first_name", TypeName = "varchar(11)")]
@@ -15,13 +19,8 @@ public class CustomUser : IdentityUser
     public string LastName { get; set; }
 
     [Required]
-    [EmailAddress]
-    [Column("email", TypeName = "VARCHAR(100)")]
-    public string Email { get; set; }
-
-    [Required]
-    [Column("phone_number", TypeName = "varchar(11)")]
-    public string PhoneNumber { get; set; }
+    [Column("address", TypeName = "varchar(50)")]
+    public string Address { get; set; }
 
     [Column("has_children", TypeName = "BOOLEAN")]
     public bool HasChildren { get; set; } = false;
@@ -31,7 +30,6 @@ public class CustomUser : IdentityUser
 
     [Column("home_type", TypeName = "VARCHAR(255)")]
     public string HomeType { get; set; }
-
 
     [Column("created_at", TypeName = "TIMESTAMPTZ")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;

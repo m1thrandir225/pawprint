@@ -12,6 +12,7 @@ public class ApplicationDbContext : DbContext
     public DbSet<AdopterPetTypePreference> AdopterPetTypePreferences { get; set; }
     public DbSet<AdopterPetGenderPreference> AdopterPetGenderPreferences { get; set; }
     public DbSet<AdopterPetSizePreference> AdopterPetSizePreferences { get; set; }
+    public DbSet<User> Users { get; set; }
 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)

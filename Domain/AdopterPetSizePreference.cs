@@ -11,7 +11,7 @@ public class AdopterPetSizePreference
     public Guid AdopterId { get; set; }
 
     [Required]
-    public Adopter Adopter { get; set; } = null!;
+    public User Adopter { get; set; } = null!;
 
     [Required]
     [Column("size_id", TypeName = "UUID")]
