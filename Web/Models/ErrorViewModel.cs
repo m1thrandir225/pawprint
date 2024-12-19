@@ -1,4 +1,4 @@
-namespace pawprint.Models;
+namespace Web.Models;
 
 public class ErrorViewModel
 {
