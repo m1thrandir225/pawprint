@@ -8,7 +8,7 @@ namespace Domain;
  * Email, Phone Number & Roles are inherited from IdentityUser
  */
 [Table("users")]
-public class User : IdentityUser
+public class User : IdentityUser<Guid>
 {
     [Required]
     [Column("first_name", TypeName = "varchar(11)")]
