@@ -23,7 +23,9 @@ public class ApplicationDbContext : DbContext
     public DbSet<PetSize> PetSizes { get; set; }
     public DbSet<PetType> PetTypes { get; set; }
     public DbSet<Shelter> Shelters { get; set; }
+
     public DbSet<ShelterPetListing> ShelterPetListings { get; set; }
+
     // Users can make it identity DbContext
     public DbSet<User> Users { get; set; }
     public DbSet<Vaccination> Vaccinations { get; set; }
@@ -34,4 +36,6 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
     }
+    
 }
+

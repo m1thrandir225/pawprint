@@ -14,32 +14,31 @@ public class CrudRepository<T> : ICrudRepository<T> where T : class
         _entities = context.Set<T>();
     }
     
-    public IEnumerable<T> GetAll()
+    public async Task<IEnumerable<T>> GetAllAsync()
     {
-        return _entities.AsEnumerable();
+        return await _entities.ToListAsync();
     }
 
-    public T Get(Guid? id)
+    public async Task<T> GetAsync(Guid? id)
     {
-        return _entities.Find(id);
+        return await _entities.FindAsync(id);
     }
 
-    public void Insert(T entity)
+    public async Task InsertAsync(T entity)
     {
-        _entities.Add(entity);
-        _context.SaveChanges();
+        await _entities.AddAsync(entity);
+        await _context.SaveChangesAsync();
     }
 
-    public void Update(T entity)
+    public async Task UpdateAsync(T entity)
     {
         _entities.Update(entity);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 
-    public void Delete(T entity)
+    public async Task DeleteAsync(T entity)
     {
         _entities.Remove(entity);
-        _context.SaveChanges();
+        await _context.SaveChangesAsync();
     }
 }
-

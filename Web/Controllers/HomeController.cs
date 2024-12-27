@@ -19,10 +19,10 @@ public class HomeController : Controller
         _petRepository = petRepository;
     }
 
-    public IActionResult Index()
+    public async Task<IActionResult> Index()
     {
-        var pets = _petRepository.GetAll();
-        var petTypes = _petTypeRepository.GetAll();
+        var pets = await _petRepository.GetAllAsync();
+        var petTypes = await _petTypeRepository.GetAllAsync();
 
         foreach (var pet in pets)
         {
@@ -30,6 +30,7 @@ public class HomeController : Controller
         }
         return View(pets);
     }
+
 
     public IActionResult Privacy()
     {

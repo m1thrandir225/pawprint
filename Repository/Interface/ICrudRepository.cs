@@ -4,9 +4,9 @@ using System.Collections.Generic;
 
 public interface ICrudRepository<T> where T : class
 {
-    IEnumerable<T> GetAll();
-    T Get(Guid? id);
-    void Insert(T entity);
-    void Update(T entity);
-    void Delete(T entity);
+    Task<IEnumerable<T>> GetAllAsync();
+    Task<T> GetAsync(Guid? id);
+    Task InsertAsync(T entity);
+    Task UpdateAsync(T entity);
+    Task DeleteAsync(T entity);
 }
