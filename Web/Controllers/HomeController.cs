@@ -21,21 +21,13 @@ public class HomeController : Controller
 
     public IActionResult Index()
     {
-        // Fetch all pet types
         var pets = _petRepository.GetAll();
         var petTypes = _petTypeRepository.GetAll();
 
-        // foreach (var petType in petTypes)
-        // {
-        //     Console.WriteLine(petType.Pets.ToString()); // Assuming "Name" is the property for the pet's name
-        // }
-        //
-        //
         foreach (var pet in pets)
         {
-            Console.WriteLine(pet.PetType); // Assuming "Name" is the property for the pet's name
+            Console.WriteLine(pet.Name);
         }
-        
         return View(pets);
     }
 
