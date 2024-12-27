@@ -7,7 +7,6 @@ namespace Repository;
 
 public class ApplicationDbContext : DbContext
 {
-
     /*
      * Tables
      */
@@ -50,28 +49,4 @@ public class ApplicationDbContext : DbContext
         : base(options)
     {
     }
-    // protected override void OnModelCreating(ModelBuilder modelBuilder)
-    // {
-    //     base.OnModelCreating(modelBuilder); 
-    //
-    //     // Composite Key Configuration for AdopterPetTypePreference
-    //     modelBuilder.Entity<AdopterPetTypePreference>()
-    //         .HasKey(ap => new { ap.AdopterId, ap.PetTypeId });
-    //
-    //     modelBuilder.Entity<AdopterPetGenderPreference>()
-    //         .HasKey(entity => new { entity.AdopterId, entity.PetGenderId });
-    //
-    //     modelBuilder.Entity<AdopterPetSizePreference>()
-    //         .HasKey(entity => new {entity.AdopterId, entity.PetSizeId});
-    //
-    //     modelBuilder.Entity<OwnerPetListing>()
-    //         .Property(e => e.Approved)
-    //         .HasConversion<int>();
-    //
-    //     modelBuilder.Entity<ShelterPetListing>()
-    //         .Property(e => e.Approved)
-    //         .HasConversion<int>();
-    //
-    // }
-
 }

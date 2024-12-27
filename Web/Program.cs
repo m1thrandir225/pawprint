@@ -16,25 +16,11 @@ builder.Services.AddDefaultIdentity<User>()
 
 // Repos
 builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
+builder.Services.AddScoped<IPetRepository, PetRepository>();
 
 
 var app = builder.Build();
 
-
-// Testing conection 
-
-try
-{
-    using var scope = app.Services.CreateScope();
-    var dbContext = scope.ServiceProvider.GetRequiredService<ApplicationDbContext>();
-    Console.WriteLine("Testing database connection...");
-    dbContext.Database.CanConnect();
-    Console.WriteLine("Connection successful!");
-}
-catch (Exception ex)
-{
-    Console.WriteLine($"Database connection failed: {ex.Message}");
-}
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

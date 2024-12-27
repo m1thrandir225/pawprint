@@ -1,22 +1,26 @@
-﻿@model IEnumerable<Domain.PetType> 
+﻿@model IEnumerable<Domain.Pet>
 
-<h1>Pet Types</h1>
+<h1>Pets</h1>
 
 <table class="table">
     <thead>
     <tr>
         <th>ID</th>
         <th>Name</th>
-        <th>Description</th>
+        <th>Breed</th>
+        <th>Age (Years)</th>
+        <th>Type</th>
     </tr>
     </thead>
     <tbody>
-    @foreach (var petType in Model)
+    @foreach (var pet in Model)
     {
         <tr>
-            <td>@petType.Id</td>
-            <td>@petType.Name</td>
-            @* <td>@petType.Description</td> *@
+            <td>@pet.Id</td>
+            <td>@pet.Name</td>
+            <td>@pet.Breed ?? "N/A"</td>
+            <td>@pet.AgeYears</td>
+            <td>@pet.PetType.Name</td>
         </tr>
     }
     </tbody>

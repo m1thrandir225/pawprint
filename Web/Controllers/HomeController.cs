@@ -9,21 +9,34 @@ public class HomeController : Controller
 {
     private readonly ILogger<HomeController> _logger;
     private readonly IPetTypeRepository _petTypeRepository;
+    private readonly IPetRepository _petRepository;
 
     // Inject the repository through the constructor
-    public HomeController(ILogger<HomeController> logger, IPetTypeRepository petTypeRepository)
+    public HomeController(ILogger<HomeController> logger, IPetTypeRepository petTypeRepository, IPetRepository petRepository)
     {
         _logger = logger;
         _petTypeRepository = petTypeRepository;
+        _petRepository = petRepository;
     }
 
     public IActionResult Index()
     {
         // Fetch all pet types
+        var pets = _petRepository.GetAll();
         var petTypes = _petTypeRepository.GetAll();
 
-        // Pass the pet types to the view
-        return View(petTypes);
+        // foreach (var petType in petTypes)
+        // {
+        //     Console.WriteLine(petType.Pets.ToString()); // Assuming "Name" is the property for the pet's name
+        // }
+        //
+        //
+        foreach (var pet in pets)
+        {
+            Console.WriteLine(pet.PetType); // Assuming "Name" is the property for the pet's name
+        }
+        
+        return View(pets);
     }
 
     public IActionResult Privacy()
