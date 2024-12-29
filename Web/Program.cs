@@ -21,6 +21,8 @@ builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
 builder.Services.AddScoped<IPetGenderRepository, PetGenderRepository>();
 builder.Services.AddScoped<IAdoptionStatusRepository, AdoptionStatusRepository>();
+builder.Services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
+
 // Controllers 
 
 builder.Services.AddControllers()
