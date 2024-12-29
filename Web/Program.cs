@@ -18,7 +18,7 @@ builder.Services.AddDefaultIdentity<User>()
 builder.Services.AddScoped<IAdopterPetGenderPreferenceRepository, AdopterPetGenderPreferenceRepository>();
 builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
 builder.Services.AddScoped<IPetRepository, PetRepository>();
-
+builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
 // Controllers 
 
 builder.Services.AddControllers()
