@@ -20,6 +20,7 @@ builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
 builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
 builder.Services.AddScoped<IPetGenderRepository, PetGenderRepository>();
+builder.Services.AddScoped<IAdoptionStatusRepository, AdoptionStatusRepository>();
 // Controllers 
 
 builder.Services.AddControllers()
