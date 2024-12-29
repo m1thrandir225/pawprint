@@ -24,6 +24,8 @@ builder.Services.AddScoped<IAdoptionStatusRepository, AdoptionStatusRepository>(
 builder.Services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
 builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
 builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+
 // Controllers 
 
 builder.Services.AddControllers()
