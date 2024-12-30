@@ -27,31 +27,31 @@ public class Pet : BaseEntity
     [Column("type_id", TypeName = "UUID")]
     [ForeignKey(nameof(PetType))]
     public Guid PetTypeId { get; set; }
-    public PetType PetType { get; set; } = null!;
+    public virtual PetType PetType { get; set; } = null!;
 
     [Required]
     [Column("gender_id", TypeName = "UUID")]
     [ForeignKey(nameof(PetGender))]
     public Guid PetGenderId { get; set; }
-    public PetGender PetGender { get; set; } = null!;
+    public virtual PetGender PetGender { get; set; } = null!;
 
     [Required]
     [Column("size_id", TypeName = "UUID")]
     [ForeignKey(nameof(PetSize))]
     public Guid PetSizeId { get; set; }
-    public PetSize PetSize { get; set; } = null!;
+    public virtual PetSize PetSize { get; set; } = null!;
 
     [Required]
     [Column("adoption_status_id", TypeName = "UUID")]
     [ForeignKey(nameof(AdoptionStatus))]
     public Guid AdoptionStatusId { get; set; }
-    public AdoptionStatus AdoptionStatus { get; set; } = null!;
+    public virtual AdoptionStatus AdoptionStatus { get; set; } = null!;
 
     [Required]
     [Column("health_status_id", TypeName = "UUID")]
     [ForeignKey(nameof(HealthStatus))]
     public Guid HealthStatusId { get; set; }
-    public HealthStatus HealthStatus { get; set; } = null!;
+    public virtual HealthStatus HealthStatus { get; set; } = null!;
 
     [Column("good_with_children", TypeName = "BOOLEAN")]
     public bool GoodWithChildren { get; set; } = false;
