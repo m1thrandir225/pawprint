@@ -25,8 +25,7 @@ public class Shelter : BaseEntity
     [Column("email")]
     public string Email { get; set; }
 
-    [Column("website", TypeName = "TEXT")]
-    public string? Website { get; set; }
+    [Column("website", TypeName = "TEXT")] public string? Website { get; set; }
 
     [Column("capacity")] public int capacity { get; set; }
 
@@ -35,5 +34,4 @@ public class Shelter : BaseEntity
 
     [Column("created_at", TypeName = "TIMESTAMPTZ")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
-
 }

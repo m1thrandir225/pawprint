@@ -1,8 +1,27 @@
-﻿@{
-    ViewData["Title"] = "Home Page";
-}
+﻿@model IEnumerable<Domain.Pet>
 
-<div class="text-center">
-    <h1 class="display-4">Welcome</h1>
-    <p>Learn about <a href="https://learn.microsoft.com/aspnet/core">building Web apps with ASP.NET Core</a>.</p>
-</div>
+<h1>Pets</h1>
+
+<table class="table">
+    <thead>
+    <tr>
+        <th>ID</th>
+        <th>Name</th>
+        <th>Breed</th>
+        <th>Age (Years)</th>
+        <th>Type</th>
+    </tr>
+    </thead>
+    <tbody>
+    @foreach (var pet in Model)
+    {
+        <tr>
+            <td>@pet.Id</td>
+            <td>@pet.Name</td>
+            <td>@pet.Breed ?? "N/A"</td>
+            <td>@pet.AgeYears</td>
+            <td>@pet.PetType.Name</td>
+        </tr>
+    }
+    </tbody>
+</table>

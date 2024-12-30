@@ -3,7 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain;
 
-public class AdopterPetGenderPreference
+public class AdopterPetGenderPreference :BaseEntity
 {
     [Required]
     [Column("adopter_id", TypeName = "UUID")]
@@ -11,7 +11,7 @@ public class AdopterPetGenderPreference
     public Guid AdopterId { get; set; }
 
     [Required]
-    public User Adopter { get; set; } = null!;
+    public virtual User Adopter { get; set; } = null!;
 
     [Required]
     [Column("gender_id", TypeName = "UUID")]
@@ -19,5 +19,5 @@ public class AdopterPetGenderPreference
     public Guid PetGenderId { get; set; }
 
     [Required]
-    public PetGender PetGender { get; set; } = null!;
+    public virtual PetGender PetGender { get; set; } = null!;
 }

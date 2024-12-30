@@ -10,10 +10,10 @@ public class MedicalCondition : BaseEntity
     [ForeignKey(nameof(MedicalRecord))]
     [Column("medical_record_id", TypeName = "UUID")] 
     public Guid MedicalRecordId { get; set; } // Required foreign key property
-    public MedicalRecord MedicalRecord { get; init; } = null!;
+    public virtual MedicalRecord MedicalRecord { get; init; } = null!;
     
     [Required]
-    [Column("condition_name", TypeName = "VARCHAR(100")]
+    [Column("condition_name", TypeName = "VARCHAR(100)")]
     public string ConditionName { get; set; }
 
     [Column("notes", TypeName = "TEXT")]
