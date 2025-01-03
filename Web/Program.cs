@@ -30,7 +30,7 @@ builder.Services.AddScoped<IOwnerSurrenderReasonRepository, OwnerSurrenderReason
 builder.Services.AddScoped<IOwnerPetListingDocumentRepository, OwnerPetListingDocumentRepository>();
 builder.Services.AddScoped<IPetSizeRepository, PetSizeRepository>();
 builder.Services.AddScoped<IHealthStatusRepository, HealthStatusRepository>();
-
+builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
 // Controllers 
 
 builder.Services.AddControllers()
