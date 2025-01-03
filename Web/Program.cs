@@ -36,6 +36,7 @@ builder.Services.AddScoped<IMedicalConditionRepository, MedicalConditionReposito
 builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IAdopterPetSizePreferenceRepository, AdopterPetSizePreferenceRepository>();
 builder.Services.AddScoped<IAdopterPetTypePreferenceRepository, AdopterPetTypePreferenceRepository>();
+builder.Services.AddScoped<IOwnerPetListingRepository, OwnerPetListingRepository>();
 // Controllers 
 
 builder.Services.AddControllers()
