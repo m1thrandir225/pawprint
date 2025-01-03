@@ -33,6 +33,7 @@ builder.Services.AddScoped<IHealthStatusRepository, HealthStatusRepository>();
 builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
 builder.Services.AddScoped<IVeterinarianSpecilizationRepository, VeterinarianSpecilizationRepository>();
 builder.Services.AddScoped<IMedicalConditionRepository, MedicalConditionRepository>();
+builder.Services.AddScoped<IPetRepository, PetRepository>();
 // Controllers 
 
 builder.Services.AddControllers()
