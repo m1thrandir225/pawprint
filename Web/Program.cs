@@ -16,27 +16,28 @@ builder.Services.AddDefaultIdentity<User>()
 
 // Repos
 builder.Services.AddScoped<IAdopterPetGenderPreferenceRepository, AdopterPetGenderPreferenceRepository>();
-builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
-builder.Services.AddScoped<IPetRepository, PetRepository>();
-builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
-builder.Services.AddScoped<IPetGenderRepository, PetGenderRepository>();
-builder.Services.AddScoped<IAdoptionStatusRepository, AdoptionStatusRepository>();
-builder.Services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
-builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
-builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IAdoptionRepository, AdoptionRepository>(); // THIS IS THE LINE I MESSED UP
-builder.Services.AddScoped<IOwnerSurrenderReasonRepository, OwnerSurrenderReasonRepository>();
-builder.Services.AddScoped<IOwnerPetListingDocumentRepository, OwnerPetListingDocumentRepository>();
-builder.Services.AddScoped<IPetSizeRepository, PetSizeRepository>();
-builder.Services.AddScoped<IHealthStatusRepository, HealthStatusRepository>();
-builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
-builder.Services.AddScoped<IVeterinarianSpecilizationRepository, VeterinarianSpecilizationRepository>();
-builder.Services.AddScoped<IMedicalConditionRepository, MedicalConditionRepository>();
-builder.Services.AddScoped<IPetRepository, PetRepository>();
 builder.Services.AddScoped<IAdopterPetSizePreferenceRepository, AdopterPetSizePreferenceRepository>();
 builder.Services.AddScoped<IAdopterPetTypePreferenceRepository, AdopterPetTypePreferenceRepository>();
+builder.Services.AddScoped<IAdoptionRepository, AdoptionRepository>(); // THIS IS THE LINE I MESSED UP
+builder.Services.AddScoped<IAdoptionStatusRepository, AdoptionStatusRepository>();
+builder.Services.AddScoped<IHealthStatusRepository, HealthStatusRepository>();
+builder.Services.AddScoped<IMedicalConditionRepository, MedicalConditionRepository>();
+builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
+builder.Services.AddScoped<IOwnerPetListingDocumentRepository, OwnerPetListingDocumentRepository>();
 builder.Services.AddScoped<IOwnerPetListingRepository, OwnerPetListingRepository>();
+builder.Services.AddScoped<IOwnerSurrenderReasonRepository, OwnerSurrenderReasonRepository>();
+builder.Services.AddScoped<IPetGenderRepository, PetGenderRepository>();
+builder.Services.AddScoped<IPetRepository, PetRepository>();
+builder.Services.AddScoped<IPetSizeRepository, PetSizeRepository>();
+builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
+builder.Services.AddScoped<IShelterPetListingRepository, ShelterPetListingRepository>();
+builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
+builder.Services.AddScoped<IUserRepository, UserRepository>();
+builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
+builder.Services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
+builder.Services.AddScoped<IVeterinarianSpecilizationRepository, VeterinarianSpecilizationRepository>();
+
+
 // Controllers 
 
 builder.Services.AddControllers()
