@@ -31,6 +31,7 @@ builder.Services.AddScoped<IOwnerPetListingDocumentRepository, OwnerPetListingDo
 builder.Services.AddScoped<IPetSizeRepository, PetSizeRepository>();
 builder.Services.AddScoped<IHealthStatusRepository, HealthStatusRepository>();
 builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
+builder.Services.AddScoped<IVeterinarianSpecilizationRepository, VeterinarianSpecilizationRepository>();
 // Controllers 
 
 builder.Services.AddControllers()
