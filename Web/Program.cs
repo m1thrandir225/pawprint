@@ -28,6 +28,7 @@ builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IAdoptionRepository, AdoptionRepository>(); // THIS IS THE LINE I MESSED UP
 builder.Services.AddScoped<IOwnerSurrenderReasonRepository, OwnerSurrenderReasonRepository>();
 builder.Services.AddScoped<IOwnerPetListingDocumentRepository, OwnerPetListingDocumentRepository>();
+builder.Services.AddScoped<IPetSizeRepository, PetSizeRepository>();
 
 // Controllers 
 
