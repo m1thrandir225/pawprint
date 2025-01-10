@@ -9,6 +9,8 @@ using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Repository.Implementations;
 using Repository.Interface;
+using Service.Implementations;
+using Service.Interface;
 using Web.Config;
 using Web.Services;
 
@@ -105,6 +107,7 @@ builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
 builder.Services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
 builder.Services.AddScoped<IVeterinarianSpecilizationRepository, VeterinarianSpecilizationRepository>();
 
+builder.Services.AddScoped<IPetGenderService, PetGenderService>();
 
 // Controllers 
 
