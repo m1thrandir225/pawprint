@@ -17,5 +17,16 @@ public class Veterinarian : BaseEntity
     public DateTime CreatedAt { get; set; } = DateTime.Now;
 
     public virtual ICollection<VeterinarianSpecilization> VetSpecializations { get; set; }
-    public virtual ICollection<MedicalRecord> MedicalRecords { get; set; }
+    // public virtual ICollection<MedicalRecord> MedicalRecords { get; set; }
+
+    public Veterinarian()
+    {
+    }
+
+    public Veterinarian(string name, string contactNumber, string email)
+    {
+        Name = name;
+        ContactNumber = contactNumber;
+        Email = email;
+    }
 }
