@@ -48,4 +48,34 @@ public class JWTService
 
         return new JwtSecurityTokenHandler().WriteToken(token);
     }
+
+    public ClaimsPrincipal? VerifyToken(string token)
+    {
+        var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecretKey));
+        var tokenHandler = new JwtSecurityTokenHandler();
+
+        try
+        {
+            var parameters = new TokenValidationParameters
+            {
+                ValidateIssuer = true,
+                ValidateAudience = true,
+                ValidateLifetime = true,
+                ValidateIssuerSigningKey = true,
+                ValidIssuer = _jwtConfig.Issuer,
+                ValidAudience = _jwtConfig.Audience,
+                IssuerSigningKey = key,
+                ClockSkew = TimeSpan.Zero // Optional: Adjust for clock drift
+            };
+
+            var principal = tokenHandler.ValidateToken(token, parameters, out _);
+            return principal;
+        }
+        catch
+        {
+            return null; // Token is invalid
+        }
+    }
+
+
 }
