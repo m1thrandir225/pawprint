@@ -19,6 +19,7 @@ public class PetGender : BaseEntity
 
     public PetGender(string name)
     {
+        Id = Guid.NewGuid();
         Name = name;
     }
 }
