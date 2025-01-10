@@ -12,5 +12,5 @@ public class HealthStatus : BaseEntity
     public string Name { get; set; }
 
     // One-to-many relationship with Pet
-    public virtual ICollection<Pet> Pets { get; set; } = new List<Pet>();
+    // public virtual ICollection<Pet> Pets { get; set; } = new List<Pet>();
 }
