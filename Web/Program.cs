@@ -1,10 +1,16 @@
+using System.Text;
 using Domain;
 using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Authentication;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Repository.Implementations;
 using Repository.Interface;
+using Web.Config;
+using Web.Services;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -48,6 +54,33 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 
     })
     .AddEntityFrameworkStores<ApplicationDbContext>();
+
+
+//JWT Config
+builder.Services.Configure<JWTConfig>(builder.Configuration.GetSection("JWTConfig"));
+
+builder.Services.AddAuthentication(options =>
+{
+    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+})
+.AddJwtBearer(options =>
+{
+    options.TokenValidationParameters = new TokenValidationParameters
+    {
+        ValidateIssuer = true,
+        ValidateAudience = true,
+        ValidateLifetime = true,
+        ValidateIssuerSigningKey = true,
+        ValidIssuer = builder.Configuration["JWTConfig:Issuer"],
+        ValidAudience =  builder.Configuration["JWTConfig:Audience"],
+        IssuerSigningKey = new SymmetricSecurityKey(
+            Encoding.UTF8.GetBytes(builder.Configuration["JWTConfig:SecretKey"]))
+    };
+});
+builder.Services.AddScoped<JWTService>();
+
+
 
 // Repos
 builder.Services.AddScoped<IAdopterPetGenderPreferenceRepository, AdopterPetGenderPreferenceRepository>();
@@ -100,6 +133,8 @@ app.UseStaticFiles();
 app.UseRouting();
 
 app.UseAuthorization();
+
+
 
 app.MapControllerRoute(
     name: "default",
