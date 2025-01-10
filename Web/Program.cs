@@ -114,7 +114,11 @@ builder.Services.AddScoped<IPetTypeService, PetTypeService>();
 builder.Services.AddScoped<IMedicalConditionService, MedicalConditionService>();
 builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 builder.Services.AddScoped<IAdoptionStatusService, AdoptionStatusService>();
-// Controllers 
+builder.Services.AddScoped<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
+
+
+
+// Controllers
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
