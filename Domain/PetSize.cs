@@ -21,6 +21,7 @@ public class PetSize : BaseEntity
 
     public PetSize(string name)
     {
+        Id = Guid.NewGuid();
         Name = name;
     }
     
