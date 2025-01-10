@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 
 namespace Domain;
@@ -8,7 +9,7 @@ namespace Domain;
  * Email, Phone Number & Roles are inherited from IdentityUser
  */
 [Table("users")]
-public class User : IdentityUser<Guid>
+public class User : ApplicationUser
 {
     [Required]
     [Column("first_name", TypeName = "varchar(11)")]
@@ -18,10 +19,6 @@ public class User : IdentityUser<Guid>
     [Column("last_name", TypeName = "varchar(11)")]
     public string LastName { get; set; }
 
-    [Required]
-    [Column("address", TypeName = "varchar(50)")]
-    public string Address { get; set; }
-
     [Column("has_children", TypeName = "BOOLEAN")]
     public bool HasChildren { get; set; } = false;
 
@@ -30,8 +27,4 @@ public class User : IdentityUser<Guid>
 
     [Column("home_type", TypeName = "VARCHAR(255)")]
     public string HomeType { get; set; }
-
-    [Column("created_at", TypeName = "TIMESTAMPTZ")]
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
-
 }
