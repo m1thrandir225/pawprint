@@ -1,5 +1,7 @@
 using System.Text;
+using System.Text.Json.Serialization;
 using Domain;
+using Domain.DTOs;
 using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication;
@@ -9,7 +11,7 @@ using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Repository.Implementations;
 using Repository.Interface;
-using Service.Implementations;
+using Service.Implementation;
 using Service.Interface;
 using Web.Config;
 using Web.Services;
@@ -107,14 +109,15 @@ builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
 builder.Services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
 builder.Services.AddScoped<IVeterinarianSpecilizationRepository, VeterinarianSpecilizationRepository>();
 
-builder.Services.AddScoped<IPetGenderService, PetGenderService>();
+
+builder.Services.AddScoped<IPetTypeService, PetTypeService>();
 
 // Controllers 
 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.Preserve;
+        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.WriteIndented = true;
     });
 
