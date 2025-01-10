@@ -53,7 +53,7 @@ namespace Web.Controllers
         }
 
         [HttpPut]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         public async Task<ActionResult<Vaccination>> UpdateVaccination([FromBody] UpdateVaccinationRequest request, [FromRoute] Guid id)
         {
             var updated = await _vaccinationService.UpdateAsync(id ,request);
@@ -66,7 +66,7 @@ namespace Web.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         public async Task<ActionResult<Vaccination>> DeleteVaccination([FromRoute] Guid id)
         {
             var deleted = await _vaccinationService.DeleteAsync(id);
