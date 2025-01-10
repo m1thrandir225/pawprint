@@ -20,5 +20,14 @@ public class MedicalCondition : BaseEntity
     public string? Notes { get; set; }
     
     
+    public MedicalCondition() { }
+
+    public MedicalCondition(Guid medicalRecordId, string conditionName, string? notes)
+    {
+        Id = Guid.NewGuid();
+        MedicalRecordId = medicalRecordId;
+        ConditionName = conditionName;
+        Notes = notes;
+    }
 
 }
