@@ -67,7 +67,7 @@ namespace Web.Controllers
         }
 
         [HttpDelete]
-        [Route("{id}")]
+        [Route("{id:guid}")]
         public async Task<ActionResult<PetGender>> DeletePetGender([FromRoute] Guid id)
         {
             var deleted = await _petGenderService.DeleteAsync(id);
