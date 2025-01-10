@@ -10,5 +10,15 @@ public class PetGender : BaseEntity
     [Column("name", TypeName = "TEXT")]
     public string Name { get; set; }
     
-    public virtual ICollection<Pet> Pets { get; set; }
+    // public virtual ICollection<Pet> Pets { get; set; }
+
+    public PetGender()
+    {
+        
+    }
+
+    public PetGender(string name)
+    {
+        Name = name;
+    }
 }
