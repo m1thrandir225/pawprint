@@ -113,6 +113,7 @@ builder.Services.AddScoped<IVeterinarianSpecilizationRepository, VeterinarianSpe
 builder.Services.AddScoped<IPetTypeService, PetTypeService>();
 builder.Services.AddScoped<IMedicalConditionService, MedicalConditionService>();
 builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
+builder.Services.AddScoped<IOwnerPetListingService, OwnerPetListingService>();
 
 // Controllers 
 
