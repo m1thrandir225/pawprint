@@ -13,7 +13,40 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
 
-builder.Services.AddDefaultIdentity<ApplicationUser>()
+builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+    {
+        // Disable username requirements (will still exist but won't be validated)
+        options.User.AllowedUserNameCharacters = null;
+        options.User.RequireUniqueEmail = true;  // Use email as primary identifier instead
+
+        options.Password.RequireDigit = true;
+        options.Password.RequiredLength = 8;
+        options.Password.RequireNonAlphanumeric = true;
+        options.Password.RequireUppercase = true;
+        options.Password.RequireLowercase = true;
+
+        // Disable two-factor authentication
+        options.Tokens.ProviderMap.Remove("Default");
+        options.Tokens.ProviderMap.Remove("Email");
+        options.Tokens.ProviderMap.Remove("Phone");
+
+        options.User.RequireUniqueEmail = true;
+
+        // Disable phone number confirmation
+        options.SignIn.RequireConfirmedPhoneNumber = false;
+
+        // Disable lockout
+        options.Lockout.AllowedForNewUsers = false;
+
+        // Disable email confirmation requirement
+        options.SignIn.RequireConfirmedEmail = false;
+
+        // Disable account confirmation
+        options.SignIn.RequireConfirmedAccount = false;
+
+
+
+    })
     .AddEntityFrameworkStores<ApplicationDbContext>();
 
 // Repos
