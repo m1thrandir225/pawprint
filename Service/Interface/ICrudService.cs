@@ -4,11 +4,11 @@ namespace Service.Interface;
 
 using System.Collections.Generic;
 
-public interface ICrudService<Model> where Model : class
+public interface ICRUDService<TEntity,TCreateDto, TUpdateDto> where TEntity : class
 {
-    IEnumerable<Model> GetAll();
-    Model Get(Guid? id);
-    void Insert(Model entity);
-    void Update(Model entity);
-    void Delete(Model entity);
+    Task<IEnumerable<TEntity>> GetAllAsync();
+    Task<TEntity> GetByIdAsync(Guid id);
+    Task<TEntity> CreateAsync(TCreateDto dto);
+    Task<TEntity> UpdateAsync(Guid id, TUpdateDto dto);
+    Task<bool> DeleteAsync(Guid id);
 }
