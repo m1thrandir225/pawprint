@@ -10,15 +10,13 @@ public class Adoption : BaseEntity
     [ForeignKey(nameof(Pet))]
     public Guid PetId { get; set; }
 
-    [Required]
-    public virtual Pet Pet { get; set; } = null!;
+    [Required] public virtual Pet Pet { get; set; } = null!;
 
     [ForeignKey(nameof(Adopter))]
     [Column("adopter_id", TypeName = "UUID")]
     public Guid AdopterId { get; set; }
 
-    [Required]
-    public virtual User Adopter { get; set; } = null!;
+    [Required] public virtual User Adopter { get; set; } = null!;
 
     [Column("adoption_date", TypeName = "DATE")]
     public DateTime AdoptionDate { get; set; }
@@ -41,4 +39,20 @@ public class Adoption : BaseEntity
     [Required]
     [Column("created_at", TypeName = "TIMESTAMPTZ")]
     public DateTime CreatedAt { get; set; } = DateTime.Now;
+
+    public Adoption()
+    {
+    }
+
+    public Adoption(Guid petId, Guid adopterId, DateTime adoptionDate, decimal adoptionFee,
+        DateTime? followUpDate,  bool isSuccessful, string counselorNotes= null)
+    {
+        PetId = petId;
+        AdopterId = adopterId;
+        AdoptionDate = adoptionDate;
+        AdoptionFee = adoptionFee;
+        FollowUpDate = followUpDate;
+        CounselorNotes = counselorNotes;
+        IsSuccessful = isSuccessful;
+    }
 }
