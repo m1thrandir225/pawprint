@@ -34,4 +34,17 @@ public class OwnerPetListing : BaseEntity
     public virtual ApprovalStatus Approved { get; set; } = ApprovalStatus.PENDING;
 
     public virtual ICollection<OwnerPetListingDocument> OwnerPetListingDocuments { get; set; } = null!;
+    
+    public OwnerPetListing()
+    {
+    }
+    
+    public OwnerPetListing(Guid adopterId, Guid petId, Guid surrenderReasonId)
+    {
+        Id = Guid.NewGuid();
+        AdopterId = adopterId;
+        PetId = petId;
+        SurrenderReasonId = surrenderReasonId;
+
+    }
 }
