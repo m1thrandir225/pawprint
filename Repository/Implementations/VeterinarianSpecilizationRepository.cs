@@ -3,9 +3,9 @@ using Repository.Interface;
 
 namespace Repository.Implementations;
 
-public class VeterinarianSpecilizationRepository : CrudRepository<VeterinarianSpecilization>, IVeterinarianSpecilizationRepository
+public class VeterinarianSpecializationRepository : CrudRepository<VeterinarianSpecilization>, IVeterinarianSpecializationRepository
 {
-    public VeterinarianSpecilizationRepository(ApplicationDbContext context) : base(context)
+    public VeterinarianSpecializationRepository(ApplicationDbContext context) : base(context)
     {
     }
 }
