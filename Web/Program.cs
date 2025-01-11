@@ -23,6 +23,10 @@ builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
 
+builder.Services.AddControllers();
+builder.Services.AddSwaggerGen(); // Add this here
+
+
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
     {
         // Disable username requirements (will still exist but won't be validated)
@@ -137,6 +141,13 @@ builder.Services.AddControllers()
 
 
 var app = builder.Build();
+
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger(); // Enable Swagger
+    app.UseSwaggerUI();
+}
+
 
 
 // Configure the HTTP request pipeline.
