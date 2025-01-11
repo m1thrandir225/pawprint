@@ -16,4 +16,16 @@ public class VeterinarianSpecilization : BaseEntity
     [Required]
     [Column("specialization", TypeName = "VARCHAR(255)")]
     public string Specialization { get; set; } = null!;
+
+    public VeterinarianSpecilization()
+    {
+        
+    }
+    public VeterinarianSpecilization(Guid veterinarianId, string specialization)
+    {
+        Id = Guid.NewGuid(); 
+        VeterinarianId = veterinarianId;
+        Specialization = specialization; 
+    }
+
 }
