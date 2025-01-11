@@ -111,6 +111,7 @@ builder.Services.AddScoped<IVeterinarianSpecializationRepository, VeterinarianSp
 
 
 builder.Services.AddScoped<IPetTypeService, PetTypeService>();
+builder.Services.AddScoped<IAdoptionService, AdoptionService>();
 builder.Services.AddScoped<IPetService, PetService>();
 builder.Services.AddScoped<IVeterinarianService, VeterinarianService>();
 builder.Services.AddScoped<IVaccinationService, VaccinationService>();
