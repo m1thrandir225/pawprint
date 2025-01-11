@@ -117,7 +117,13 @@ builder.Services.AddScoped<IPetSizeService, PetSizeService>();
 builder.Services.AddScoped<IPetGenderService, PetGenderService>();
 builder.Services.AddScoped<IHealthStatusService, HealthStatusService>();
 builder.Services.AddScoped<IMedicalConditionService, MedicalConditionService>();
+builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
+builder.Services.AddScoped<IAdoptionStatusService, AdoptionStatusService>();
+builder.Services.AddScoped<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
 
+
+
+// Controllers
 builder.Services.AddScoped<IVeterinarianSpecializationService, VeterinarianSpecializationService>();
 
 // Controllers 

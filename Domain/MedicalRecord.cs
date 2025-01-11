@@ -30,4 +30,22 @@ public class MedicalRecord : BaseEntity
 
     public virtual ICollection<MedicalCondition> MedicalConditions { get; set; }
     public virtual ICollection<Vaccination> Vaccinations { get; set; }
+    
+    public MedicalRecord()
+    {
+        MedicalConditions = new HashSet<MedicalCondition>();
+        Vaccinations = new HashSet<Vaccination>();
+    }
+    
+    public MedicalRecord(Guid vetId, bool spayNeuterStatus, DateOnly? lastMedicalCheckup, string? microchipNumber)
+    {
+        Id = Guid.NewGuid();
+        VetId = vetId;
+        SpayNeuterStatus = spayNeuterStatus;
+        LastMedicalCheckup = lastMedicalCheckup;
+        MicrochipNumber = microchipNumber;
+        CreatedAt = DateTime.Now;
+        MedicalConditions = new HashSet<MedicalCondition>();
+        Vaccinations = new HashSet<Vaccination>();
+    }
 }
