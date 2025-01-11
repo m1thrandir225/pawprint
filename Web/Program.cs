@@ -111,6 +111,7 @@ builder.Services.AddScoped<IVeterinarianSpecializationRepository, VeterinarianSp
 
 
 builder.Services.AddScoped<IPetTypeService, PetTypeService>();
+builder.Services.AddScoped<IPetService, PetService>();
 builder.Services.AddScoped<IVeterinarianService, VeterinarianService>();
 builder.Services.AddScoped<IVaccinationService, VaccinationService>();
 builder.Services.AddScoped<IPetSizeService, PetSizeService>();
@@ -120,10 +121,6 @@ builder.Services.AddScoped<IMedicalConditionService, MedicalConditionService>();
 builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 builder.Services.AddScoped<IAdoptionStatusService, AdoptionStatusService>();
 builder.Services.AddScoped<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
-
-
-
-// Controllers
 builder.Services.AddScoped<IVeterinarianSpecializationService, VeterinarianSpecializationService>();
 
 // Controllers 

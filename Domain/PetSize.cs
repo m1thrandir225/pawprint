@@ -25,5 +25,4 @@ public class PetSize : BaseEntity
         Name = name;
     }
     
-    
 }
