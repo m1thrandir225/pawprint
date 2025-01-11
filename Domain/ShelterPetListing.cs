@@ -29,4 +29,18 @@ public class ShelterPetListing : BaseEntity
     [Required]
     [Column("approved", TypeName = "INTEGER")]
     public virtual ApprovalStatus Approved { get; set; } = ApprovalStatus.PENDING;
+    
+    public ShelterPetListing()
+    {
+    }
+    
+    public ShelterPetListing(Guid petId, Guid medicalRecordId, Guid shelterId, DateOnly? intakeDate)
+    {
+        Id = Guid.NewGuid();
+        PetId = petId;
+        MedicalRecordId = medicalRecordId;
+        ShelterId = shelterId;
+        IntakeDate = intakeDate;
+        Approved = ApprovalStatus.PENDING;
+    }
 }

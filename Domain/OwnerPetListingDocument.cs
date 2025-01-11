@@ -23,4 +23,17 @@ public class OwnerPetListingDocument : BaseEntity
     [Required]
     [Column("uploaded_at", TypeName = "TIMESTAMPTZ")]
     public DateTime UploadedAt { get; set; } = DateTime.Now;
+    
+    public OwnerPetListingDocument()
+    {
+    }
+    
+    public OwnerPetListingDocument(Guid listingId, string documentUrl, string documentType)
+    {
+        Id = Guid.NewGuid();
+        ListingId = listingId;
+        DocumentUrl = documentUrl;
+        DocumentType = documentType;
+        UploadedAt = DateTime.Now;
+    }
 }
