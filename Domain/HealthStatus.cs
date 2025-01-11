@@ -23,4 +23,4 @@ public class HealthStatus : BaseEntity
         Id = new Guid();
         Name = name;
     }
-}t
+}
