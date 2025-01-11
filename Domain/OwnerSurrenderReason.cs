@@ -8,4 +8,14 @@ public class OwnerSurrenderReason : BaseEntity
     [Required]
     [Column("description", TypeName = "VARCHAR(255)")]
     public string Description { get; set; }
+    
+    public OwnerSurrenderReason()
+    {
+    }
+    
+    public OwnerSurrenderReason(string description)
+    {
+        Id = Guid.NewGuid(); 
+        Description = description;
+    }
 }
