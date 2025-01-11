@@ -13,13 +13,11 @@ public class AdoptionStatus: BaseEntity
     // public virtual ICollection<Pet> Pets { get; set; }
     public AdoptionStatus()
     {
-        Pets = new HashSet<Pet>();
     }
     
     public AdoptionStatus(string name)
     {
         Id = Guid.NewGuid();
         Name = name;
-        Pets = new HashSet<Pet>();
     }
 }
