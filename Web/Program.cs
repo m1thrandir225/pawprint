@@ -107,14 +107,23 @@ builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
 builder.Services.AddScoped<IUserRepository, UserRepository>();
 builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
 builder.Services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
-builder.Services.AddScoped<IVeterinarianSpecilizationRepository, VeterinarianSpecilizationRepository>();
+builder.Services.AddScoped<IVeterinarianSpecializationRepository, VeterinarianSpecializationRepository>();
 
 
 builder.Services.AddScoped<IPetTypeService, PetTypeService>();
+builder.Services.AddScoped<IPetService, PetService>();
+builder.Services.AddScoped<IVeterinarianService, VeterinarianService>();
+builder.Services.AddScoped<IVaccinationService, VaccinationService>();
+builder.Services.AddScoped<IPetSizeService, PetSizeService>();
+builder.Services.AddScoped<IPetGenderService, PetGenderService>();
+builder.Services.AddScoped<IHealthStatusService, HealthStatusService>();
 builder.Services.AddScoped<IMedicalConditionService, MedicalConditionService>();
 builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
 builder.Services.AddScoped<IOwnerPetListingService, OwnerPetListingService>();
 builder.Services.AddScoped<IOwnerPetListingDocumentService, OwnerPetListingDocumentService>();
+builder.Services.AddScoped<IAdoptionStatusService, AdoptionStatusService>();
+builder.Services.AddScoped<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
+builder.Services.AddScoped<IVeterinarianSpecializationService, VeterinarianSpecializationService>();
 
 // Controllers 
 

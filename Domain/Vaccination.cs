@@ -19,4 +19,17 @@ public class Vaccination : BaseEntity
     public DateOnly VaccineDate { get; set; }
 
     public virtual MedicalRecord MedicalRecord { get; set; }
+
+    public Vaccination()
+    {
+        
+    }
+
+    public Vaccination(Guid medicalRecordId, string vaccineName, DateOnly vaccineDate)
+    {
+        Id = Guid.NewGuid();
+        MedicalRecordId = medicalRecordId;
+        VaccineName = vaccineName;
+        VaccineDate = vaccineDate;
+    }
 }
