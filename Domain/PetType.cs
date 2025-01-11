@@ -14,7 +14,7 @@ public class PetType : BaseEntity
     public PetType()
     {
     }
-
+    
     public PetType(string name)
     {
         Id = Guid.NewGuid();
