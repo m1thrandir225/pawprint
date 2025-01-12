@@ -13,7 +13,7 @@ public class MedicalCondition : BaseEntity
     public virtual MedicalRecord MedicalRecord { get; init; } = null!;
     
     [Required]
-    [Column("condition_name", TypeName = "VARCHAR(100)")]
+    [Column("condition_name", TypeName = "TEXT")]
     public string ConditionName { get; set; }
 
     [Column("notes", TypeName = "TEXT")]

@@ -7,10 +7,10 @@ namespace Domain;
 public class Pet : BaseEntity
 {
     [Required]
-    [Column("name", TypeName = "VARCHAR(255)")]
+    [Column("name", TypeName = "TEXT")]
     public string Name { get; set; }
 
-    [Column("breed", TypeName = "VARCHAR(255)")]
+    [Column("breed", TypeName = "TEXT")]
     public string? Breed { get; set; }
 
     [Required]

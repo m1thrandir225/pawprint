@@ -8,7 +8,7 @@ namespace Domain;
 public class HealthStatus : BaseEntity
 {
     [Required]
-    [Column("name", TypeName = "VARCHAR(255)")]
+    [Column("name", TypeName = "TEXT")]
     public string Name { get; set; }
 
     // One-to-many relationship with Pet

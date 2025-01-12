@@ -14,7 +14,7 @@ public class VeterinarianSpecilization : BaseEntity
     public virtual Veterinarian Veterinarian { get; init; } = null!;
 
     [Required]
-    [Column("specialization", TypeName = "VARCHAR(255)")]
+    [Column("specialization", TypeName = "TEXT")]
     public string Specialization { get; set; } = null!;
 
     public VeterinarianSpecilization()
