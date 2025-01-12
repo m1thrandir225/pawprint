@@ -9,7 +9,7 @@ namespace Domain;
 public class Shelter : ApplicationUser
 {
     [Required]
-    [Column("name", TypeName = "VARCHAR(255)")]
+    [Column("name", TypeName = "TEXT")]
     public string Name { get; set; }
 
     [Required]

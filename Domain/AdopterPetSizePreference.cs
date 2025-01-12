@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain;
 
+[Table("adopter_pet_size_preferences")]
 public class AdopterPetSizePreference : BaseEntity
 {
     [Required]

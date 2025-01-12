@@ -4,6 +4,7 @@ using Domain.enums;
 
 namespace Domain;
 
+[Table("owner_pet_listings")]
 public class OwnerPetListing : BaseEntity
 {
     [Required]

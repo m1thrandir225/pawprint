@@ -15,6 +15,7 @@ using Service.Implementation;
 using Service.Interface;
 using Web.Config;
 using Web.Services;
+using Microsoft.EntityFrameworkCore.Storage;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -148,7 +149,7 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
-
+DatabaseSeeder.SeedData(app.Services);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())

@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain;
 
+[Table("owner_pet_listing_documents")]
 public class OwnerPetListingDocument : BaseEntity
 {
     [ForeignKey(nameof(Listing))]

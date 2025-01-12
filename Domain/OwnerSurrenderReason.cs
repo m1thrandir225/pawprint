@@ -6,7 +6,7 @@ namespace Domain;
 public class OwnerSurrenderReason : BaseEntity
 {
     [Required]
-    [Column("description", TypeName = "VARCHAR(255)")]
+    [Column("description", TypeName = "TEXT")]
     public string Description { get; set; }
     
     public OwnerSurrenderReason()

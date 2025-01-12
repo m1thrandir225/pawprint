@@ -3,6 +3,7 @@ using System.ComponentModel.DataAnnotations.Schema;
 
 namespace Domain;
 
+[Table("adopter_pet_gender_preferences")]
 public class AdopterPetGenderPreference :BaseEntity
 {
     [Required]
