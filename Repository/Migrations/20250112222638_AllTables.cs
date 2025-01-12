@@ -391,7 +391,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AdopterPetGenderPreferences",
+                name: "adopter_pet_gender_preferences",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -400,15 +400,15 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AdopterPetGenderPreferences", x => x.Id);
+                    table.PrimaryKey("PK_adopter_pet_gender_preferences", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AdopterPetGenderPreferences_pet_genders_gender_id",
+                        name: "FK_adopter_pet_gender_preferences_pet_genders_gender_id",
                         column: x => x.gender_id,
                         principalTable: "pet_genders",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AdopterPetGenderPreferences_users_adopter_id",
+                        name: "FK_adopter_pet_gender_preferences_users_adopter_id",
                         column: x => x.adopter_id,
                         principalTable: "users",
                         principalColumn: "Id",
@@ -416,7 +416,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AdopterPetSizePreferences",
+                name: "adopter_pet_size_preferences",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -425,15 +425,15 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AdopterPetSizePreferences", x => x.Id);
+                    table.PrimaryKey("PK_adopter_pet_size_preferences", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AdopterPetSizePreferences_pet_sizes_size_id",
+                        name: "FK_adopter_pet_size_preferences_pet_sizes_size_id",
                         column: x => x.size_id,
                         principalTable: "pet_sizes",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AdopterPetSizePreferences_users_adopter_id",
+                        name: "FK_adopter_pet_size_preferences_users_adopter_id",
                         column: x => x.adopter_id,
                         principalTable: "users",
                         principalColumn: "Id",
@@ -441,7 +441,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AdopterPetTypePreferences",
+                name: "adopter_pet_type_preferences",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -450,15 +450,15 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_AdopterPetTypePreferences", x => x.Id);
+                    table.PrimaryKey("PK_adopter_pet_type_preferences", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_AdopterPetTypePreferences_pet_types_type_id",
+                        name: "FK_adopter_pet_type_preferences_pet_types_type_id",
                         column: x => x.type_id,
                         principalTable: "pet_types",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_AdopterPetTypePreferences_users_adopter_id",
+                        name: "FK_adopter_pet_type_preferences_users_adopter_id",
                         column: x => x.adopter_id,
                         principalTable: "users",
                         principalColumn: "Id",
@@ -497,7 +497,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OwnerPetListings",
+                name: "owner_pet_listings",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -510,21 +510,21 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OwnerPetListings", x => x.Id);
+                    table.PrimaryKey("PK_owner_pet_listings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OwnerPetListings_owner_surrender_reasons_surrender_reason_id",
+                        name: "FK_owner_pet_listings_owner_surrender_reasons_surrender_reason~",
                         column: x => x.surrender_reason_id,
                         principalTable: "owner_surrender_reasons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OwnerPetListings_pets_pet_id",
+                        name: "FK_owner_pet_listings_pets_pet_id",
                         column: x => x.pet_id,
                         principalTable: "pets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OwnerPetListings_users_adopter_id",
+                        name: "FK_owner_pet_listings_users_adopter_id",
                         column: x => x.adopter_id,
                         principalTable: "users",
                         principalColumn: "Id",
@@ -552,7 +552,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShelterPetListings",
+                name: "shelter_pet_listings",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -564,21 +564,21 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShelterPetListings", x => x.Id);
+                    table.PrimaryKey("PK_shelter_pet_listings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShelterPetListings_medical_records_medical_record_id",
+                        name: "FK_shelter_pet_listings_medical_records_medical_record_id",
                         column: x => x.medical_record_id,
                         principalTable: "medical_records",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShelterPetListings_pets_pet_id",
+                        name: "FK_shelter_pet_listings_pets_pet_id",
                         column: x => x.pet_id,
                         principalTable: "pets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShelterPetListings_shelters_shelter_id",
+                        name: "FK_shelter_pet_listings_shelters_shelter_id",
                         column: x => x.shelter_id,
                         principalTable: "shelters",
                         principalColumn: "Id",
@@ -606,7 +606,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OwnerPetListingDocuments",
+                name: "owner_pet_listing_documents",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -617,43 +617,43 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OwnerPetListingDocuments", x => x.Id);
+                    table.PrimaryKey("PK_owner_pet_listing_documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OwnerPetListingDocuments_OwnerPetListings_listing_id",
+                        name: "FK_owner_pet_listing_documents_owner_pet_listings_listing_id",
                         column: x => x.listing_id,
-                        principalTable: "OwnerPetListings",
+                        principalTable: "owner_pet_listings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetGenderPreferences_adopter_id",
-                table: "AdopterPetGenderPreferences",
+                name: "IX_adopter_pet_gender_preferences_adopter_id",
+                table: "adopter_pet_gender_preferences",
                 column: "adopter_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetGenderPreferences_gender_id",
-                table: "AdopterPetGenderPreferences",
+                name: "IX_adopter_pet_gender_preferences_gender_id",
+                table: "adopter_pet_gender_preferences",
                 column: "gender_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetSizePreferences_adopter_id",
-                table: "AdopterPetSizePreferences",
+                name: "IX_adopter_pet_size_preferences_adopter_id",
+                table: "adopter_pet_size_preferences",
                 column: "adopter_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetSizePreferences_size_id",
-                table: "AdopterPetSizePreferences",
+                name: "IX_adopter_pet_size_preferences_size_id",
+                table: "adopter_pet_size_preferences",
                 column: "size_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetTypePreferences_adopter_id",
-                table: "AdopterPetTypePreferences",
+                name: "IX_adopter_pet_type_preferences_adopter_id",
+                table: "adopter_pet_type_preferences",
                 column: "adopter_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetTypePreferences_type_id",
-                table: "AdopterPetTypePreferences",
+                name: "IX_adopter_pet_type_preferences_type_id",
+                table: "adopter_pet_type_preferences",
                 column: "type_id");
 
             migrationBuilder.CreateIndex(
@@ -714,23 +714,23 @@ namespace Repository.Migrations
                 column: "veterinarian_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OwnerPetListingDocuments_listing_id",
-                table: "OwnerPetListingDocuments",
+                name: "IX_owner_pet_listing_documents_listing_id",
+                table: "owner_pet_listing_documents",
                 column: "listing_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OwnerPetListings_adopter_id",
-                table: "OwnerPetListings",
+                name: "IX_owner_pet_listings_adopter_id",
+                table: "owner_pet_listings",
                 column: "adopter_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OwnerPetListings_pet_id",
-                table: "OwnerPetListings",
+                name: "IX_owner_pet_listings_pet_id",
+                table: "owner_pet_listings",
                 column: "pet_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OwnerPetListings_surrender_reason_id",
-                table: "OwnerPetListings",
+                name: "IX_owner_pet_listings_surrender_reason_id",
+                table: "owner_pet_listings",
                 column: "surrender_reason_id");
 
             migrationBuilder.CreateIndex(
@@ -759,18 +759,18 @@ namespace Repository.Migrations
                 column: "type_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShelterPetListings_medical_record_id",
-                table: "ShelterPetListings",
+                name: "IX_shelter_pet_listings_medical_record_id",
+                table: "shelter_pet_listings",
                 column: "medical_record_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShelterPetListings_pet_id",
-                table: "ShelterPetListings",
+                name: "IX_shelter_pet_listings_pet_id",
+                table: "shelter_pet_listings",
                 column: "pet_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShelterPetListings_shelter_id",
-                table: "ShelterPetListings",
+                name: "IX_shelter_pet_listings_shelter_id",
+                table: "shelter_pet_listings",
                 column: "shelter_id");
 
             migrationBuilder.CreateIndex(
@@ -788,13 +788,13 @@ namespace Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AdopterPetGenderPreferences");
+                name: "adopter_pet_gender_preferences");
 
             migrationBuilder.DropTable(
-                name: "AdopterPetSizePreferences");
+                name: "adopter_pet_size_preferences");
 
             migrationBuilder.DropTable(
-                name: "AdopterPetTypePreferences");
+                name: "adopter_pet_type_preferences");
 
             migrationBuilder.DropTable(
                 name: "adoptions");
@@ -818,10 +818,10 @@ namespace Repository.Migrations
                 name: "medical_conditions");
 
             migrationBuilder.DropTable(
-                name: "OwnerPetListingDocuments");
+                name: "owner_pet_listing_documents");
 
             migrationBuilder.DropTable(
-                name: "ShelterPetListings");
+                name: "shelter_pet_listings");
 
             migrationBuilder.DropTable(
                 name: "vaccinations");
@@ -833,7 +833,7 @@ namespace Repository.Migrations
                 name: "AspNetRoles");
 
             migrationBuilder.DropTable(
-                name: "OwnerPetListings");
+                name: "owner_pet_listings");
 
             migrationBuilder.DropTable(
                 name: "shelters");

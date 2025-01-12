@@ -516,7 +516,7 @@ public static class DatabaseSeeder
 
                 context.Pets.Add(pet);
             }
-            Console.WriteLine(pets.Length);
+            
             context.SaveChanges();
         }
     }
@@ -528,7 +528,7 @@ public static class DatabaseSeeder
     ) {
         if(!context.Adoptions.Any())
         {
-            Console.WriteLine("Adoptions Pets Lenght: " + pets.Length);
+            
             var faker = new Faker();
             for(int i = 0; i < 50; i++) {
                 var adopter = faker.PickRandom(adopters);

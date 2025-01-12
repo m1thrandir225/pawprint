@@ -12,7 +12,7 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    [Migration("20250112214731_AllTables")]
+    [Migration("20250112222638_AllTables")]
     partial class AllTables
     {
         /// <inheritdoc />
@@ -45,7 +45,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetGenderId");
 
-                    b.ToTable("AdopterPetGenderPreferences");
+                    b.ToTable("adopter_pet_gender_preferences");
                 });
 
             modelBuilder.Entity("Domain.AdopterPetSizePreference", b =>
@@ -68,7 +68,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetSizeId");
 
-                    b.ToTable("AdopterPetSizePreferences");
+                    b.ToTable("adopter_pet_size_preferences");
                 });
 
             modelBuilder.Entity("Domain.AdopterPetTypePreference", b =>
@@ -91,7 +91,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetTypeId");
 
-                    b.ToTable("AdopterPetTypePreferences");
+                    b.ToTable("adopter_pet_type_preferences");
                 });
 
             modelBuilder.Entity("Domain.Adoption", b =>
@@ -347,7 +347,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("SurrenderReasonId");
 
-                    b.ToTable("OwnerPetListings");
+                    b.ToTable("owner_pet_listings");
                 });
 
             modelBuilder.Entity("Domain.OwnerPetListingDocument", b =>
@@ -378,7 +378,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ListingId");
 
-                    b.ToTable("OwnerPetListingDocuments");
+                    b.ToTable("owner_pet_listing_documents");
                 });
 
             modelBuilder.Entity("Domain.OwnerSurrenderReason", b =>
@@ -574,7 +574,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ShelterId");
 
-                    b.ToTable("ShelterPetListings");
+                    b.ToTable("shelter_pet_listings");
                 });
 
             modelBuilder.Entity("Domain.Vaccination", b =>
