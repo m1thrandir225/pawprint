@@ -1,10 +1,6 @@
 using System.Text;
-using System.Text.Json.Serialization;
-using Domain;
-using Domain.DTOs;
 using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
@@ -15,7 +11,7 @@ using Service.Implementation;
 using Service.Interface;
 using Web.Config;
 using Web.Services;
-using Microsoft.EntityFrameworkCore.Storage;
+using Web.Services.Interfaces;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -131,6 +127,9 @@ builder.Services.AddScoped<IAdoptionStatusService, AdoptionStatusService>();
 builder.Services.AddScoped<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
 builder.Services.AddScoped<IVeterinarianSpecializationService, VeterinarianSpecializationService>();
 
+// File Service
+builder.Services.AddScoped<IUploadService, UploadService>();
+
 // Controllers 
 
 builder.Services.AddControllers()
@@ -166,7 +165,7 @@ app.UseRouting();
 
 app.UseAuthorization();
 
-
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
