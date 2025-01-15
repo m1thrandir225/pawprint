@@ -786,6 +786,10 @@ namespace Repository.Migrations
                 {
                     b.HasBaseType("Domain.Identity.ApplicationUser");
 
+                    b.Property<int>("Capacity")
+                        .HasColumnType("integer")
+                        .HasColumnName("capacity");
+
                     b.Property<string>("Name")
                         .IsRequired()
                         .HasColumnType("TEXT")
@@ -794,10 +798,6 @@ namespace Repository.Migrations
                     b.Property<string>("Website")
                         .HasColumnType("TEXT")
                         .HasColumnName("website");
-
-                    b.Property<int>("capacity")
-                        .HasColumnType("integer")
-                        .HasColumnName("capacity");
 
                     b.Property<bool>("isNoKill")
                         .HasColumnType("BOOLEAN")

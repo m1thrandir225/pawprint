@@ -1,5 +1,6 @@
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
+using System.Security.Cryptography;
 using System.Text;
 using Domain;
 using Domain.Identity;
@@ -21,10 +22,11 @@ public class JWTService
         _userManager = userManager;
     }
 
-    public async Task<string> GenerateTokenAsync(ApplicationUser user)
+    public async Task<string> GenerateTokenAsync(ApplicationUser user, bool isAcessToken = true)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecretKey));
         var credentials = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
+        
 
         var claims = new List<Claim>
         {
@@ -38,17 +40,28 @@ public class JWTService
         var roles = await _userManager.GetRolesAsync(user);
         claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
 
-        var token = new JwtSecurityToken(
-            issuer: _jwtConfig.Issuer,
-            audience: _jwtConfig.Audience,
-            claims: claims,
-            expires: DateTime.UtcNow.AddMinutes(_jwtConfig.ExpireMinutes),
-            signingCredentials: credentials
-        );
+        if(isAcessToken) {
+            var token = new JwtSecurityToken(
+                issuer: _jwtConfig.Issuer,
+                audience: _jwtConfig.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddMinutes(_jwtConfig.ExpireMinutes),
+                signingCredentials: credentials
+            );
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        } else {
+            var token = new JwtSecurityToken(
+                issuer: _jwtConfig.Issuer,
+                audience: _jwtConfig.Audience,
+                claims: claims,
+                expires: DateTime.UtcNow.AddDays(_jwtConfig.RefreshTokenExpireDays),
+                signingCredentials: credentials
+            );
+            return new JwtSecurityTokenHandler().WriteToken(token);
+        }
+   
 
-        return new JwtSecurityTokenHandler().WriteToken(token);
     }
-
     public ClaimsPrincipal? VerifyToken(string token)
     {
         var key = new SymmetricSecurityKey(Encoding.UTF8.GetBytes(_jwtConfig.SecretKey));
@@ -75,6 +88,25 @@ public class JWTService
         {
             return null; // Token is invalid
         }
+    }
+
+    public string GenerateAccessTokenFromRefreshToken(string refreshToken, string userEmail) {
+        var principal = VerifyToken(refreshToken);
+        if (principal == null) {
+            throw new Exception("Invalid refresh token");
+        }
+
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
+
+        var tokenDescriptor = new SecurityTokenDescriptor
+        {
+            Expires = DateTime.UtcNow.AddMinutes(15), // Extend expiration time
+            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        };
+
+        var token = tokenHandler.CreateToken(tokenDescriptor);
+        return tokenHandler.WriteToken(token);
     }
 
 

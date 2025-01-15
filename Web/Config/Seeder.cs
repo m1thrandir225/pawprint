@@ -10,6 +10,47 @@ using Repository;
 public static class DatabaseSeeder
 {
     const int numberOfUsers = 10;
+
+    private static readonly string[] ShelterNames = new[]
+    {
+        "PawHavenSanctuary@gmail.com",
+        "SecondChanceAnimalShelter@gmail.com",
+        "HappyTailsRescueCenter@gmail.com",
+        "SafeHarborPetRefuge@gmail.com",
+        "ForeverHomeFoundation@gmail.com",
+        "FurryFriendsSanctuary@gmail.com",
+        "HopesDoorAnimalCente@gmail.com",
+        "NewBeginningsPeShelter@gmail.com",
+        "GuardianAngelsPetRescue@gmail.com",
+        "LovingHeartsAnimalHaven@gmail.com"
+    };
+
+    private static readonly string[] UserNames = new[]
+    {
+        "PetLover2024@gmail.com",
+        "CatWhisperer@gmail.com",
+        "DogWalkerPro@gmail.com",
+        "AnimalFriend85@gmail.com",
+        "PawsomeParent@gmail.com",
+        "FurbabyCare@gmail.com",
+        "RescueHeart@gmail.com",
+        "PetGuardian@gmail.com",
+        "KindSoul4Pets@gmail.com",
+        "AnimalAdvocate@gmail.com"
+    };
+    private static readonly List<Guid> ShelterGuids = new List<Guid>
+    {
+        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
+        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()
+    };
+
+    private static readonly List<Guid> UserGuids = new List<Guid>
+    {
+        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
+        Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()
+    };
+    
+
     const int numberOfPetsAndRelated = 20;
     public static void SeedData(IServiceProvider serviceProvider)
     {
@@ -145,19 +186,21 @@ public static class DatabaseSeeder
         return ownerSurrenderReasons;
     }
 
-    public static User createBasicUser()
+    public static User createBasicUser(string username, Guid id)
     {
         var homeTypes = new[]
         {
             "Flat",
             "House"
         };
-
         var user = new Faker<User>()
-        .RuleFor(x => x.Id, _ => Guid.NewGuid())
+        .RuleFor(x => x.Id, _ => id)
         .RuleFor(x => x.FirstName, f => f.Person.FirstName)
         .RuleFor(x => x.LastName, f => f.Person.LastName)
-        .RuleFor(x => x.Email, (f, u) => f.Internet.Email(u.FirstName, u.LastName))
+        .RuleFor(x => x.UserName, _ => username)
+        .RuleFor(x => x.NormalizedUserName, (f, u) => u.UserName.ToUpper())
+        .RuleFor(x => x.Email, (f, u) =>u.UserName)
+        .RuleFor(x => x.NormalizedEmail, (f, u) => u.UserName.ToUpper())
         .RuleFor(x => x.EmailConfirmed, _ => true)
         .RuleFor(x => x.HasChildren, f => f.Random.Bool())
         .RuleFor(x => x.HasOtherPets, f => f.Random.Bool())
@@ -198,16 +241,19 @@ public static class DatabaseSeeder
         return preference.Generate();
     }
     
-    private static Shelter createBasicShelter()
+    private static Shelter createBasicShelter(string name, Guid id)
     {
         var shelter = new Faker<Shelter>()
-        .RuleFor(x => x.Id, _ => Guid.NewGuid())
-        .RuleFor(x => x.Name, f => f.Name.FirstName())
-        .RuleFor(x => x.Email, (f, u) => f.Internet.Email(u.Name))
+        .RuleFor(x => x.Id, _ => id)
+        .RuleFor(x => x.Name, _ => name)
+        .RuleFor(x => x.UserName, (f, u)=> f.Internet.Email(u.Name))
+        .RuleFor(x => x.NormalizedUserName, (f, u) => u.UserName.ToUpper())
+        .RuleFor(x => x.Email, (f, u) => u.UserName)
+        .RuleFor(x => x.NormalizedEmail, (f, u) => u.Email.ToUpper())
         .RuleFor(x => x.Website, f => f.Internet.UrlWithPath())
         .RuleFor( x => x.EmailConfirmed, _ => true)
         .RuleFor(x => x.CreatedAt, _ => DateTime.UtcNow)
-        .RuleFor(x => x.capacity, f => f.Random.Number(0, 150))
+        .RuleFor(x => x.Capacity, f => f.Random.Number(0, 150))
         .RuleFor(x => x.Address, f => f.Address.StreetAddress())
         .RuleFor(x => x.isNoKill, f => f.Random.Bool())
         ;
@@ -467,27 +513,42 @@ public static class DatabaseSeeder
         User[] users
         )
     {
-        if (!context.Users.Any())
+        if (!context.Shelters.Any())
         {
             for(int i = 0; i < numberOfUsers; i++) {
                          
-                var shelter = createBasicShelter();
+                var shelter = createBasicShelter(ShelterNames[i], ShelterGuids[i]);
                 shelters[i] = shelter;
-                await userManager.CreateAsync(shelter, "randomPassword123@!");
-                await userManager.AddToRoleAsync(shelter, UserRole.User);
-
-                await context.Shelters.AddAsync(shelter);
+                var result = await userManager.CreateAsync(shelter, "randomPassword123@!");
+                if(result.Succeeded)
+                {
+                    shelters[i] = shelter;
+                    await userManager.AddToRoleAsync(shelter, UserRole.User);
+                } else {
+                    throw new Exception("Failed to create shelter");
+                }
             }
-  
-            for(int i = 0; i < numberOfUsers; i++) {
-                var user = createBasicUser();
-                users[i] = user;
-                await userManager.CreateAsync(user, "randomPassword123@");
-                await userManager.AddToRoleAsync(user, i == 0 ? UserRole.Admin : UserRole.User);
-                await context.Users.AddAsync(user);
-            }
-         context.SaveChanges();
+            context.SaveChanges();
         }
+        if(!context.Users.Any())
+        {
+            for(int i = 0; i < numberOfUsers; i++) {
+                var user = createBasicUser(UserNames[i], UserGuids[i]);
+                
+                var result = await userManager.CreateAsync(user, "randomPassword123@");
+                if (result.Succeeded)
+                {
+                    await userManager.AddToRoleAsync(user, UserRole.User);
+                    users[i] = user;
+                } else {
+                    throw new Exception("Failed to create user");
+                }
+            }
+            
+        }
+
+ 
+        
     }
 
     private static void SeedPets(

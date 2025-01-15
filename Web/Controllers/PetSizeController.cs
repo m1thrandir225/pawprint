@@ -7,7 +7,7 @@ using Domain.DTOs;
 
 namespace Web.Controllers
 {
-    [Route("api/pet-size")]
+    [Route("api/pet-sizes")]
     [ApiController]
     public class PetSizeController : ControllerBase
     {
@@ -19,7 +19,6 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
         public async Task<ActionResult<IEnumerable<PetSize>>> GetAllPetSizes()
         {
             var petSize = await _petSizeService.GetAllAsync();
@@ -31,8 +30,7 @@ namespace Web.Controllers
             return Ok(petSize);
         }
 
-        [HttpGet]
-        [Route("{id:guid}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<PetSize>> GetPetSize([FromRoute] Guid id)
         {
             var petSize = await _petSizeService.GetByIdAsync(id);
@@ -52,8 +50,7 @@ namespace Web.Controllers
             return Ok(petSize);
         }
 
-        [HttpPut]
-        [Route("{id:guid}")]
+        [HttpPut("{id:guid}")]
         public async Task<ActionResult<PetSize>> UpdatePetSize([FromBody] UpdatePetSizeRequest request, [FromRoute] Guid id)
         {
             var updated = await _petSizeService.UpdateAsync(id ,request);
@@ -65,8 +62,7 @@ namespace Web.Controllers
 
         }
 
-        [HttpDelete]
-        [Route("{id:guid}")]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult<PetSize>> DeletePetSize([FromRoute] Guid id)
         {
             var deleted = await _petSizeService.DeleteAsync(id);

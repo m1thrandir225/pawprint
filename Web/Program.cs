@@ -58,7 +58,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 
 
     })
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 
 //JWT Config
@@ -84,6 +85,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddScoped<JWTService>();
+builder.Services.AddScoped<AuthenticationService>();
 
 
 
@@ -126,18 +128,22 @@ builder.Services.AddScoped<IOwnerPetListingDocumentService, OwnerPetListingDocum
 builder.Services.AddScoped<IAdoptionStatusService, AdoptionStatusService>();
 builder.Services.AddScoped<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
 builder.Services.AddScoped<IVeterinarianSpecializationService, VeterinarianSpecializationService>();
+builder.Services.AddScoped<IAdopterService, AdopterService>();
+builder.Services.AddScoped<IShelterService, ShelterService>();
 
 // File Service
 builder.Services.AddScoped<IUploadService, UploadService>();
 
-// Controllers 
+builder.Services.AddCors();
 
+// Controllers 
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
         options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
         options.JsonSerializerOptions.WriteIndented = true;
     });
+
 
 
 var app = builder.Build();
@@ -161,8 +167,12 @@ if (!app.Environment.IsDevelopment())
 app.UseHttpsRedirection();
 app.UseStaticFiles();
 
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
+
+
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
 app.MapControllers();

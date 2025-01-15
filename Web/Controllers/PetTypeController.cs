@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
+using Microsoft.AspNetCore.Cors;
+using Microsoft.AspNetCore.Authorization;
+using Domain.Identity;
 
 namespace Web.Controllers
 {
@@ -19,7 +22,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
+        [Authorize(Roles = UserRole.User)]
         public async Task<ActionResult<IEnumerable<PetType>>> GetAllPetTypes()
         {
             var petTypes = await _petTypeService.GetAllAsync();
@@ -31,9 +34,16 @@ namespace Web.Controllers
             return Ok(petTypes);
         }
 
-        [HttpGet]
-        [Route("{id:guid}")]
-        public async Task<ActionResult<PetType>> GetPetType([FromRoute] Guid id)
+        [HttpPost]
+        public async Task<ActionResult<PetType>> CreatePetType([FromBody] CreatePetTypeRequest request)
+        {
+            var petType = await _petTypeService.CreateAsync(request);
+
+            return Ok(petType);
+        }
+
+        [HttpGet("/{id:guid}")]
+         public async Task<ActionResult<PetType>> GetPetType([FromRoute] Guid id)
         {
             var petType = await _petTypeService.GetByIdAsync(id);
 
@@ -44,16 +54,8 @@ namespace Web.Controllers
             return Ok(petType);
         }
 
-        [HttpPost]
-        public async Task<ActionResult<PetType>> CreatePetType([FromBody] CreatePetTypeRequest request)
-        {
-            var petType = await _petTypeService.CreateAsync(request);
 
-            return Ok(petType);
-        }
-
-        [HttpPut]
-        [Route("{id}")]
+        [HttpPut("{id:guid}")]
         public async Task<ActionResult<PetType>> UpdatePetType([FromBody] UpdatePetTypeRequest request)
         {
             var updated = await _petTypeService.UpdateAsync(request.Id ,request);
@@ -65,8 +67,7 @@ namespace Web.Controllers
 
         }
 
-        [HttpDelete]
-        [Route("{id}")]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult<PetType>> DeletePetType([FromRoute] Guid id)
         {
             var deleted = await _petTypeService.DeleteAsync(id);
