@@ -20,7 +20,6 @@ namespace Web.Controllers
 
 
         [HttpGet]
-        [Route("all")]
         public async Task<ActionResult<IEnumerable<PetGender>>> GetAllPetGenders()
         {
             var petGenders = await _petGenderService.GetAllAsync();
@@ -32,8 +31,7 @@ namespace Web.Controllers
             return Ok(petGenders);
         }
 
-        [HttpGet]
-        [Route("{id:guid}")]
+        [HttpGet("{id:guid}")]
         public async Task<ActionResult<PetGender>> GetPetGender([FromRoute] Guid id)
         {
             var petGenders = await _petGenderService.GetByIdAsync(id);
@@ -53,8 +51,7 @@ namespace Web.Controllers
             return Ok(petGender);
         }
 
-        [HttpPut]
-        [Route("{id:guid}")]
+        [HttpPut("{id:guid}")]
         public async Task<ActionResult<PetGender>> UpdatePetGender([FromBody] UpdatePetGenderRequest request, [FromRoute] Guid id)
         {
             var updated = await _petGenderService.UpdateAsync(id ,request);
@@ -66,8 +63,7 @@ namespace Web.Controllers
 
         }
 
-        [HttpDelete]
-        [Route("{id:guid}")]
+        [HttpDelete("{id:guid}")]
         public async Task<ActionResult<PetGender>> DeletePetGender([FromRoute] Guid id)
         {
             var deleted = await _petGenderService.DeleteAsync(id);
