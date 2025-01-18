@@ -59,8 +59,17 @@ public class JWTService
             );
             return new JwtSecurityTokenHandler().WriteToken(token);
         }
-   
 
+    }
+
+    public DateTime GetExpirationTime(string token) {
+        var tokenHandler = new JwtSecurityTokenHandler();
+        var securityToken = tokenHandler.ReadToken(token) as JwtSecurityToken;
+
+        if(securityToken == null) {
+            throw new Exception("Invalid token");
+        }
+        return securityToken.ValidTo;
     }
     public ClaimsPrincipal? VerifyToken(string token)
     {
