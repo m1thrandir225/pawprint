@@ -51,6 +51,9 @@ namespace Web.Controllers {
                     response.Shelter = details;
                     response.AccessToken = accessToken;
                     response.RefreshToken = refreshToken;
+                    response.AccessTokenExpirationTime = _jwtService.GetExpirationTime(accessToken);
+                    response.RefreshTokenExpirationTime = _jwtService.GetExpirationTime(refreshToken);
+                    
 
                     return Ok(response);
                 } else if (user is User) 
@@ -71,19 +74,29 @@ namespace Web.Controllers {
                     response.User = details;
                     response.AccessToken = accessToken;
                     response.RefreshToken = refreshToken;
+                    response.AccessTokenExpirationTime = _jwtService.GetExpirationTime(accessToken);
+                    response.RefreshTokenExpirationTime = _jwtService.GetExpirationTime(refreshToken);
 
                     return Ok(response);
 
                 } else {
-                    return BadRequest();
+                    return BadRequest(new ErrorResponse {
+                        Message = "An error occurred"
+                    });
                 }
             } catch (Exception e) {
                 if (e.Message == "User not found"){
-                    return NotFound("User not found");
+                    return NotFound(new ErrorResponse{
+                        Message = "User not found"
+                    });
                 } else if (e.Message == "Invalid password") {
-                    return Unauthorized("Invalid password");
+                    return Unauthorized(new ErrorResponse {
+                        Message = "Invalid password"
+                    });
                 } else {
-                    return BadRequest("An error occurred");
+                    return BadRequest(new ErrorResponse {
+                        Message = "An error occurred"
+                    });
                 }
             }
 
@@ -108,13 +121,9 @@ namespace Web.Controllers {
 
             } catch (Exception e) 
             {
-                if (e.Message == "Password does not meet requirements") {
-                    return BadRequest("Password does not meet requirements");
-                } else if (e.Message == "Failed to create user") {
-                    return BadRequest("Failed to create user");
-                } else {
-                    return BadRequest("An error occurred");
-                }
+                return BadRequest(new ErrorResponse {
+                    Message = e.Message
+                });
             }
 
         }
@@ -136,13 +145,9 @@ namespace Web.Controllers {
 
                 return Ok(response);
             } catch (Exception e) {
-                if (e.Message == "Password does not meet requirements") {
-                    return BadRequest("Password does not meet requirements");
-                } else if (e.Message == "Failed to create user") {
-                    return BadRequest("Failed to create user");
-                } else {
-                    return BadRequest("An error occurred");
-                }
+               return BadRequest(new ErrorResponse {
+                   Message = e.Message
+               });
             }
             
         }
@@ -151,17 +156,17 @@ namespace Web.Controllers {
         {
             try {
                 var token = _jwtService.GenerateAccessTokenFromRefreshToken(request.RefreshToken, request.Email);
+                var refreshTime = _jwtService.GetExpirationTime(token);
                 var response = new RefreshTokenResponse {
-                    AccessToken = token
+                    AccessToken = token,
+                    AccessTokenExpirationTime = refreshTime
                 };
                 return Ok(response);
 
             } catch(Exception e) {
-                if (e.Message == "Invalid refresh token") {
-                    return Unauthorized("Invalid refresh token");
-                } else {
-                    return Unauthorized();
-                }
+                return BadRequest(new ErrorResponse {
+                    Message = e.Message
+                });
             }
 
         }
