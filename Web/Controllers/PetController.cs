@@ -19,7 +19,6 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
         public async Task<ActionResult<IEnumerable<Pet>>> GetAllPets()
         {
             var pets = await _petService.GetAllAsync();

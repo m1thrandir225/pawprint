@@ -17,7 +17,6 @@ public class OwnerPetListingDocumentController : ControllerBase
     }
 
     [HttpGet]
-    [Route("all")]
     public async Task<ActionResult<IEnumerable<OwnerPetListingDocument>>> GetAllDocuments()
     {
         var documents = await _documentService.GetAllAsync();
