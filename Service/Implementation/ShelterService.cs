@@ -66,7 +66,7 @@ namespace Service.Implementation
             {
                 throw new Exception("Failed to create user");
             }
-            var roleResult = await _userManager.AddToRoleAsync(shelter, UserRole.User);
+            var roleResult = await _userManager.AddToRoleAsync(shelter, UserRole.Shelter);
             if(!roleResult.Succeeded)
             {
                 throw new Exception("Failed to add user to role");

@@ -2,6 +2,8 @@ using System.Text;
 using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
@@ -13,11 +15,19 @@ using Web.Config;
 using Web.Services;
 using Web.Services.Interfaces;
 using Web.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+// If you need views use this one
+// builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+// builder.Services.AddControllers(options =>
+// {
+//     options.Filters.Add(new AuthorizeAttribute { Roles = UserRole.Admin });
+// });
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseLazyLoadingProxies().
         UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
@@ -188,7 +198,7 @@ app.MapControllerRoute(
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-    var roles = new[] { "Admin", "User" };
+    var roles = new[] { UserRole.Admin, UserRole.User, UserRole.Shelter};
 
     foreach (var role in roles)
     {
