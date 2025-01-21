@@ -22,7 +22,7 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Authorize(Roles = UserRole.User)]
+        [Authorize]
         public async Task<ActionResult<IEnumerable<PetType>>> GetAllPetTypes()
         {
             var petTypes = await _petTypeService.GetAllAsync();

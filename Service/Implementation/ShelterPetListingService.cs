@@ -17,7 +17,7 @@ public class ShelterPetListingService : IShelterPetListingService
 
     public async Task<IEnumerable<ShelterPetListing>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return _repository.GetAllWithJoins();
     }
 
     public async Task<ShelterPetListing> GetByIdAsync(Guid id)

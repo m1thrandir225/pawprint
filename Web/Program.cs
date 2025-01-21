@@ -12,15 +12,18 @@ using Service.Interface;
 using Web.Config;
 using Web.Services;
 using Web.Services.Interfaces;
+using Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
+    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+);
 
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // Add this here
 
 
@@ -128,6 +131,7 @@ builder.Services.AddScoped<IOwnerPetListingDocumentService, OwnerPetListingDocum
 builder.Services.AddScoped<IAdoptionStatusService, AdoptionStatusService>();
 builder.Services.AddScoped<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
 builder.Services.AddScoped<IVeterinarianSpecializationService, VeterinarianSpecializationService>();
+builder.Services.AddScoped<IShelterPetListingService, ShelterPetListingService>();
 builder.Services.AddScoped<IAdopterService, AdopterService>();
 builder.Services.AddScoped<IShelterService, ShelterService>();
 
@@ -152,6 +156,7 @@ if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(); // Enable Swagger
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
 DatabaseSeeder.SeedData(app.Services);
@@ -166,9 +171,7 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
-
 app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
-
 
 app.UseRouting();
 

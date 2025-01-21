@@ -110,6 +110,8 @@ public class JWTService
 
         var tokenDescriptor = new SecurityTokenDescriptor
         {
+            Issuer = _jwtConfig.Issuer,
+            Audience = _jwtConfig.Audience,
             Expires = DateTime.UtcNow.AddMinutes(15), // Extend expiration time
             SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
         };
