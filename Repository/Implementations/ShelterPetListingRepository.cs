@@ -23,4 +23,17 @@ public class ShelterPetListingRepository : CrudRepository<ShelterPetListing>, IS
         .Include(x => x.MedicalRecord)
         .ToList();
     }
+
+    public IEnumerable<ShelterPetListing> GetWithJoins()
+    {
+        throw new NotImplementedException();
+    }
+
+    public ShelterPetListing GetWithJoins(Guid id)
+    {
+        return _entities.Include(x => x.Pet)
+            .Include(x => x.Shelter)
+            .Include(x => x.MedicalRecord)
+            .FirstOrDefault(x => x.Id == id);
+    }
 }

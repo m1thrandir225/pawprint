@@ -22,8 +22,8 @@ public class ShelterPetListingService : IShelterPetListingService
 
     public async Task<ShelterPetListing> GetByIdAsync(Guid id)
     {
-        var listing = _repository.Get(id);
-        return listing;
+        // var listing = _repository.Get(id);
+        return _repository.GetWithJoins(id);
     }
 
     public async Task<ShelterPetListing> CreateAsync(CreateShelterPetListingRequest dto)
