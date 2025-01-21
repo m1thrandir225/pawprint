@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Domain;
 
@@ -10,6 +11,8 @@ public class AdopterPetTypePreference : BaseEntity
     [Column("adopter_id", TypeName = "UUID")]
     [ForeignKey(nameof(Adopter))]
     public Guid AdopterId { get; set; }
+
+    [JsonRequired]
     public virtual User Adopter { get; set; } = null!;
 
     [Required]
