@@ -27,4 +27,8 @@ public class User : ApplicationUser
 
     [Column("home_type", TypeName = "TEXT")]
     public string HomeType { get; set; }
+
+    public virtual ICollection<AdopterPetGenderPreference> AdopterPetGenderPreferences { get; set; } = null!;
+    public virtual ICollection<AdopterPetSizePreference> AdopterPetSizePreferences { get; set; } = null!;
+    public virtual ICollection<AdopterPetTypePreference> AdopterPetTypePreferences { get; set; } = null!;
 }
