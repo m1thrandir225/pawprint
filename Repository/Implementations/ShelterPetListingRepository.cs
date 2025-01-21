@@ -6,34 +6,7 @@ namespace Repository.Implementations;
 
 public class ShelterPetListingRepository : CrudRepository<ShelterPetListing>, IShelterPetListingRepository
 {
-    private readonly ApplicationDbContext _context;
-
-    private DbSet<ShelterPetListing> _entities;
-
     public ShelterPetListingRepository(ApplicationDbContext context) : base(context)
     {
-        _context = context;
-        _entities = context.Set<ShelterPetListing>();
-    }
-
-    public IEnumerable<ShelterPetListing> GetAllWithJoins()
-    {
-        return _entities.Include(x => x.Pet)
-        .Include(x => x.Shelter)
-        .Include(x => x.MedicalRecord)
-        .ToList();
-    }
-
-    public IEnumerable<ShelterPetListing> GetWithJoins()
-    {
-        throw new NotImplementedException();
-    }
-
-    public ShelterPetListing GetWithJoins(Guid id)
-    {
-        return _entities.Include(x => x.Pet)
-            .Include(x => x.Shelter)
-            .Include(x => x.MedicalRecord)
-            .FirstOrDefault(x => x.Id == id);
     }
 }
