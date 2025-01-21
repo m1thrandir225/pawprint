@@ -6,9 +6,9 @@ public class CreatePetRequest
 
     public string? Breed { get; set; }
 
-    public string AvatarImg { get; set; }
+    public string? AvatarImg { get; set; }
 
-    public string[] ImageShowcase { get; set; } = Array.Empty<string>();
+    public string[]? ImageShowcase { get; set; } 
 
     public int AgeYears { get; set; }
 
