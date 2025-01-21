@@ -19,7 +19,6 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
         public async Task<ActionResult<IEnumerable<MedicalCondition>>> GetAllMedicalConditions()
         {
             var medicalConditions = await _medicalConditionService.GetAllAsync();

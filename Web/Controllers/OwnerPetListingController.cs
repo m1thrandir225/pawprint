@@ -17,7 +17,6 @@ public class OwnerPetListingController : ControllerBase
     }
 
     [HttpGet]
-    [Route("all")]
     public async Task<ActionResult<IEnumerable<OwnerPetListing>>> GetAllOwnerPetListings()
     {
         var ownerPetListings = await _ownerPetListingService.GetAllAsync();

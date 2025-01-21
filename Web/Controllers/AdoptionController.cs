@@ -19,7 +19,6 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
         public async Task<ActionResult<IEnumerable<Adoption>>> GetAllAdoptions()
         {
             var adoptions = await _adoptionService.GetAllAsync();

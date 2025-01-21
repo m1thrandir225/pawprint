@@ -17,7 +17,6 @@ public class OwnerSurrenderReasonController : ControllerBase
     }
 
     [HttpGet]
-    [Route("all")]
     public async Task<ActionResult<IEnumerable<OwnerSurrenderReason>>> GetAllOwnerSurrenderReasons()
     {
         var ownerSurrenderReasons = await _ownerSurrenderReasonService.GetAllAsync();

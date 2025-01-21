@@ -17,7 +17,6 @@ public class AdoptionStatusController : ControllerBase
     }
 
     [HttpGet]
-    [Route("all")]
     public async Task<ActionResult<IEnumerable<AdoptionStatus>>> GetAllAdoptionStatuses()
     {
         var adoptionStatuses = await _adoptionStatusService.GetAllAsync();

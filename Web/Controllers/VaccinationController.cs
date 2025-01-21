@@ -19,7 +19,6 @@ namespace Web.Controllers
         }
 
         [HttpGet]
-        [Route("all")]
         public async Task<ActionResult<IEnumerable<Vaccination>>> GetAllVaccinations()
         {
             var vaccinations = await _vaccinationService.GetAllAsync();
