@@ -81,8 +81,8 @@ public class Pet : BaseEntity
     public DateTime? IntakeDate { get; set; }
 
 
-    public virtual ICollection<OwnerPetListing> OwnerPetListings { get; set; } = new List<OwnerPetListing>();
-    public virtual ICollection<ShelterPetListing> ShelterPetListings { get; set; } = new List<ShelterPetListing>();
+    //public virtual ICollection<OwnerPetListing> OwnerPetListings { get; set; } = new List<OwnerPetListing>();
+    //public virtual ICollection<ShelterPetListing> ShelterPetListings { get; set; } = new List<ShelterPetListing>();
     public virtual ICollection<Adoption> Adoptions { get; set; } = new List<Adoption>();
 
     public Pet()

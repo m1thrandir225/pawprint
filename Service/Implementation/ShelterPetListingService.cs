@@ -17,13 +17,14 @@ public class ShelterPetListingService : IShelterPetListingService
 
     public async Task<IEnumerable<ShelterPetListing>> GetAllAsync()
     {
-        return _repository.GetAllWithJoins();
+        // return _repository.GetAllWithJoins();
+        return _repository.GetAll();
     }
 
     public async Task<ShelterPetListing> GetByIdAsync(Guid id)
     {
-        var listing = _repository.Get(id);
-        return listing;
+        return _repository.Get(id);
+        // return _repository.GetWithJoins(id);
     }
 
     public async Task<ShelterPetListing> CreateAsync(CreateShelterPetListingRequest dto)
