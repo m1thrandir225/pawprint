@@ -9,6 +9,7 @@ using Repository.Implementations;
 using Repository.Interface;
 using Service.Implementation;
 using Service.Interface;
+using Stripe;
 using Web.Config;
 using Web.Services;
 using Web.Services.Interfaces;
@@ -149,9 +150,16 @@ builder.Services.AddControllers()
         options.JsonSerializerOptions.WriteIndented = true;
     });
 
-
+// Stripe Implementation
+builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("Stripe"));
 
 var app = builder.Build();
+
+app.Use(async (context, next) =>
+{
+    StripeConfiguration.ApiKey = builder.Configuration.GetSection("Stripe")["SecretKey"];
+    await next();
+});
 
 if (app.Environment.IsDevelopment())
 {
