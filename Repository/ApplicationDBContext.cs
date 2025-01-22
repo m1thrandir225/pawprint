@@ -50,7 +50,12 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
      */
     public DbSet<User> Users { get; set; }
     public DbSet<Shelter> Shelters { get; set; }
-
+    /**
+     * Stripe Implementation
+     */
+    public DbSet<Donation> Donations { get; set; }
+    public DbSet<StripeSettings> StripeSettings { get; set; }
+    
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {

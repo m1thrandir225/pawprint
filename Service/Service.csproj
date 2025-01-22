@@ -12,6 +12,7 @@
 
     <ItemGroup>
       <PackageReference Include="Microsoft.EntityFrameworkCore.Proxies" Version="8.0.11" />
+      <PackageReference Include="Stripe.net" Version="47.3.0-beta.2" />
     </ItemGroup>
 
 </Project>
