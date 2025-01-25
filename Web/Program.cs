@@ -16,11 +16,17 @@ using Web.Extensions;
 
 var builder = WebApplication.CreateBuilder(args);
 
+DotNetEnv.Env.Load();
+
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_URL");
+
+builder.Configuration.AddEnvironmentVariables();
+
 // Add services to the container.
 builder.Services.AddControllersWithViews();
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseLazyLoadingProxies().
-        UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection"))
+        UseNpgsql(connectionString)
 );
 
 builder.Services.AddControllers();
