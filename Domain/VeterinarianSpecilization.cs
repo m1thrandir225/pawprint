@@ -11,10 +11,10 @@ public class VeterinarianSpecilization : BaseEntity
     [ForeignKey(nameof(Veterinarian))]
     public Guid VeterinarianId { get; set; }
 
-    public virtual Veterinarian Veterinarian { get; init; } = null!;
+    //public virtual Veterinarian Veterinarian { get; init; } = null!;
 
     [Required]
-    [Column("specialization", TypeName = "VARCHAR(255)")]
+    [Column("specialization", TypeName = "TEXT")]
     public string Specialization { get; set; } = null!;
 
     public VeterinarianSpecilization()

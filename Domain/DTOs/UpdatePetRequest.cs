@@ -6,7 +6,7 @@ public class UpdatePetRequest
 
     public string? Breed { get; set; }
 
-    public string AvatarImg { get; set; }
+    public string? AvatarImg { get; set; }
 
     public string[] ImageShowcase { get; set; } = Array.Empty<string>();
 
@@ -32,5 +32,9 @@ public class UpdatePetRequest
     public string? SpecialRequirements { get; set; }
     public string? BehaviorialNotes { get; set; }
     public DateTime? IntakeDate { get; set; }
+    
+    public string[] ImageShowcaseDelete { get; set; } = Array.Empty<string>();
+    
+    public string[] ImageSowcaseUpdate { get; set; } = Array.Empty<string>();
     
 }

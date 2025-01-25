@@ -1,12 +1,13 @@
 ﻿using System;
 using Microsoft.EntityFrameworkCore.Migrations;
+using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 
 #nullable disable
 
 namespace Repository.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialCreate : Migration
+    public partial class AllTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -24,11 +25,52 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetRoles",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    Name = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoles", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUsers",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    address = table.Column<string>(type: "TEXT", nullable: false),
+                    created_at = table.Column<DateTime>(type: "TIMESTAMPTZ", nullable: false),
+                    UserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedUserName = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    Email = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    NormalizedEmail = table.Column<string>(type: "character varying(256)", maxLength: 256, nullable: true),
+                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    PasswordHash = table.Column<string>(type: "text", nullable: true),
+                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
+                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
+                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
+                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
+                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
+                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUsers", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "health_statuses",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "VARCHAR(255)", nullable: false)
+                    name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -40,7 +82,7 @@ namespace Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    description = table.Column<string>(type: "VARCHAR(255)", nullable: false)
+                    description = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -64,7 +106,7 @@ namespace Repository.Migrations
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "VARCHAR(255)", nullable: false)
+                    name = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -84,57 +126,6 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "shelters",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "VARCHAR(255)", nullable: false),
-                    address = table.Column<string>(type: "TEXT", nullable: false),
-                    phone_number = table.Column<string>(type: "TEXT", nullable: false),
-                    email = table.Column<string>(type: "character varying(50)", maxLength: 50, nullable: false),
-                    website = table.Column<string>(type: "TEXT", nullable: true),
-                    capacity = table.Column<int>(type: "integer", nullable: false),
-                    is_no_kill = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    created_at = table.Column<DateTime>(type: "TIMESTAMPTZ", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_shelters", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "users",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    first_name = table.Column<string>(type: "varchar(11)", nullable: false),
-                    last_name = table.Column<string>(type: "varchar(11)", nullable: false),
-                    address = table.Column<string>(type: "varchar(50)", nullable: false),
-                    has_children = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    has_other_pets = table.Column<bool>(type: "BOOLEAN", nullable: false),
-                    home_type = table.Column<string>(type: "VARCHAR(255)", nullable: false),
-                    created_at = table.Column<DateTime>(type: "TIMESTAMPTZ", nullable: false),
-                    UserName = table.Column<string>(type: "text", nullable: true),
-                    NormalizedUserName = table.Column<string>(type: "text", nullable: true),
-                    Email = table.Column<string>(type: "text", nullable: true),
-                    NormalizedEmail = table.Column<string>(type: "text", nullable: true),
-                    EmailConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    PasswordHash = table.Column<string>(type: "text", nullable: true),
-                    SecurityStamp = table.Column<string>(type: "text", nullable: true),
-                    ConcurrencyStamp = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumber = table.Column<string>(type: "text", nullable: true),
-                    PhoneNumberConfirmed = table.Column<bool>(type: "boolean", nullable: false),
-                    TwoFactorEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    LockoutEnd = table.Column<DateTimeOffset>(type: "timestamp with time zone", nullable: true),
-                    LockoutEnabled = table.Column<bool>(type: "boolean", nullable: false),
-                    AccessFailedCount = table.Column<int>(type: "integer", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_users", x => x.Id);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "veterinarians",
                 columns: table => new
                 {
@@ -151,12 +142,161 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "AspNetRoleClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetRoleClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetRoleClaims_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserClaims",
+                columns: table => new
+                {
+                    Id = table.Column<int>(type: "integer", nullable: false)
+                        .Annotation("Npgsql:ValueGenerationStrategy", NpgsqlValueGenerationStrategy.IdentityByDefaultColumn),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    ClaimType = table.Column<string>(type: "text", nullable: true),
+                    ClaimValue = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserClaims", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserClaims_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserLogins",
+                columns: table => new
+                {
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    ProviderKey = table.Column<string>(type: "text", nullable: false),
+                    ProviderDisplayName = table.Column<string>(type: "text", nullable: true),
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserLogins", x => new { x.LoginProvider, x.ProviderKey });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserLogins_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserRoles",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    RoleId = table.Column<Guid>(type: "uuid", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserRoles", x => new { x.UserId, x.RoleId });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetRoles_RoleId",
+                        column: x => x.RoleId,
+                        principalTable: "AspNetRoles",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_AspNetUserRoles_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "AspNetUserTokens",
+                columns: table => new
+                {
+                    UserId = table.Column<Guid>(type: "uuid", nullable: false),
+                    LoginProvider = table.Column<string>(type: "text", nullable: false),
+                    Name = table.Column<string>(type: "text", nullable: false),
+                    Value = table.Column<string>(type: "text", nullable: true)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_AspNetUserTokens", x => new { x.UserId, x.LoginProvider, x.Name });
+                    table.ForeignKey(
+                        name: "FK_AspNetUserTokens_AspNetUsers_UserId",
+                        column: x => x.UserId,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "shelters",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    name = table.Column<string>(type: "TEXT", nullable: false),
+                    website = table.Column<string>(type: "TEXT", nullable: true),
+                    capacity = table.Column<int>(type: "integer", nullable: false),
+                    is_no_kill = table.Column<bool>(type: "BOOLEAN", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_shelters", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_shelters_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "users",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    first_name = table.Column<string>(type: "TEXT", nullable: false),
+                    last_name = table.Column<string>(type: "TEXT", nullable: false),
+                    has_children = table.Column<bool>(type: "BOOLEAN", nullable: false),
+                    has_other_pets = table.Column<bool>(type: "BOOLEAN", nullable: false),
+                    home_type = table.Column<string>(type: "TEXT", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_users", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_users_AspNetUsers_Id",
+                        column: x => x.Id,
+                        principalTable: "AspNetUsers",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "pets",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    name = table.Column<string>(type: "VARCHAR(255)", nullable: false),
-                    breed = table.Column<string>(type: "VARCHAR(255)", nullable: true),
+                    name = table.Column<string>(type: "TEXT", nullable: false),
+                    breed = table.Column<string>(type: "TEXT", nullable: true),
                     avatar_img = table.Column<string>(type: "TEXT", nullable: false),
                     image_showcase = table.Column<string[]>(type: "TEXT[]", nullable: false),
                     age_years = table.Column<int>(type: "integer", nullable: false),
@@ -210,81 +350,6 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "AdopterPetGenderPreferences",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    adopter_id = table.Column<Guid>(type: "UUID", nullable: false),
-                    gender_id = table.Column<Guid>(type: "UUID", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AdopterPetGenderPreferences", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AdopterPetGenderPreferences_pet_genders_gender_id",
-                        column: x => x.gender_id,
-                        principalTable: "pet_genders",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AdopterPetGenderPreferences_users_adopter_id",
-                        column: x => x.adopter_id,
-                        principalTable: "users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AdopterPetSizePreferences",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    adopter_id = table.Column<Guid>(type: "UUID", nullable: false),
-                    size_id = table.Column<Guid>(type: "UUID", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AdopterPetSizePreferences", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AdopterPetSizePreferences_pet_sizes_size_id",
-                        column: x => x.size_id,
-                        principalTable: "pet_sizes",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AdopterPetSizePreferences_users_adopter_id",
-                        column: x => x.adopter_id,
-                        principalTable: "users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
-                name: "AdopterPetTypePreferences",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uuid", nullable: false),
-                    adopter_id = table.Column<Guid>(type: "UUID", nullable: false),
-                    type_id = table.Column<Guid>(type: "UUID", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_AdopterPetTypePreferences", x => x.Id);
-                    table.ForeignKey(
-                        name: "FK_AdopterPetTypePreferences_pet_types_type_id",
-                        column: x => x.type_id,
-                        principalTable: "pet_types",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                    table.ForeignKey(
-                        name: "FK_AdopterPetTypePreferences_users_adopter_id",
-                        column: x => x.adopter_id,
-                        principalTable: "users",
-                        principalColumn: "Id",
-                        onDelete: ReferentialAction.Cascade);
-                });
-
-            migrationBuilder.CreateTable(
                 name: "medical_records",
                 columns: table => new
                 {
@@ -312,7 +377,7 @@ namespace Repository.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     vet_id = table.Column<Guid>(type: "UUID", nullable: false),
-                    specialization = table.Column<string>(type: "VARCHAR(255)", nullable: false)
+                    specialization = table.Column<string>(type: "TEXT", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -321,6 +386,81 @@ namespace Repository.Migrations
                         name: "FK_vet_specializations_veterinarians_vet_id",
                         column: x => x.vet_id,
                         principalTable: "veterinarians",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "adopter_pet_gender_preferences",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    adopter_id = table.Column<Guid>(type: "UUID", nullable: false),
+                    gender_id = table.Column<Guid>(type: "UUID", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_adopter_pet_gender_preferences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_adopter_pet_gender_preferences_pet_genders_gender_id",
+                        column: x => x.gender_id,
+                        principalTable: "pet_genders",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_adopter_pet_gender_preferences_users_adopter_id",
+                        column: x => x.adopter_id,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "adopter_pet_size_preferences",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    adopter_id = table.Column<Guid>(type: "UUID", nullable: false),
+                    size_id = table.Column<Guid>(type: "UUID", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_adopter_pet_size_preferences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_adopter_pet_size_preferences_pet_sizes_size_id",
+                        column: x => x.size_id,
+                        principalTable: "pet_sizes",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_adopter_pet_size_preferences_users_adopter_id",
+                        column: x => x.adopter_id,
+                        principalTable: "users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "adopter_pet_type_preferences",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uuid", nullable: false),
+                    adopter_id = table.Column<Guid>(type: "UUID", nullable: false),
+                    type_id = table.Column<Guid>(type: "UUID", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_adopter_pet_type_preferences", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_adopter_pet_type_preferences_pet_types_type_id",
+                        column: x => x.type_id,
+                        principalTable: "pet_types",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_adopter_pet_type_preferences_users_adopter_id",
+                        column: x => x.adopter_id,
+                        principalTable: "users",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -357,7 +497,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OwnerPetListings",
+                name: "owner_pet_listings",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -370,21 +510,21 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OwnerPetListings", x => x.Id);
+                    table.PrimaryKey("PK_owner_pet_listings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OwnerPetListings_owner_surrender_reasons_surrender_reason_id",
+                        name: "FK_owner_pet_listings_owner_surrender_reasons_surrender_reason~",
                         column: x => x.surrender_reason_id,
                         principalTable: "owner_surrender_reasons",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OwnerPetListings_pets_pet_id",
+                        name: "FK_owner_pet_listings_pets_pet_id",
                         column: x => x.pet_id,
                         principalTable: "pets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_OwnerPetListings_users_adopter_id",
+                        name: "FK_owner_pet_listings_users_adopter_id",
                         column: x => x.adopter_id,
                         principalTable: "users",
                         principalColumn: "Id",
@@ -397,7 +537,7 @@ namespace Repository.Migrations
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
                     medical_record_id = table.Column<Guid>(type: "UUID", nullable: false),
-                    condition_name = table.Column<string>(type: "VARCHAR(100)", nullable: false),
+                    condition_name = table.Column<string>(type: "TEXT", nullable: false),
                     notes = table.Column<string>(type: "TEXT", nullable: true)
                 },
                 constraints: table =>
@@ -412,7 +552,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "ShelterPetListings",
+                name: "shelter_pet_listings",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -424,21 +564,21 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_ShelterPetListings", x => x.Id);
+                    table.PrimaryKey("PK_shelter_pet_listings", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_ShelterPetListings_medical_records_medical_record_id",
+                        name: "FK_shelter_pet_listings_medical_records_medical_record_id",
                         column: x => x.medical_record_id,
                         principalTable: "medical_records",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShelterPetListings_pets_pet_id",
+                        name: "FK_shelter_pet_listings_pets_pet_id",
                         column: x => x.pet_id,
                         principalTable: "pets",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_ShelterPetListings_shelters_shelter_id",
+                        name: "FK_shelter_pet_listings_shelters_shelter_id",
                         column: x => x.shelter_id,
                         principalTable: "shelters",
                         principalColumn: "Id",
@@ -466,7 +606,7 @@ namespace Repository.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "OwnerPetListingDocuments",
+                name: "owner_pet_listing_documents",
                 columns: table => new
                 {
                     Id = table.Column<Guid>(type: "uuid", nullable: false),
@@ -477,43 +617,43 @@ namespace Repository.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_OwnerPetListingDocuments", x => x.Id);
+                    table.PrimaryKey("PK_owner_pet_listing_documents", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_OwnerPetListingDocuments_OwnerPetListings_listing_id",
+                        name: "FK_owner_pet_listing_documents_owner_pet_listings_listing_id",
                         column: x => x.listing_id,
-                        principalTable: "OwnerPetListings",
+                        principalTable: "owner_pet_listings",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetGenderPreferences_adopter_id",
-                table: "AdopterPetGenderPreferences",
+                name: "IX_adopter_pet_gender_preferences_adopter_id",
+                table: "adopter_pet_gender_preferences",
                 column: "adopter_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetGenderPreferences_gender_id",
-                table: "AdopterPetGenderPreferences",
+                name: "IX_adopter_pet_gender_preferences_gender_id",
+                table: "adopter_pet_gender_preferences",
                 column: "gender_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetSizePreferences_adopter_id",
-                table: "AdopterPetSizePreferences",
+                name: "IX_adopter_pet_size_preferences_adopter_id",
+                table: "adopter_pet_size_preferences",
                 column: "adopter_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetSizePreferences_size_id",
-                table: "AdopterPetSizePreferences",
+                name: "IX_adopter_pet_size_preferences_size_id",
+                table: "adopter_pet_size_preferences",
                 column: "size_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetTypePreferences_adopter_id",
-                table: "AdopterPetTypePreferences",
+                name: "IX_adopter_pet_type_preferences_adopter_id",
+                table: "adopter_pet_type_preferences",
                 column: "adopter_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_AdopterPetTypePreferences_type_id",
-                table: "AdopterPetTypePreferences",
+                name: "IX_adopter_pet_type_preferences_type_id",
+                table: "adopter_pet_type_preferences",
                 column: "type_id");
 
             migrationBuilder.CreateIndex(
@@ -527,6 +667,43 @@ namespace Repository.Migrations
                 column: "pet_id");
 
             migrationBuilder.CreateIndex(
+                name: "IX_AspNetRoleClaims_RoleId",
+                table: "AspNetRoleClaims",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "RoleNameIndex",
+                table: "AspNetRoles",
+                column: "NormalizedName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserClaims_UserId",
+                table: "AspNetUserClaims",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserLogins_UserId",
+                table: "AspNetUserLogins",
+                column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_AspNetUserRoles_RoleId",
+                table: "AspNetUserRoles",
+                column: "RoleId");
+
+            migrationBuilder.CreateIndex(
+                name: "EmailIndex",
+                table: "AspNetUsers",
+                column: "NormalizedEmail");
+
+            migrationBuilder.CreateIndex(
+                name: "UserNameIndex",
+                table: "AspNetUsers",
+                column: "NormalizedUserName",
+                unique: true);
+
+            migrationBuilder.CreateIndex(
                 name: "IX_medical_conditions_medical_record_id",
                 table: "medical_conditions",
                 column: "medical_record_id");
@@ -537,23 +714,23 @@ namespace Repository.Migrations
                 column: "veterinarian_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OwnerPetListingDocuments_listing_id",
-                table: "OwnerPetListingDocuments",
+                name: "IX_owner_pet_listing_documents_listing_id",
+                table: "owner_pet_listing_documents",
                 column: "listing_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OwnerPetListings_adopter_id",
-                table: "OwnerPetListings",
+                name: "IX_owner_pet_listings_adopter_id",
+                table: "owner_pet_listings",
                 column: "adopter_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OwnerPetListings_pet_id",
-                table: "OwnerPetListings",
+                name: "IX_owner_pet_listings_pet_id",
+                table: "owner_pet_listings",
                 column: "pet_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_OwnerPetListings_surrender_reason_id",
-                table: "OwnerPetListings",
+                name: "IX_owner_pet_listings_surrender_reason_id",
+                table: "owner_pet_listings",
                 column: "surrender_reason_id");
 
             migrationBuilder.CreateIndex(
@@ -582,18 +759,18 @@ namespace Repository.Migrations
                 column: "type_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShelterPetListings_medical_record_id",
-                table: "ShelterPetListings",
+                name: "IX_shelter_pet_listings_medical_record_id",
+                table: "shelter_pet_listings",
                 column: "medical_record_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShelterPetListings_pet_id",
-                table: "ShelterPetListings",
+                name: "IX_shelter_pet_listings_pet_id",
+                table: "shelter_pet_listings",
                 column: "pet_id");
 
             migrationBuilder.CreateIndex(
-                name: "IX_ShelterPetListings_shelter_id",
-                table: "ShelterPetListings",
+                name: "IX_shelter_pet_listings_shelter_id",
+                table: "shelter_pet_listings",
                 column: "shelter_id");
 
             migrationBuilder.CreateIndex(
@@ -611,25 +788,40 @@ namespace Repository.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "AdopterPetGenderPreferences");
+                name: "adopter_pet_gender_preferences");
 
             migrationBuilder.DropTable(
-                name: "AdopterPetSizePreferences");
+                name: "adopter_pet_size_preferences");
 
             migrationBuilder.DropTable(
-                name: "AdopterPetTypePreferences");
+                name: "adopter_pet_type_preferences");
 
             migrationBuilder.DropTable(
                 name: "adoptions");
 
             migrationBuilder.DropTable(
+                name: "AspNetRoleClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserClaims");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserLogins");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserRoles");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUserTokens");
+
+            migrationBuilder.DropTable(
                 name: "medical_conditions");
 
             migrationBuilder.DropTable(
-                name: "OwnerPetListingDocuments");
+                name: "owner_pet_listing_documents");
 
             migrationBuilder.DropTable(
-                name: "ShelterPetListings");
+                name: "shelter_pet_listings");
 
             migrationBuilder.DropTable(
                 name: "vaccinations");
@@ -638,7 +830,10 @@ namespace Repository.Migrations
                 name: "vet_specializations");
 
             migrationBuilder.DropTable(
-                name: "OwnerPetListings");
+                name: "AspNetRoles");
+
+            migrationBuilder.DropTable(
+                name: "owner_pet_listings");
 
             migrationBuilder.DropTable(
                 name: "shelters");
@@ -672,6 +867,9 @@ namespace Repository.Migrations
 
             migrationBuilder.DropTable(
                 name: "pet_types");
+
+            migrationBuilder.DropTable(
+                name: "AspNetUsers");
         }
     }
 }

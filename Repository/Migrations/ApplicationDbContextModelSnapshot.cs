@@ -42,7 +42,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetGenderId");
 
-                    b.ToTable("AdopterPetGenderPreferences");
+                    b.ToTable("adopter_pet_gender_preferences", (string)null);
                 });
 
             modelBuilder.Entity("Domain.AdopterPetSizePreference", b =>
@@ -65,7 +65,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetSizeId");
 
-                    b.ToTable("AdopterPetSizePreferences");
+                    b.ToTable("adopter_pet_size_preferences", (string)null);
                 });
 
             modelBuilder.Entity("Domain.AdopterPetTypePreference", b =>
@@ -88,7 +88,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetTypeId");
 
-                    b.ToTable("AdopterPetTypePreferences");
+                    b.ToTable("adopter_pet_type_preferences", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Adoption", b =>
@@ -136,7 +136,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetId");
 
-                    b.ToTable("adoptions");
+                    b.ToTable("adoptions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.AdoptionStatus", b =>
@@ -152,7 +152,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("adoption_statuses");
+                    b.ToTable("adoption_statuses", (string)null);
                 });
 
             modelBuilder.Entity("Domain.HealthStatus", b =>
@@ -163,12 +163,12 @@ namespace Repository.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("health_statuses");
+                    b.ToTable("health_statuses", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Identity.ApplicationUser", b =>
@@ -255,7 +255,7 @@ namespace Repository.Migrations
 
                     b.Property<string>("ConditionName")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(100)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("condition_name");
 
                     b.Property<Guid>("MedicalRecordId")
@@ -270,7 +270,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("medical_conditions");
+                    b.ToTable("medical_conditions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.MedicalRecord", b =>
@@ -303,7 +303,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("VetId");
 
-                    b.ToTable("medical_records");
+                    b.ToTable("medical_records", (string)null);
                 });
 
             modelBuilder.Entity("Domain.OwnerPetListing", b =>
@@ -344,7 +344,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("SurrenderReasonId");
 
-                    b.ToTable("OwnerPetListings");
+                    b.ToTable("owner_pet_listings", (string)null);
                 });
 
             modelBuilder.Entity("Domain.OwnerPetListingDocument", b =>
@@ -375,7 +375,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ListingId");
 
-                    b.ToTable("OwnerPetListingDocuments");
+                    b.ToTable("owner_pet_listing_documents", (string)null);
                 });
 
             modelBuilder.Entity("Domain.OwnerSurrenderReason", b =>
@@ -386,12 +386,12 @@ namespace Repository.Migrations
 
                     b.Property<string>("Description")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("description");
 
                     b.HasKey("Id");
 
-                    b.ToTable("owner_surrender_reasons");
+                    b.ToTable("owner_surrender_reasons", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Pet", b =>
@@ -418,7 +418,7 @@ namespace Repository.Migrations
                         .HasColumnName("behaviorial_notes");
 
                     b.Property<string>("Breed")
-                        .HasColumnType("VARCHAR(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("breed");
 
                     b.Property<string>("Description")
@@ -456,7 +456,7 @@ namespace Repository.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("name");
 
                     b.Property<Guid>("PetGenderId")
@@ -487,7 +487,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetTypeId");
 
-                    b.ToTable("pets");
+                    b.ToTable("pets", (string)null);
                 });
 
             modelBuilder.Entity("Domain.PetGender", b =>
@@ -503,7 +503,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("pet_genders");
+                    b.ToTable("pet_genders", (string)null);
                 });
 
             modelBuilder.Entity("Domain.PetSize", b =>
@@ -514,12 +514,12 @@ namespace Repository.Migrations
 
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("name");
 
                     b.HasKey("Id");
 
-                    b.ToTable("pet_sizes");
+                    b.ToTable("pet_sizes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.PetType", b =>
@@ -534,7 +534,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("pet_types");
+                    b.ToTable("pet_types", (string)null);
                 });
 
             modelBuilder.Entity("Domain.ShelterPetListing", b =>
@@ -571,7 +571,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ShelterId");
 
-                    b.ToTable("ShelterPetListings");
+                    b.ToTable("shelter_pet_listings", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Vaccination", b =>
@@ -597,7 +597,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("vaccinations");
+                    b.ToTable("vaccinations", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Veterinarian", b =>
@@ -627,7 +627,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("veterinarians");
+                    b.ToTable("veterinarians", (string)null);
                 });
 
             modelBuilder.Entity("Domain.VeterinarianSpecilization", b =>
@@ -638,7 +638,7 @@ namespace Repository.Migrations
 
                     b.Property<string>("Specialization")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("specialization");
 
                     b.Property<Guid>("VeterinarianId")
@@ -649,7 +649,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("VeterinarianId");
 
-                    b.ToTable("vet_specializations");
+                    b.ToTable("vet_specializations", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -786,18 +786,18 @@ namespace Repository.Migrations
                 {
                     b.HasBaseType("Domain.Identity.ApplicationUser");
 
+                    b.Property<int>("Capacity")
+                        .HasColumnType("integer")
+                        .HasColumnName("capacity");
+
                     b.Property<string>("Name")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("name");
 
                     b.Property<string>("Website")
                         .HasColumnType("TEXT")
                         .HasColumnName("website");
-
-                    b.Property<int>("capacity")
-                        .HasColumnType("integer")
-                        .HasColumnName("capacity");
 
                     b.Property<bool>("isNoKill")
                         .HasColumnType("BOOLEAN")
@@ -812,7 +812,7 @@ namespace Repository.Migrations
 
                     b.Property<string>("FirstName")
                         .IsRequired()
-                        .HasColumnType("varchar(11)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("first_name");
 
                     b.Property<bool>("HasChildren")
@@ -825,12 +825,12 @@ namespace Repository.Migrations
 
                     b.Property<string>("HomeType")
                         .IsRequired()
-                        .HasColumnType("VARCHAR(255)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("home_type");
 
                     b.Property<string>("LastName")
                         .IsRequired()
-                        .HasColumnType("varchar(11)")
+                        .HasColumnType("TEXT")
                         .HasColumnName("last_name");
 
                     b.ToTable("users", (string)null);
@@ -864,7 +864,7 @@ namespace Repository.Migrations
                         .IsRequired();
 
                     b.HasOne("Domain.PetSize", "PetSize")
-                        .WithMany("AdopterPetSizesPreference")
+                        .WithMany()
                         .HasForeignKey("PetSizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -926,7 +926,7 @@ namespace Repository.Migrations
             modelBuilder.Entity("Domain.MedicalRecord", b =>
                 {
                     b.HasOne("Domain.Veterinarian", "Veterinarian")
-                        .WithMany("MedicalRecords")
+                        .WithMany()
                         .HasForeignKey("VetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -975,31 +975,31 @@ namespace Repository.Migrations
             modelBuilder.Entity("Domain.Pet", b =>
                 {
                     b.HasOne("Domain.AdoptionStatus", "AdoptionStatus")
-                        .WithMany("Pets")
+                        .WithMany()
                         .HasForeignKey("AdoptionStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.HealthStatus", "HealthStatus")
-                        .WithMany("Pets")
+                        .WithMany()
                         .HasForeignKey("HealthStatusId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.PetGender", "PetGender")
-                        .WithMany("Pets")
+                        .WithMany()
                         .HasForeignKey("PetGenderId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.PetSize", "PetSize")
-                        .WithMany("Pets")
+                        .WithMany()
                         .HasForeignKey("PetSizeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.PetType", "PetType")
-                        .WithMany("Pets")
+                        .WithMany()
                         .HasForeignKey("PetTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1133,16 +1133,6 @@ namespace Repository.Migrations
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.AdoptionStatus", b =>
-                {
-                    b.Navigation("Pets");
-                });
-
-            modelBuilder.Entity("Domain.HealthStatus", b =>
-                {
-                    b.Navigation("Pets");
-                });
-
             modelBuilder.Entity("Domain.MedicalRecord", b =>
                 {
                     b.Navigation("MedicalConditions");
@@ -1164,27 +1154,8 @@ namespace Repository.Migrations
                     b.Navigation("ShelterPetListings");
                 });
 
-            modelBuilder.Entity("Domain.PetGender", b =>
-                {
-                    b.Navigation("Pets");
-                });
-
-            modelBuilder.Entity("Domain.PetSize", b =>
-                {
-                    b.Navigation("AdopterPetSizesPreference");
-
-                    b.Navigation("Pets");
-                });
-
-            modelBuilder.Entity("Domain.PetType", b =>
-                {
-                    b.Navigation("Pets");
-                });
-
             modelBuilder.Entity("Domain.Veterinarian", b =>
                 {
-                    b.Navigation("MedicalRecords");
-
                     b.Navigation("VetSpecializations");
                 });
 #pragma warning restore 612, 618

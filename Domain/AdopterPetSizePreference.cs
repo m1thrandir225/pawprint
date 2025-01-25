@@ -1,8 +1,10 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Domain;
 
+[Table("adopter_pet_size_preferences")]
 public class AdopterPetSizePreference : BaseEntity
 {
     [Required]
@@ -10,7 +12,7 @@ public class AdopterPetSizePreference : BaseEntity
     [ForeignKey(nameof(Adopter))]
     public Guid AdopterId { get; set; }
 
-    [Required]
+    [JsonIgnore]
     public virtual User Adopter { get; set; } = null!;
 
     [Required]

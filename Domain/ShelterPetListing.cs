@@ -5,6 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Domain;
 
+[Table("shelter_pet_listings")]
 public class ShelterPetListing : BaseEntity
 {
     [Column("pet_id", TypeName = "UUID")]

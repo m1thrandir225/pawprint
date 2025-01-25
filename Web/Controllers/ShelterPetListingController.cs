@@ -18,7 +18,6 @@ public class ShelterPetListingController : ControllerBase
     }
 
     [HttpGet]
-    [Route("all")]
     public async Task<ActionResult<IEnumerable<ShelterPetListing>>> GetAllListings()
     {
         var listings = await _listingService.GetAllAsync();
@@ -30,8 +29,7 @@ public class ShelterPetListingController : ControllerBase
         return Ok(listings);
     }
 
-    [HttpGet]
-    [Route("{id:guid}")]
+    [HttpGet("{id:guid}")]
     public async Task<ActionResult<ShelterPetListing>> GetListing([FromRoute] Guid id)
     {
         var listing = await _listingService.GetByIdAsync(id);
@@ -51,8 +49,7 @@ public class ShelterPetListingController : ControllerBase
         return Ok(listing);
     }
 
-    [HttpPut]
-    [Route("{id}")]
+    [HttpPut("{id:guid}")] 
     public async Task<ActionResult<ShelterPetListing>> UpdateListing(
         [FromBody] UpdateShelterPetListingRequest request)
     {
@@ -64,8 +61,7 @@ public class ShelterPetListingController : ControllerBase
         return Ok(updated);
     }
 
-    [HttpPatch]
-    [Route("{id}/approval-status")]
+    [HttpPatch("{id:guid}/approval-status")]
     public async Task<ActionResult<ShelterPetListing>> UpdateApprovalStatus(
         [FromRoute] Guid id, 
         [FromBody] ApprovalStatus status)
@@ -78,8 +74,7 @@ public class ShelterPetListingController : ControllerBase
         return Ok(updated);
     }
 
-    [HttpDelete]
-    [Route("{id}")]
+    [HttpDelete("{id:guid}")]
     public async Task<ActionResult<ShelterPetListing>> DeleteListing([FromRoute] Guid id)
     {
         var deleted = await _listingService.DeleteAsync(id);

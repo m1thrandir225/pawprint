@@ -1,15 +1,18 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Domain;
 
+[Table("owner_pet_listing_documents")]
 public class OwnerPetListingDocument : BaseEntity
 {
-    [ForeignKey(nameof(Listing))]
+    [Required]
     [Column("listing_id", TypeName = "UUID")]
+    [ForeignKey(nameof(Listing))]
     public Guid ListingId { get; set; }
 
-    [Required]
+    [JsonIgnore]
     public virtual OwnerPetListing Listing { get; set; } = null!;
 
     [Required]

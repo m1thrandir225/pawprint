@@ -18,7 +18,7 @@ public class Vaccination : BaseEntity
     [Column("vaccine_date", TypeName = "Date")]
     public DateOnly VaccineDate { get; set; }
 
-    public virtual MedicalRecord MedicalRecord { get; set; }
+    //public virtual MedicalRecord MedicalRecord { get; set; }
 
     public Vaccination()
     {

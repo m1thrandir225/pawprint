@@ -1,11 +1,9 @@
 using System.Text;
-using System.Text.Json.Serialization;
-using Domain;
-using Domain.DTOs;
 using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
-using Microsoft.AspNetCore.Authentication;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
@@ -15,15 +13,34 @@ using Service.Implementation;
 using Service.Interface;
 using Web.Config;
 using Web.Services;
+using Web.Services.Interfaces;
+using Web.Extensions;
+using Microsoft.AspNetCore.Authorization;
 
 var builder = WebApplication.CreateBuilder(args);
 
+DotNetEnv.Env.Load();
+
+var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_URL");
+
+builder.Configuration.AddEnvironmentVariables();
+
 // Add services to the container.
-builder.Services.AddControllersWithViews();
+// If you need views use this one
+// builder.Services.AddControllersWithViews();
+builder.Services.AddControllers();
+// builder.Services.AddControllers(options =>
+// {
+//     options.Filters.Add(new AuthorizeAttribute { Roles = UserRole.Admin });
+// });
+
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseNpgsql(builder.Configuration.GetConnectionString("DefaultConnection")).UseLazyLoadingProxies());
+    options.UseLazyLoadingProxies().
+        UseNpgsql(connectionString)
+);
 
 builder.Services.AddControllers();
+builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen(); // Add this here
 
 
@@ -61,7 +78,8 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 
 
     })
-    .AddEntityFrameworkStores<ApplicationDbContext>();
+    .AddEntityFrameworkStores<ApplicationDbContext>()
+    .AddDefaultTokenProviders();
 
 
 //JWT Config
@@ -87,6 +105,7 @@ builder.Services.AddAuthentication(options =>
     };
 });
 builder.Services.AddScoped<JWTService>();
+builder.Services.AddScoped<AuthenticationService>();
 
 
 
@@ -129,9 +148,16 @@ builder.Services.AddScoped<IOwnerPetListingDocumentService, OwnerPetListingDocum
 builder.Services.AddScoped<IAdoptionStatusService, AdoptionStatusService>();
 builder.Services.AddScoped<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
 builder.Services.AddScoped<IVeterinarianSpecializationService, VeterinarianSpecializationService>();
+builder.Services.AddScoped<IShelterPetListingService, ShelterPetListingService>();
+builder.Services.AddScoped<IAdopterService, AdopterService>();
+builder.Services.AddScoped<IShelterService, ShelterService>();
+
+// File Service
+builder.Services.AddScoped<IUploadService, UploadService>();
+
+builder.Services.AddCors();
 
 // Controllers 
-
 builder.Services.AddControllers()
     .AddJsonOptions(options =>
     {
@@ -140,15 +166,17 @@ builder.Services.AddControllers()
     });
 
 
+
 var app = builder.Build();
 
 if (app.Environment.IsDevelopment())
 {
     app.UseSwagger(); // Enable Swagger
     app.UseSwaggerUI();
+    app.ApplyMigrations();
 }
 
-
+DatabaseSeeder.SeedData(app.Services);
 
 // Configure the HTTP request pipeline.
 if (!app.Environment.IsDevelopment())
@@ -160,12 +188,14 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+app.UseCors(x => x.AllowAnyOrigin().AllowAnyMethod().AllowAnyHeader());
 
 app.UseRouting();
 
+app.UseAuthentication();
 app.UseAuthorization();
 
-
+app.MapControllers();
 
 app.MapControllerRoute(
     name: "default",
@@ -174,7 +204,7 @@ app.MapControllerRoute(
 using (var scope = app.Services.CreateScope())
 {
     var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-    var roles = new[] { "Admin", "User" };
+    var roles = new[] { UserRole.Admin, UserRole.User, UserRole.Shelter};
 
     foreach (var role in roles)
     {
