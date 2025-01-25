@@ -4,6 +4,9 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
 using Web.Services.Interfaces;
 
@@ -11,6 +14,7 @@ namespace Web.Controllers
 {
     [Route("api/pets")]
     [ApiController]
+    [Authorize(Roles = $"{UserRole.Admin},{UserRole.User},{UserRole.Shelter}")]
     public class PetController : ControllerBase
     {
         private readonly IPetService _petService;
@@ -127,7 +131,7 @@ namespace Web.Controllers
                 }
 
                 // Update the ImageShowcase to exclude deleted images
-                
+
                 request.ImageShowcase = request.ImageShowcase
                     .Where(image => !request.ImageShowcaseDelete.Contains(image))
                     .ToArray(); // Convert the result back to a string[]

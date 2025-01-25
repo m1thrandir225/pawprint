@@ -9,6 +9,7 @@ using Web.Services;
 namespace Web.Controllers {
     [Route("/api/auth")]
     [ApiController]
+    [AllowAnonymous] 
     public class AuthenticationController : ControllerBase
     {
         private readonly IAdopterService _adopterService;

@@ -441,7 +441,7 @@ public static class DatabaseSeeder
 
     private static async Task SeedRoles(RoleManager<IdentityRole<Guid>> roleManager)
     {
-        string[] roles = { UserRole.Admin, UserRole.User };
+        string[] roles = { UserRole.Admin, UserRole.User, UserRole.Shelter };
 
         foreach (var role in roles)
         {
@@ -523,7 +523,7 @@ public static class DatabaseSeeder
                 if(result.Succeeded)
                 {
                     shelters[i] = shelter;
-                    await userManager.AddToRoleAsync(shelter, UserRole.User);
+                    await userManager.AddToRoleAsync(shelter, UserRole.Shelter);
                 } else {
                     throw new Exception("Failed to create shelter");
                 }
