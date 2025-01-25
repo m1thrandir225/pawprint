@@ -24,15 +24,9 @@ DotNetEnv.Env.Load();
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_URL");
 
 builder.Configuration.AddEnvironmentVariables();
-
 // Add services to the container.
 // If you need views use this one
-// builder.Services.AddControllersWithViews();
 builder.Services.AddControllers();
-// builder.Services.AddControllers(options =>
-// {
-//     options.Filters.Add(new AuthorizeAttribute { Roles = UserRole.Admin });
-// });
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseLazyLoadingProxies().
