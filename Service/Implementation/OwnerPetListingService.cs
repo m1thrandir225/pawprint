@@ -8,10 +8,12 @@ using Service.Interface;
 public class OwnerPetListingService : IOwnerPetListingService
 {
     private readonly IOwnerPetListingRepository _repository;
+    private readonly IEmailService _emailService;
 
-    public OwnerPetListingService(IOwnerPetListingRepository repository)
+    public OwnerPetListingService(IOwnerPetListingRepository repository, IEmailService emailService)
     {
         _repository = repository;
+        _emailService = emailService;
     }
 
     public async Task<IEnumerable<OwnerPetListing>> GetAllAsync()
@@ -27,8 +29,23 @@ public class OwnerPetListingService : IOwnerPetListingService
     public async Task<OwnerPetListing> CreateAsync(CreateOwnerPetListingRequest dto)
     {
         var ownerPetListing = new OwnerPetListing(dto.AdopterId, dto.PetId, dto.SurrenderReasonId);
-        return _repository.Insert(ownerPetListing);
+        var createdListing = _repository.Insert(ownerPetListing);
+        try
+        {
+            await _emailService.SendPetListingAdoptionNotificationAsync(
+                ownerPetListing.Adopter.Email,
+                PetListingType.OwnerPetListing
+            );
+        }
+        catch (Exception ex)
+        {
+            throw new Exception("Failed to send email.");
+        }
+
+        return createdListing;
     }
+
+    
 
     public async Task<OwnerPetListing> UpdateAsync(Guid id, UpdateOwnerPetListingRequest dto)
     {

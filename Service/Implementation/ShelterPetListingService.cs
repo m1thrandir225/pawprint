@@ -9,10 +9,12 @@ namespace Service.Implementation;
 public class ShelterPetListingService : IShelterPetListingService
 {
     private readonly IShelterPetListingRepository _repository;
+    private readonly IEmailService _emailService;
 
-    public ShelterPetListingService(IShelterPetListingRepository repository)
+    public ShelterPetListingService(IShelterPetListingRepository repository,  IEmailService emailService)
     {
         _repository = repository;
+        _emailService = emailService;
     }
 
     public async Task<IEnumerable<ShelterPetListing>> GetAllAsync()
@@ -37,7 +39,20 @@ public class ShelterPetListingService : IShelterPetListingService
             dto.IntakeDate
         );
 
-        return _repository.Insert(listing);
+        var createdListing = _repository.Insert(listing);
+        try
+        {
+            await _emailService.SendPetListingAdoptionNotificationAsync(
+                listing.Shelter.Email, 
+                PetListingType.ShelterPetListing
+            );
+        }
+        catch (Exception e)
+        {
+            throw new Exception("Failed to send email.");
+        }
+
+        return createdListing;
     }
 
     public async Task<ShelterPetListing> UpdateAsync(Guid id, UpdateShelterPetListingRequest dto)

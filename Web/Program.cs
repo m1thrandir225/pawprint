@@ -1,9 +1,9 @@
+using System.Configuration;
 using System.Text;
+using Domain;
 using Domain.Identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.AspNetCore.Mvc.Authorization;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
@@ -16,12 +16,31 @@ using Web.Services;
 using Web.Services.Interfaces;
 using Web.Extensions;
 using Microsoft.AspNetCore.Authorization;
+using Microsoft.Extensions.Configuration;
 
 var builder = WebApplication.CreateBuilder(args);
 
 DotNetEnv.Env.Load();
 
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_URL");
+
+
+// Configure EmailSettings
+var emailSettings = new EmailSettings
+{
+    Password = Environment.GetEnvironmentVariable("SMTP_PASS"),
+    Port = int.TryParse(Environment.GetEnvironmentVariable("SMTP_PORT"), out var port) ? port : 25,
+    SenderEmail = "pawprint@sebastijanzindl.me",
+    SmtpServer = Environment.GetEnvironmentVariable("SMTP_SERVER"),
+    Username = Environment.GetEnvironmentVariable("SMTP_USER"),
+};
+builder.Services.AddSingleton(emailSettings);
+
+
+// Register email services
+builder.Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
+builder.Services.AddScoped<IEmailService, SmtpEmailService>();
+
 
 builder.Configuration.AddEnvironmentVariables();
 // Add services to the container.
@@ -148,8 +167,9 @@ builder.Services.AddScoped<IShelterService, ShelterService>();
 
 // File Service
 builder.Services.AddScoped<IUploadService, UploadService>();
-
 builder.Services.AddCors();
+
+
 
 // Controllers 
 builder.Services.AddControllers()
