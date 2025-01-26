@@ -30,6 +30,12 @@ namespace Web.Controllers
             return Ok(adoptions);
         }
 
+        [HttpGet("pet/{id:guid}")]
+        public List<Adoption> GetAdoptionsForPet([FromRoute] Guid id)
+        {
+            return _adoptionService.GetAdoptionsForPet(id);
+        }
+
         [HttpGet]
         [Route("{id:guid}")]
         public async Task<ActionResult<Adoption>> GetAdoption([FromRoute] Guid id)

@@ -29,6 +29,13 @@ public class ShelterPetListingController : ControllerBase
         return Ok(listings);
     }
 
+    //shelter-listings/shelter/{shelter-id}
+    [HttpGet("shelter/{id:guid}")]
+    public List<ShelterPetListing> GetListingsByShelter([FromRoute] Guid id)
+    {
+        return _listingService.GetListingsByShelter(id);
+    }
+
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ShelterPetListing>> GetListing([FromRoute] Guid id)
     {

@@ -20,6 +20,11 @@ public class AdoptionService : IAdoptionService
         return _repository.GetAll();
     }
 
+    public List<Adoption> GetAdoptionsForPet(Guid id)
+    {
+        return _repository.GetAdoptionsForPet(id);
+    }
+
     public async Task<Adoption> GetByIdAsync(Guid id)
     {
         return _repository.Get(id);

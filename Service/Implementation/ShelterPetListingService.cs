@@ -76,4 +76,9 @@ public class ShelterPetListingService : IShelterPetListingService
         _repository.Delete(listing);
         return Task.FromResult(true);
     }
+
+    public List<ShelterPetListing> GetListingsByShelter(Guid id)
+    {
+        return _repository.GetListingByShelter(id);
+    }
 }
