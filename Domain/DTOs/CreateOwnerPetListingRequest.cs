@@ -10,4 +10,6 @@ public class CreateOwnerPetListingRequest
     public DateTime? ReviewDate { get; set; }
     public DateTime? SubmissionDate { get; set; }
     public ApprovalStatus? Approved { get; set; }
+    public float AdoptionFee { get; set; }
+
 }

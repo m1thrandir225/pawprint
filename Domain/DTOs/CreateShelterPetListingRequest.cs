@@ -6,4 +6,5 @@ public class CreateShelterPetListingRequest
     public Guid MedicalRecordId { get; set; }
     public Guid ShelterId { get; set; }
     public DateOnly? IntakeDate { get; set; }
+    public float AdoptionFee { get; set; }
 }
