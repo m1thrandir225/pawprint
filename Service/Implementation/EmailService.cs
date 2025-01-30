@@ -59,7 +59,6 @@ public class SmtpEmailService : IEmailService
         var templateData = new Dictionary<string, string>
         {
             {"FirstName", "User"},
-            {"VerificationLink", "https://pawprint.com/verify"}
         };
 
         var emailBody = _emailTemplateService.GenerateEmailTemplate(
@@ -82,13 +81,26 @@ public class SmtpEmailService : IEmailService
         await SendEmailAsync(emailMessage);
     }
 
-    public async Task SendPetListingAdoptionNotificationAsync(string toEmail, PetListingType listingType)
+    public async Task SendPetListingAdoptionNotificationAsync(string toEmail, PetListingType petListingType, object petListing)
     {
-        var templateData = new Dictionary<string, string>
+        var templateData = new Dictionary<string, string>();
+
+        if (petListingType == PetListingType.OwnerPetListing)
         {
-            {"PetName", "Fluffy"},
-            {"ListingType", listingType.ToString()}
-        };
+            if (petListing is OwnerPetListing ownerPetListing)
+            {
+                templateData["PetName"] = ownerPetListing.Pet.Name;
+                templateData["Owner"] = ownerPetListing.Adopter.FirstName;
+            }
+        }
+        else if (petListingType == PetListingType.ShelterPetListing)
+        {
+            if (petListing is ShelterPetListing shelterPetListing)
+            {
+                templateData["PetName"] = shelterPetListing.Pet.Name;
+                templateData["ShelterName"] = shelterPetListing.Shelter.Name;
+            }
+        }
 
         var emailBody = _emailTemplateService.GenerateEmailTemplate(
             EmailTemplateType.PetListingAdoption, 
@@ -98,11 +110,53 @@ public class SmtpEmailService : IEmailService
         var emailMessage = new EmailMessage
         {
             ToEmail = toEmail,
-            Subject = "Pet Listing Adoption Update",
+            Subject = "Your Pet has been listed successfully! ",
             Body = emailBody,
             TemplateType = EmailTemplateType.PetListingAdoption
         };
 
         await SendEmailAsync(emailMessage);
     }
-}
+
+    public async Task SendAdoptionApprovalNotificationAsync(string toEmail, PetListingType petListingType, object petListing)
+    {
+        var templateData = new Dictionary<string, string>();
+
+        if (petListingType == PetListingType.OwnerPetListing && petListing is OwnerPetListing ownerPetListing)
+        {
+            templateData = new Dictionary<string, string>
+            {
+                {"AdopterName", ownerPetListing.Adopter.FirstName},
+                {"PetName", ownerPetListing.Pet.Name},
+                {"HandoverDate", DateTime.Today.ToString()} 
+            };
+        }
+        else if (petListingType == PetListingType.ShelterPetListing && petListing is ShelterPetListing shelterPetListing)
+        {
+            templateData = new Dictionary<string, string>
+            {
+                {"ShelterName", shelterPetListing.Shelter.Name},
+                {"PetName", shelterPetListing.Pet.Name},
+                {"HandoverDate", DateTime.Today.ToString()}
+            };
+        }
+        else
+        {
+            throw new ArgumentException("Invalid pet listing type or object.");
+        }
+
+        var emailBody = _emailTemplateService.GenerateEmailTemplate(
+                EmailTemplateType.AdoptionApproval, templateData);
+
+            var emailMessage = new EmailMessage
+            {
+                ToEmail = toEmail,
+                Subject = "Your Adoption Request Has Been Approved!",
+                Body = emailBody,
+                TemplateType = EmailTemplateType.AdoptionApproval
+            };
+
+            await SendEmailAsync(emailMessage);
+        }
+    }
+    

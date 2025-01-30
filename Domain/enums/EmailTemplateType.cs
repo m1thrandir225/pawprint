@@ -5,5 +5,6 @@ public enum EmailTemplateType
     UserRegistration,
     ShelterRegistration,
     PetListingAdoption,
-    OwnerPetListingAdoption
+    OwnerPetListingAdoption,
+    AdoptionApproval
 }

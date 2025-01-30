@@ -34,7 +34,8 @@ public class OwnerPetListingService : IOwnerPetListingService
         {
             await _emailService.SendPetListingAdoptionNotificationAsync(
                 ownerPetListing.Adopter.Email,
-                PetListingType.OwnerPetListing
+                PetListingType.OwnerPetListing,
+                ownerPetListing
             );
         }
         catch (Exception ex)

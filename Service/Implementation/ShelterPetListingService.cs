@@ -44,7 +44,8 @@ public class ShelterPetListingService : IShelterPetListingService
         {
             await _emailService.SendPetListingAdoptionNotificationAsync(
                 listing.Shelter.Email, 
-                PetListingType.ShelterPetListing
+                PetListingType.ShelterPetListing,
+                listing
             );
         }
         catch (Exception e)

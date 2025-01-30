@@ -12,6 +12,7 @@ public class EmailTemplateService : IEmailTemplateService
             EmailTemplateType.UserRegistration => GenerateUserRegistrationTemplate(templateData),
             EmailTemplateType.ShelterRegistration => GenerateShelterRegistrationTemplate(templateData),
             EmailTemplateType.PetListingAdoption => GeneratePetListingAdoptionTemplate(templateData),
+            EmailTemplateType.AdoptionApproval => GenerateAdoptionApprovalTemplate(templateData),
             _ => throw new ArgumentException("Invalid template type")
         };
     }
@@ -226,28 +227,23 @@ text-decoration: none
     <html>
     <body>
         <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto;'>
-            <h1>Pet Listing Adoption Update</h1>
-            <p>Dear {data.GetValueOrDefault("OwnerName", "Pet Owner")},</p>
+            <h1>Great News, {data.GetValueOrDefault("OwnerOrShelterName", "User")}!</h1>
             
-            <p>We are excited to inform you about an update regarding your {data.GetValueOrDefault("ListingType", "pet listing")}.</p>
+            <p>Your pet listing has been successfully submitted on PetAdopt.</p>
             
-            <table style='width: 100%; border-collapse: collapse;'>
-                <tr>
-                    <td><strong>Pet Name:</strong></td>
-                    <td>{data.GetValueOrDefault("PetName", "N/A")}</td>
-                </tr>
-                <tr>
-                    <td><strong>Listing Type:</strong></td>
-                    <td>{data.GetValueOrDefault("ListingType", "N/A")}</td>
-                </tr>
-                <tr>
-                    <td><strong>Status:</strong></td>
-                    <td>{data.GetValueOrDefault("Status", "Under Review")}</td>
-                </tr>
-            </table>
+            <div style='background-color: #f4f4f4; padding: 15px; border-radius: 5px;'>
+                <h2>Listing Details:</h2>
+                <p><strong>Pet Name:</strong> {data.GetValueOrDefault("PetName", "N/A")}</p>
+                <p><strong>Listing Type:</strong> {data.GetValueOrDefault("ListingType", "N/A")}</p>
+                <p><strong>Status:</strong> Pending Approval</p>
+            </div>
+
+            <p>We will review your listing and notify you once it is approved.</p>
             
-            <p>For more details, please log in to your PetAdopt account.</p>
-            
+            <p>If you need to make any changes, visit your <a href='{data.GetValueOrDefault("DashboardLink", "#")}' style='color: #4CAF50; text-decoration: none;'>dashboard</a>.</p>
+
+            <p>Thank you for trusting PetAdopt!</p>
+
             <p>Best regards,<br>PetAdopt Team</p>
         </div>
     </body>
@@ -286,4 +282,34 @@ private string GenerateShelterRegistrationTemplate(Dictionary<string, string> da
     </html>";
 }
 
+    private string GenerateAdoptionApprovalTemplate(Dictionary<string, string> data)
+    {
+        return $@"
+        <html>
+        <body>
+            <div style='font-family: Arial, sans-serif; max-width: 600px; margin: auto;'>
+                <h1>Exciting News, {data.GetValueOrDefault("AdopterName", "Adopter")}!</h1>
+                
+                <p>Your adoption request has been approved.</p>
+                
+                <div style='background-color: #f4f4f4; padding: 15px; border-radius: 5px;'>
+                    <h2>Adoption Details:</h2>
+                    <p><strong>Pet Name:</strong> {data.GetValueOrDefault("PetName", "N/A")}</p>
+                    <p><strong>Handover Date:</strong> {data.GetValueOrDefault("HandoverDate", "N/A")}</p>
+                    <p><strong>Pickup Location:</strong> {data.GetValueOrDefault("PickupLocation", "TBD")}</p>
+                </div>
+
+                <p>Please make sure to prepare everything for the handover.</p>
+
+                <p>For further details, check your <a href='{data.GetValueOrDefault("DashboardLink", "#")}' style='color: #4CAF50; text-decoration: none;'>adoption dashboard</a>.</p>
+
+                <p>We’re happy to help a pet find a loving home!</p>
+
+                <p>Best regards,<br>PetAdopt Team</p>
+            </div>
+        </body>
+        </html>";
+    }
+
 }
+
