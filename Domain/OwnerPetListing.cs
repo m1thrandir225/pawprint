@@ -26,10 +26,10 @@ public class OwnerPetListing : BaseEntity
     public virtual OwnerSurrenderReason SurrenderReason { get; set; } = null!;
     
     [Column("review_date", TypeName = "TIMESTAMPTZ")]
-    public DateTime ReviewDate { get; set; } = DateTime.Now;
+    public DateTime ReviewDate { get; set; } = DateTime.UtcNow;
 
     [Column("submission_date", TypeName = "TIMESTAMPTZ")]
-    public DateTime SubmissionDate { get; set; } = DateTime.Now;
+    public DateTime SubmissionDate { get; set; } = DateTime.UtcNow;
     
     public virtual ICollection<OwnerPetListingDocument> OwnerPetListingDocuments { get; set; } = null!;
     
