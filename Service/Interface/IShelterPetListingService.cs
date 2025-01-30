@@ -8,7 +8,7 @@ public interface IShelterPetListingService : ICRUDService<ShelterPetListing,
     CreateShelterPetListingRequest, UpdateShelterPetListingRequest>
 {
     // Additional method for handling approval status changes
-    Task<ShelterPetListing> UpdateApprovalStatusAsync(Guid id, ApprovalStatus status);
+    // Task<ShelterPetListing> UpdateApprovalStatusAsync(Guid id, ApprovalStatus status);
 
     List<ShelterPetListing> GetListingsByShelter(Guid shelterId);
 

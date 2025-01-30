@@ -371,10 +371,9 @@ public static class DatabaseSeeder
         .RuleFor(x => x.PetId, _ => p.Id)
         .RuleFor(x => x.AdopterId, _ => adopter.Id)
         .RuleFor(x => x.AdoptionDate, f => f.Date.Recent())
-        .RuleFor(x => x.AdoptionFee, f => f.Random.Decimal(1, 100_000_000))
+        .RuleFor( x => x.Approved, f => f.PickRandom<ApprovalStatus>())
         .RuleFor(x => x.FollowUpDate, f => f.Date.Soon())
         .RuleFor(x => x.CounselorNotes, f => f.Lorem.Paragraph(1))
-        .RuleFor(x => x.IsSuccessful, f => f.Random.Bool())
         ;
 
         return adoption.Generate();
@@ -391,8 +390,9 @@ public static class DatabaseSeeder
         .RuleFor(x => x.MedicalRecordId, _ => mr.Id)
         .RuleFor(x => x.PetId, _ => p.Id)
         .RuleFor(x => x.ShelterId, _ => s.Id)
+        .RuleFor( x => x.AdoptionFee, f => f.Random.Float(0, 10000))
         .RuleFor(x => x.IntakeDate, f => DateOnly.FromDateTime(f.Date.Between(DateTime.Now, f.Date.Future())))
-        .RuleFor(x => x.Approved, f => f.Random.Enum<ApprovalStatus>())
+        .RuleFor(x => x.AdoptionFee, f => f.Random.Float(0, 1000))
         ;
 
         return shelterListing.Generate();
@@ -410,8 +410,9 @@ public static class DatabaseSeeder
         .RuleFor(x => x.ReviewDate, f => f.Date.Soon().ToUniversalTime())
         .RuleFor(x => x.SurrenderReasonId, _ => reason.Id)
         .RuleFor(x => x.PetId, _ => p.Id)
+        .RuleFor( x => x.AdoptionFee, f => f.Random.Float(0, 10000))
         .RuleFor(x => x.AdopterId, _ => adopter.Id)
-        .RuleFor(x => x.Approved, f => f.Random.Enum<ApprovalStatus>())
+        .RuleFor(x => x.AdoptionFee, f => f.Random.Float(0, 1000))
         ;
 
         return ownerPetListing.Generate();
