@@ -53,4 +53,9 @@ public class OwnerPetListingService : IOwnerPetListingService
         _repository.Delete(ownerPetListing);
         return Task.FromResult(true);
     }
+
+    public List<OwnerPetListing> GetListingsByOwner(Guid ownerId)
+    {
+        return _repository.GetListingsByOwner(ownerId);
+    }
 }

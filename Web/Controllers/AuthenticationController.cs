@@ -43,11 +43,14 @@ namespace Web.Controllers {
                     LoginShelterResponse response = new LoginShelterResponse();
                     var shelter = await _shelterService.GetByIdAsync(user.Id);
                     var details = new ShelterDTO {
+                        Id = shelter.Id,
                         Address = user.Address,
                         Email = user.Email,
                         Name = shelter.Name,
                         PhoneNumber = shelter.PhoneNumber,
                         Website = shelter.Website,
+                        Capacity = shelter.Capacity,
+                        isNoKill = shelter.isNoKill,
                     };
                     response.Shelter = details;
                     response.AccessToken = accessToken;
@@ -63,6 +66,7 @@ namespace Web.Controllers {
                     var adopter = await _adopterService.GetByIdAsync(user.Id);
                     
                     var details = new UserDTO {
+                        Id = user.Id,
                         Address = user.Address,
                         Email = user.Email,
                         FirstName = adopter.FirstName,
@@ -70,6 +74,7 @@ namespace Web.Controllers {
                         HasChildren = adopter.HasChildren,
                         HasOtherPets = adopter.HasOtherPets,
                         HomeType = adopter.HomeType,
+
                     };
                     
                     response.User = details;
@@ -110,6 +115,7 @@ namespace Web.Controllers {
             try {
             var adopter = await _adopterService.CreateAsync(request);
             var response = new UserDTO {
+                Id = adopter.Id,
                 Address = adopter.Address,
                 Email = adopter.Email,
                 FirstName = adopter.FirstName,
@@ -117,6 +123,7 @@ namespace Web.Controllers {
                 HasChildren = adopter.HasChildren,
                 HasOtherPets = adopter.HasOtherPets,
                 HomeType = adopter.HomeType,
+
             };
             return Ok(response);
 
@@ -135,6 +142,7 @@ namespace Web.Controllers {
                 var shelter = await _shelterService.CreateAsync(request);
 
                 var response = new ShelterDTO {
+                    Id = shelter.Id,
                     Address = shelter.Address,
                     Email = shelter.Email,
                     Name = shelter.Name,
@@ -142,6 +150,7 @@ namespace Web.Controllers {
                     Website = shelter.Website,
                     Capacity = shelter.Capacity,
                     isNoKill = shelter.isNoKill,
+
                 };
 
                 return Ok(response);

@@ -27,6 +27,12 @@ public class OwnerPetListingController : ControllerBase
         return Ok(ownerPetListings);
     }
 
+    [HttpGet("owner/{id:guid}")]
+    public List<OwnerPetListing> GetListingsByOwner([FromRoute] Guid id)
+    {
+        return _ownerPetListingService.GetListingsByOwner(id);
+    }
+
     [HttpGet]
     [Route("{id:guid}")]
     public async Task<ActionResult<OwnerPetListing>> GetOwnerPetListing([FromRoute] Guid id)
