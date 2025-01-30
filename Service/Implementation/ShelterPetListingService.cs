@@ -81,4 +81,11 @@ public class ShelterPetListingService : IShelterPetListingService
     {
         return _repository.GetListingByShelter(id);
     }
+
+    public List<ShelterPetListing> FilterShelterPetListing(string? petSize, string? petType, string? petGender,
+        string? search)
+    {
+        return _repository.GetAll().Where(p =>
+            p.Pet.PetSize.Name == petSize || p.Pet.PetGender.Name == petGender || p.Pet.PetType.Name == petType|| p.Pet.Name.Contains(search)).ToList();
+    }
 }

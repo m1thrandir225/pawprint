@@ -19,15 +19,25 @@ public class ShelterPetListingController : ControllerBase
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<ShelterPetListing>>> GetAllListings()
+    public async Task<ActionResult<IEnumerable<ShelterPetListing>>> GetAllListings(
+        [FromQuery(Name = "pet-type")] string? petType,
+        [FromQuery(Name = "pet-size")] string? petSize,
+        [FromQuery(Name = "pet-gender")] string? petGender,
+        [FromQuery(Name = "search")] string? search
+        )
     {
-        var listings = await _listingService.GetAllAsync();
+        var listings = _listingService.FilterShelterPetListing(petSize, petType, petGender, search);
+
         if (listings == null)
         {
             return BadRequest();
         }
 
         return Ok(listings);
+
+
+
+
     }
 
     //shelter-listings/shelter/{shelter-id}
