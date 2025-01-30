@@ -3,6 +3,7 @@ using Domain.enums;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using Domain.DTOs;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers;
 
@@ -82,7 +83,7 @@ public class ShelterPetListingController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
-    public async Task<ActionResult<ShelterPetListing>> DeleteListing([FromRoute] Guid id)
+    public async Task<ActionResult<bool>> DeleteListing([FromRoute] Guid id)
     {
         var deleted = await _listingService.DeleteAsync(id);
 
