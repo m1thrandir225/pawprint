@@ -11,12 +11,14 @@ namespace Service.Implementation
     {
         private readonly IShelterRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailService _emailService;
 
-        public ShelterService(UserManager<ApplicationUser> userManager, IShelterRepository repository)
+        public ShelterService(UserManager<ApplicationUser> userManager, IShelterRepository repository, IEmailService emailService)
         {
             _userManager = userManager;
             _repository = repository;
             _userManager.KeyNormalizer = new UpperInvariantLookupNormalizer();
+            _emailService = emailService;
         }
 
          public async Task<IEnumerable<Shelter>> GetAllAsync()
@@ -70,6 +72,18 @@ namespace Service.Implementation
             if(!roleResult.Succeeded)
             {
                 throw new Exception("Failed to add user to role");
+            }
+
+            try
+            {
+                await _emailService.SendRegistrationConfirmationAsync(
+                    shelter.Email, 
+                    UserType.Shelter
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to send email.");
             }
 
             return shelter;
