@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
@@ -40,11 +42,14 @@ namespace Web.Controllers
             {
                 return NotFound();
             }
+
             return Ok(medicalCondition);
         }
 
         [HttpPost]
-        public async Task<ActionResult<MedicalCondition>> CreateMedicalCondition([FromBody] CreateMedicalConditionRequest request)
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
+        public async Task<ActionResult<MedicalCondition>> CreateMedicalCondition(
+            [FromBody] CreateMedicalConditionRequest request)
         {
             var medicalCondition = await _medicalConditionService.CreateAsync(request);
 
@@ -52,18 +57,22 @@ namespace Web.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id}")]
-        public async Task<ActionResult<MedicalCondition>> UpdateMedicalCondition([FromBody] UpdateMedicalConditionRequest request)
+        public async Task<ActionResult<MedicalCondition>> UpdateMedicalCondition(
+            [FromBody] UpdateMedicalConditionRequest request)
         {
-            var updated = await _medicalConditionService.UpdateAsync(request.Id ,request);
+            var updated = await _medicalConditionService.UpdateAsync(request.Id, request);
             if (updated == null)
             {
                 return BadRequest();
             }
+
             return Ok(updated);
         }
 
         [HttpDelete]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id}")]
         public async Task<ActionResult<MedicalCondition>> DeleteMedicalCondition([FromRoute] Guid id)
         {
@@ -73,6 +82,7 @@ namespace Web.Controllers
             {
                 return BadRequest();
             }
+
             return Ok(deleted);
         }
     }

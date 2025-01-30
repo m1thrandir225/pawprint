@@ -1,4 +1,7 @@
-﻿namespace Web.Controllers;
+﻿using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
+
+namespace Web.Controllers;
 
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -42,15 +45,19 @@ public class OwnerSurrenderReasonController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<OwnerSurrenderReason>> CreateOwnerSurrenderReason([FromBody] CreateOwnerSurrenderReasonRequest request)
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
+    public async Task<ActionResult<OwnerSurrenderReason>> CreateOwnerSurrenderReason(
+        [FromBody] CreateOwnerSurrenderReasonRequest request)
     {
         var ownerSurrenderReason = await _ownerSurrenderReasonService.CreateAsync(request);
         return Ok(ownerSurrenderReason);
     }
 
     [HttpPut]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
     [Route("{id}")]
-    public async Task<ActionResult<OwnerSurrenderReason>> UpdateOwnerSurrenderReason([FromBody] UpdateOwnerSurrenderReasonRequest request)
+    public async Task<ActionResult<OwnerSurrenderReason>> UpdateOwnerSurrenderReason(
+        [FromBody] UpdateOwnerSurrenderReasonRequest request)
     {
         var updated = await _ownerSurrenderReasonService.UpdateAsync(request.Id, request);
         if (updated == null)
@@ -62,6 +69,7 @@ public class OwnerSurrenderReasonController : ControllerBase
     }
 
     [HttpDelete]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
     [Route("{id}")]
     public async Task<ActionResult<bool>> DeleteOwnerSurrenderReason([FromRoute] Guid id)
     {
