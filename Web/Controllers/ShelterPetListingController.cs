@@ -71,20 +71,6 @@ public class ShelterPetListingController : ControllerBase
         return Ok(updated);
     }
 
-    [HttpPatch("{id:guid}/approval-status")]
-    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
-    public async Task<ActionResult<ShelterPetListing>> UpdateApprovalStatus(
-        [FromRoute] Guid id, 
-        [FromBody] ApprovalStatus status)
-    {
-        var updated = await _listingService.UpdateApprovalStatusAsync(id, status);
-        if (updated == null)
-        {
-            return BadRequest();
-        }
-        return Ok(updated);
-    }
-
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     public async Task<ActionResult<bool>> DeleteListing([FromRoute] Guid id)

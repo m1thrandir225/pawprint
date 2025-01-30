@@ -28,7 +28,7 @@ public class OwnerPetListingService : IOwnerPetListingService
 
     public async Task<OwnerPetListing> CreateAsync(CreateOwnerPetListingRequest dto)
     {
-        var ownerPetListing = new OwnerPetListing(dto.AdopterId, dto.PetId, dto.SurrenderReasonId);
+        var ownerPetListing = new OwnerPetListing(dto.AdopterId, dto.PetId, dto.SurrenderReasonId, dto.AdoptionFee);
         var createdListing = _repository.Insert(ownerPetListing);
         try
         {
@@ -59,7 +59,7 @@ public class OwnerPetListingService : IOwnerPetListingService
         ownerPetListing.AdopterId = dto.AdopterId;
         ownerPetListing.PetId = dto.PetId;
         ownerPetListing.SurrenderReasonId = dto.SurrenderReasonId;
-        ownerPetListing.Approved = dto.Approved;
+        ownerPetListing.AdoptionFee = dto.AdoptionFee;
 
         return _repository.Update(ownerPetListing);
     }

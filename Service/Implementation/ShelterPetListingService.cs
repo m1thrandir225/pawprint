@@ -36,7 +36,8 @@ public class ShelterPetListingService : IShelterPetListingService
             dto.PetId,
             dto.MedicalRecordId,
             dto.ShelterId,
-            dto.IntakeDate
+            dto.IntakeDate,
+            dto.AdoptionFee
         );
 
         var createdListing = _repository.Insert(listing);
@@ -67,24 +68,11 @@ public class ShelterPetListingService : IShelterPetListingService
 
         // Only update mutable properties
         listing.IntakeDate = dto.IntakeDate;
-        listing.Approved = dto.Approved;
+        listing.AdoptionFee = dto.AdoptionFee;
 
         return _repository.Update(listing);
     }
-
-    public async Task<ShelterPetListing> UpdateApprovalStatusAsync(Guid id, ApprovalStatus status)
-    {
-        var listing = _repository.Get(id);
-
-        if (listing == null)
-        {
-            return null;
-        }
-
-        listing.Approved = status;
-        return _repository.Update(listing);
-    }
-
+    
     public Task<bool> DeleteAsync(Guid id)
     {
         var listing = _repository.Get(id);

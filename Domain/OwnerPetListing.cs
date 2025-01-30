@@ -30,22 +30,23 @@ public class OwnerPetListing : BaseEntity
 
     [Column("submission_date", TypeName = "TIMESTAMPTZ")]
     public DateTime SubmissionDate { get; set; } = DateTime.Now;
-
-    [Column("approved", TypeName = "INTEGER")]
-    public virtual ApprovalStatus Approved { get; set; } = ApprovalStatus.PENDING;
-
+    
     public virtual ICollection<OwnerPetListingDocument> OwnerPetListingDocuments { get; set; } = null!;
+    
+    [Required]
+    [Column("adoption_fee", TypeName = "DECIMAL")]
+    public float AdoptionFee { get; set; }
     
     public OwnerPetListing()
     {
     }
     
-    public OwnerPetListing(Guid adopterId, Guid petId, Guid surrenderReasonId)
+    public OwnerPetListing(Guid adopterId, Guid petId, Guid surrenderReasonId, float adoptionFee=0)
     {
         Id = Guid.NewGuid();
         AdopterId = adopterId;
         PetId = petId;
         SurrenderReasonId = surrenderReasonId;
-
+        AdoptionFee = adoptionFee;
     }
 }
