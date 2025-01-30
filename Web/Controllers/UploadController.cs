@@ -1,4 +1,6 @@
 
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Services.Interfaces;
 
@@ -6,6 +8,7 @@ namespace Web.Controllers
 {
     [Route("/api/upload-controller")]
     [ApiController]
+    [Authorize(Roles = $"{UserRole.Admin}")]
     public class UploadController : ControllerBase
     {
         private readonly IUploadService _uploadService;

@@ -12,6 +12,7 @@ namespace Web.Controllers
 {
     [Route("api/pet-types")]
     [ApiController]
+    [Authorize(Roles = $"{UserRole.Admin}")]
     public class PetTypeController : ControllerBase
     {
         private readonly IPetTypeService _petTypeService;

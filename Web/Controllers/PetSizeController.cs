@@ -4,10 +4,13 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
     [Route("api/pet-sizes")]
+    [Authorize(Roles = $"{UserRole.Admin}")]
     [ApiController]
     public class PetSizeController : ControllerBase
     {
