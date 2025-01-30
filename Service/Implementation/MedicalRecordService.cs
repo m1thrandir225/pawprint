@@ -28,13 +28,12 @@ public class MedicalRecordService : IMedicalRecordService
     public async Task<MedicalRecord> CreateAsync(CreateMedicalRecordRequest dto)
     {
         var medicalRecord = new MedicalRecord
-        {
-            VetId = dto.VetId,
-            SpayNeuterStatus = dto.SpayNeuterStatus,
-            LastMedicalCheckup = dto.LastMedicalCheckup,
-            MicrochipNumber = dto.MicrochipNumber,
-            CreatedAt = DateTime.Now
-        };
+        (
+            dto.VetId,
+            dto.SpayNeuterStatus,
+            dto.LastMedicalCheckup,
+            dto.MicrochipNumber
+        );
 
         return _repository.Insert(medicalRecord);
     }

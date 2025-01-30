@@ -8,13 +8,15 @@ namespace Service.Implementation;
 
 public class ShelterPetListingService : IShelterPetListingService
 {
+    private readonly IMedicalRecordService _medicalRecordService;
     private readonly IShelterPetListingRepository _repository;
     private readonly IEmailService _emailService;
 
-    public ShelterPetListingService(IShelterPetListingRepository repository,  IEmailService emailService)
+    public ShelterPetListingService(IShelterPetListingRepository repository,  IEmailService emailService, IMedicalRecordService medicalRecordService)
     {
         _repository = repository;
         _emailService = emailService;
+        _medicalRecordService = medicalRecordService;
     }
 
     public async Task<IEnumerable<ShelterPetListing>> GetAllAsync()
@@ -31,10 +33,12 @@ public class ShelterPetListingService : IShelterPetListingService
 
     public async Task<ShelterPetListing> CreateAsync(CreateShelterPetListingRequest dto)
     {
+        var medicalRecord = await _medicalRecordService.CreateAsync(dto.MedicalRecord);
+        
         // Create new listing with PENDING status by default
         var listing = new ShelterPetListing(
             dto.PetId,
-            dto.MedicalRecordId,
+            medicalRecord.Id,
             dto.ShelterId,
             dto.IntakeDate,
             dto.AdoptionFee
