@@ -21,24 +21,15 @@ public class ShelterPetListingController : ControllerBase
 
     [HttpGet]
     public async Task<ActionResult<IEnumerable<ShelterPetListing>>> GetAllListings(
-        [FromQuery(Name = "pet-type")] string? petType,
-        [FromQuery(Name = "pet-size")] string? petSize,
-        [FromQuery(Name = "pet-gender")] string? petGender,
+        [FromQuery(Name = "pet-type")] Guid? petTypeId,
+        [FromQuery(Name = "pet-size")] Guid? petSizeId,
+        [FromQuery(Name = "pet-gender")] Guid? petGenderId,
         [FromQuery(Name = "search")] string? search
         )
     {
-        var listings = _listingService.FilterShelterPetListing(petSize, petType, petGender, search);
-
-        if (listings == null)
-        {
-            return BadRequest();
-        }
+        var listings = _listingService.FilterShelterPetListing(petSizeId, petTypeId, petGenderId, search);
 
         return Ok(listings);
-
-
-
-
     }
 
     [HttpGet("shelter/{id:guid}")]

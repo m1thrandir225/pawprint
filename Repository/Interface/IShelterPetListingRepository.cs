@@ -6,4 +6,6 @@ public interface IShelterPetListingRepository : ICrudRepository<ShelterPetListin
 {
     public List<ShelterPetListing> GetListingByShelter(Guid shelterId);
 
+    public List<ShelterPetListing> FilterListings(Guid? petTypeId, Guid? petSizeId, Guid? petGenderId, string? search);
+
 }
