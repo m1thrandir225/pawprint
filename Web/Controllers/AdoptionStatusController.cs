@@ -1,4 +1,7 @@
-﻿namespace Web.Controllers;
+﻿using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
+
+namespace Web.Controllers;
 
 using Domain;
 using Microsoft.AspNetCore.Mvc;
@@ -42,6 +45,7 @@ public class AdoptionStatusController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     public async Task<ActionResult<AdoptionStatus>> CreateAdoptionStatus([FromBody] CreateAdoptionStatusRequest request)
     {
         var adoptionStatus = await _adoptionStatusService.CreateAsync(request);
@@ -49,6 +53,7 @@ public class AdoptionStatusController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     [Route("{id}")]
     public async Task<ActionResult<AdoptionStatus>> UpdateAdoptionStatus([FromBody] UpdateAdoptionStatusRequest request)
     {
@@ -62,6 +67,7 @@ public class AdoptionStatusController : ControllerBase
     }
 
     [HttpDelete]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     [Route("{id}")]
     public async Task<ActionResult<bool>> DeleteAdoptionStatus([FromRoute] Guid id)
     {

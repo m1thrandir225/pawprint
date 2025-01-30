@@ -2,11 +2,14 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers;
 
 [Route("api/listing-documents")]
 [ApiController]
+[Authorize(Roles = $"{UserRole.Admin}")]
 public class OwnerPetListingDocumentController : ControllerBase
 {
     private readonly IOwnerPetListingDocumentService _documentService;
@@ -38,10 +41,12 @@ public class OwnerPetListingDocumentController : ControllerBase
         {
             return NotFound();
         }
+
         return Ok(document);
     }
 
     [HttpPost]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
     public async Task<ActionResult<OwnerPetListingDocument>> CreateDocument(
         [FromBody] CreateOwnerPetListingDocumentRequest request)
     {
@@ -50,6 +55,7 @@ public class OwnerPetListingDocumentController : ControllerBase
     }
 
     [HttpPut]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
     [Route("{id}")]
     public async Task<ActionResult<OwnerPetListingDocument>> UpdateDocument(
         [FromBody] UpdateOwnerPetListingDocumentRequest request)
@@ -59,10 +65,12 @@ public class OwnerPetListingDocumentController : ControllerBase
         {
             return BadRequest();
         }
+
         return Ok(updated);
     }
 
     [HttpDelete]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
     [Route("{id}")]
     public async Task<ActionResult<OwnerPetListingDocument>> DeleteDocument([FromRoute] Guid id)
     {
@@ -72,6 +80,7 @@ public class OwnerPetListingDocumentController : ControllerBase
         {
             return BadRequest();
         }
+
         return Ok(deleted);
     }
 }

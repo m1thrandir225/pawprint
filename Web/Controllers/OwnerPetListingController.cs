@@ -2,6 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers;
 
@@ -24,6 +26,7 @@ public class OwnerPetListingController : ControllerBase
         {
             return BadRequest();
         }
+
         return Ok(ownerPetListings);
     }
 
@@ -43,29 +46,36 @@ public class OwnerPetListingController : ControllerBase
         {
             return NotFound();
         }
+
         return Ok(ownerPetListing);
     }
 
     [HttpPost]
-    public async Task<ActionResult<OwnerPetListing>> CreateOwnerPetListing([FromBody] CreateOwnerPetListingRequest request)
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
+    public async Task<ActionResult<OwnerPetListing>> CreateOwnerPetListing(
+        [FromBody] CreateOwnerPetListingRequest request)
     {
         var ownerPetListing = await _ownerPetListingService.CreateAsync(request);
         return Ok(ownerPetListing);
     }
 
     [HttpPut]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
     [Route("{id:guid}")]
-    public async Task<ActionResult<OwnerPetListing>> UpdateOwnerPetListing([FromBody] UpdateOwnerPetListingRequest request)
+    public async Task<ActionResult<OwnerPetListing>> UpdateOwnerPetListing(
+        [FromBody] UpdateOwnerPetListingRequest request)
     {
         var updated = await _ownerPetListingService.UpdateAsync(request.Id, request);
         if (updated == null)
         {
             return BadRequest();
         }
+
         return Ok(updated);
     }
 
     [HttpDelete]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
     [Route("{id:guid}")]
     public async Task<ActionResult<OwnerPetListing>> DeleteOwnerPetListing([FromRoute] Guid id)
     {
@@ -75,6 +85,7 @@ public class OwnerPetListingController : ControllerBase
         {
             return BadRequest();
         }
+
         return Ok(deleted);
     }
 }

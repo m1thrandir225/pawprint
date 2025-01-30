@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
@@ -44,6 +46,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         public async Task<ActionResult<HealthStatus>> CreateHealthStatus([FromBody] CreateHealthStatusRequest request)
         {
             var healthStatus = await _healthStatusService.CreateAsync(request);
@@ -52,6 +55,7 @@ namespace Web.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id:guid}")]
         public async Task<ActionResult<HealthStatus>> UpdateHealthStatus([FromBody] UpdateHealthStatusRequest request, [FromRoute] Guid id)
         {
@@ -65,6 +69,7 @@ namespace Web.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id:guid}")]
         public async Task<ActionResult<HealthStatus>> DeleteHealthStatus([FromRoute] Guid id)
         {
