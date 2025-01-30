@@ -12,7 +12,6 @@ namespace Web.Controllers
 {
     [Route("api/pet-types")]
     [ApiController]
-    [Authorize(Roles = $"{UserRole.Admin}")]
     public class PetTypeController : ControllerBase
     {
         private readonly IPetTypeService _petTypeService;
@@ -36,6 +35,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{UserRole.Admin}")]
         public async Task<ActionResult<PetType>> CreatePetType([FromBody] CreatePetTypeRequest request)
         {
             var petType = await _petTypeService.CreateAsync(request);
@@ -44,7 +44,7 @@ namespace Web.Controllers
         }
 
         [HttpGet("/{id:guid}")]
-         public async Task<ActionResult<PetType>> GetPetType([FromRoute] Guid id)
+        public async Task<ActionResult<PetType>> GetPetType([FromRoute] Guid id)
         {
             var petType = await _petTypeService.GetByIdAsync(id);
 
@@ -52,22 +52,25 @@ namespace Web.Controllers
             {
                 return NotFound();
             }
+
             return Ok(petType);
         }
 
 
+        [Authorize(Roles = $"{UserRole.Admin}")]
         [HttpPut("{id:guid}")]
         public async Task<ActionResult<PetType>> UpdatePetType([FromBody] UpdatePetTypeRequest request)
         {
-            var updated = await _petTypeService.UpdateAsync(request.Id ,request);
+            var updated = await _petTypeService.UpdateAsync(request.Id, request);
             if (updated == null)
             {
                 return BadRequest();
             }
-            return Ok(updated);
 
+            return Ok(updated);
         }
 
+        [Authorize(Roles = $"{UserRole.Admin}")]
         [HttpDelete("{id:guid}")]
         public async Task<ActionResult<PetType>> DeletePetType([FromRoute] Guid id)
         {
@@ -77,8 +80,8 @@ namespace Web.Controllers
             {
                 return BadRequest();
             }
+
             return Ok(deleted);
         }
-
     }
 }

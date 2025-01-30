@@ -14,7 +14,6 @@ namespace Web.Controllers
 {
     [Route("api/pets")]
     [ApiController]
-    [Authorize(Roles = $"{UserRole.Admin},{UserRole.User},{UserRole.Shelter}")]
     public class PetController : ControllerBase
     {
         private readonly IPetService _petService;
@@ -53,6 +52,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         public async Task<ActionResult<Pet>> CreatePet([FromForm] CreatePetRequest request, [FromForm] IFormFile avatar,
             [FromForm] List<IFormFile>? images)
         {
@@ -86,6 +86,7 @@ namespace Web.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id:guid}")]
         public async Task<ActionResult<Pet>> UpdatePet([FromForm] UpdatePetRequest request, [FromRoute] Guid id,
             [FromForm] IFormFile? avatar,
@@ -150,6 +151,7 @@ namespace Web.Controllers
 
 
         [HttpDelete]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id:guid}")]
         public async Task<ActionResult<Pet>> DeletePet([FromRoute] Guid id)
         {

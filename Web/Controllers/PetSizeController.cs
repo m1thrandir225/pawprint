@@ -46,6 +46,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{UserRole.Admin}")]
         public async Task<ActionResult<PetSize>> CreatePetSize([FromBody] CreatePetSizeRequest request)
         {
             var petSize = await _petSizeService.CreateAsync(request);
@@ -54,6 +55,7 @@ namespace Web.Controllers
         }
 
         [HttpPut("{id:guid}")]
+        [Authorize(Roles = $"{UserRole.Admin}")]
         public async Task<ActionResult<PetSize>> UpdatePetSize([FromBody] UpdatePetSizeRequest request, [FromRoute] Guid id)
         {
             var updated = await _petSizeService.UpdateAsync(id ,request);
@@ -66,6 +68,7 @@ namespace Web.Controllers
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = $"{UserRole.Admin}")]
         public async Task<ActionResult<PetSize>> DeletePetSize([FromRoute] Guid id)
         {
             var deleted = await _petSizeService.DeleteAsync(id);

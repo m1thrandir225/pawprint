@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
@@ -40,11 +42,14 @@ namespace Web.Controllers
             {
                 return NotFound();
             }
+
             return Ok(medicalRecord);
         }
 
         [HttpPost]
-        public async Task<ActionResult<MedicalRecord>> CreateMedicalRecord([FromBody] CreateMedicalRecordRequest request)
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
+        public async Task<ActionResult<MedicalRecord>> CreateMedicalRecord(
+            [FromBody] CreateMedicalRecordRequest request)
         {
             var medicalRecord = await _medicalRecordService.CreateAsync(request);
 
@@ -52,18 +57,22 @@ namespace Web.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id}")]
-        public async Task<ActionResult<MedicalRecord>> UpdateMedicalRecord([FromBody] UpdateMedicalRecordRequest request)
+        public async Task<ActionResult<MedicalRecord>> UpdateMedicalRecord(
+            [FromBody] UpdateMedicalRecordRequest request)
         {
             var updated = await _medicalRecordService.UpdateAsync(request.Id, request);
             if (updated == null)
             {
                 return BadRequest();
             }
+
             return Ok(updated);
         }
 
         [HttpDelete]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id}")]
         public async Task<ActionResult<MedicalRecord>> DeleteMedicalRecord([FromRoute] Guid id)
         {
@@ -73,6 +82,7 @@ namespace Web.Controllers
             {
                 return BadRequest();
             }
+
             return Ok(deleted);
         }
     }

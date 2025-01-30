@@ -11,12 +11,13 @@ namespace Service.Implementation
     {
         private readonly IUserRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public AdopterService(UserManager<ApplicationUser> userManager, IUserRepository repository) 
+        private readonly IEmailService _emailService;
+        public AdopterService(UserManager<ApplicationUser> userManager, IUserRepository repository, IEmailService emailService) 
         {
             _userManager = userManager;
             _repository = repository;
             _userManager.KeyNormalizer = new UpperInvariantLookupNormalizer();
+            _emailService = emailService;
         }
 
         public async Task<IEnumerable<User>> GetAllAsync()
@@ -71,6 +72,19 @@ namespace Service.Implementation
             {
                 throw new Exception("Failed to add user to role");
             }
+            
+            try
+            {
+                await _emailService.SendRegistrationConfirmationAsync(
+                    adopter.Email, 
+                    UserType.Adopter
+                );
+            }
+            catch (Exception ex)
+            {
+                throw new Exception("Failed to send email.");
+            }
+
 
             return adopter;
         }

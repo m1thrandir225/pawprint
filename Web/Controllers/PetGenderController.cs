@@ -10,7 +10,6 @@ using Microsoft.AspNetCore.Authorization;
 namespace Web.Controllers
 {
     [Route("api/pet-genders")]
-    [Authorize(Roles = $"{UserRole.Admin}")]
     [ApiController]
     public class PetGenderController : ControllerBase
     {
@@ -43,10 +42,12 @@ namespace Web.Controllers
             {
                 return NotFound();
             }
+
             return Ok(petGenders);
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{UserRole.Admin}")]
         public async Task<ActionResult<PetGender>> CreatePetGender([FromBody] CreatePetGenderRequest request)
         {
             var petGender = await _petGenderService.CreateAsync(request);
@@ -55,18 +56,21 @@ namespace Web.Controllers
         }
 
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<PetGender>> UpdatePetGender([FromBody] UpdatePetGenderRequest request, [FromRoute] Guid id)
+        [Authorize(Roles = $"{UserRole.Admin}")]
+        public async Task<ActionResult<PetGender>> UpdatePetGender([FromBody] UpdatePetGenderRequest request,
+            [FromRoute] Guid id)
         {
-            var updated = await _petGenderService.UpdateAsync(id ,request);
+            var updated = await _petGenderService.UpdateAsync(id, request);
             if (updated == null)
             {
                 return BadRequest();
             }
-            return Ok(updated);
 
+            return Ok(updated);
         }
 
         [HttpDelete("{id:guid}")]
+        [Authorize(Roles = $"{UserRole.Admin}")]
         public async Task<ActionResult<PetGender>> DeletePetGender([FromRoute] Guid id)
         {
             var deleted = await _petGenderService.DeleteAsync(id);
@@ -75,8 +79,8 @@ namespace Web.Controllers
             {
                 return BadRequest();
             }
+
             return Ok(deleted);
         }
-
     }
 }

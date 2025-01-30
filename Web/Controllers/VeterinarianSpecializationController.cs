@@ -3,6 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
@@ -43,6 +45,7 @@ namespace Web.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         public async Task<ActionResult<VeterinarianSpecilization>> CreateSpecialization([FromBody] CreateVeterinarianSpecializationRequest request)
         {
             var specialization = await _specializationService.CreateAsync(request);
@@ -51,6 +54,7 @@ namespace Web.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id}")]
         public async Task<ActionResult<VeterinarianSpecilization>> UpdateSpecialization([FromBody] UpdateVeterinarianSpecializationRequest request)
         {
@@ -63,6 +67,7 @@ namespace Web.Controllers
         }
 
         [HttpDelete]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id}")]
         public async Task<ActionResult<bool>> DeleteSpecialization([FromRoute] Guid id)
         {

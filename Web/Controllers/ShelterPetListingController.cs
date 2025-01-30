@@ -3,6 +3,7 @@ using Domain.enums;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers;
@@ -40,7 +41,6 @@ public class ShelterPetListingController : ControllerBase
 
     }
 
-    //shelter-listings/shelter/{shelter-id}
     [HttpGet("shelter/{id:guid}")]
     public List<ShelterPetListing> GetListingsByShelter([FromRoute] Guid id)
     {
@@ -60,6 +60,7 @@ public class ShelterPetListingController : ControllerBase
     }
 
     [HttpPost]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     public async Task<ActionResult<ShelterPetListing>> CreateListing(
         [FromBody] CreateShelterPetListingRequest request)
     {
@@ -68,6 +69,7 @@ public class ShelterPetListingController : ControllerBase
     }
 
     [HttpPut("{id:guid}")] 
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     public async Task<ActionResult<ShelterPetListing>> UpdateListing(
         [FromBody] UpdateShelterPetListingRequest request)
     {
@@ -80,6 +82,7 @@ public class ShelterPetListingController : ControllerBase
     }
 
     [HttpPatch("{id:guid}/approval-status")]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     public async Task<ActionResult<ShelterPetListing>> UpdateApprovalStatus(
         [FromRoute] Guid id, 
         [FromBody] ApprovalStatus status)
@@ -93,6 +96,7 @@ public class ShelterPetListingController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     public async Task<ActionResult<bool>> DeleteListing([FromRoute] Guid id)
     {
         var deleted = await _listingService.DeleteAsync(id);

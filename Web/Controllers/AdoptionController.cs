@@ -4,6 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.Identity;
+using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers
 {
@@ -46,10 +48,12 @@ namespace Web.Controllers
             {
                 return NotFound();
             }
+
             return Ok(adoption);
         }
 
         [HttpPost]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
         public async Task<ActionResult<Adoption>> CreateAdoption([FromBody] CreateAdoptionRequest request)
         {
             var adoption = await _adoptionService.CreateAsync(request);
@@ -58,19 +62,22 @@ namespace Web.Controllers
         }
 
         [HttpPut]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
         [Route("{id:guid}")]
-        public async Task<ActionResult<Adoption>> UpdateAdoption([FromBody] UpdateAdoptionRequest request, [FromRoute] Guid id)
+        public async Task<ActionResult<Adoption>> UpdateAdoption([FromBody] UpdateAdoptionRequest request,
+            [FromRoute] Guid id)
         {
-            var updated = await _adoptionService.UpdateAsync(id ,request);
+            var updated = await _adoptionService.UpdateAsync(id, request);
             if (updated == null)
             {
                 return BadRequest();
             }
-            return Ok(updated);
 
+            return Ok(updated);
         }
 
         [HttpDelete]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
         [Route("{id:guid}")]
         public async Task<ActionResult<Adoption>> DeleteAdoption([FromRoute] Guid id)
         {
@@ -80,8 +87,8 @@ namespace Web.Controllers
             {
                 return BadRequest();
             }
+
             return Ok(deleted);
         }
-
     }
 }
