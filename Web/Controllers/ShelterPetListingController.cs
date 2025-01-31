@@ -13,10 +13,12 @@ namespace Web.Controllers;
 public class ShelterPetListingController : ControllerBase
 {
     private readonly IShelterPetListingService _listingService;
+    private readonly IEmailService _emailService;
 
-    public ShelterPetListingController(IShelterPetListingService listingService)
+    public ShelterPetListingController(IShelterPetListingService listingService, IEmailService emailService)
     {
         _listingService = listingService;
+        _emailService = emailService;
     }
 
     [HttpGet]
@@ -56,6 +58,23 @@ public class ShelterPetListingController : ControllerBase
         [FromBody] CreateShelterPetListingRequest request)
     {
         var listing = await _listingService.CreateAsync(request);
+        if (listing == null)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        var emailSent = await _emailService.SendPetListingAdoptionNotificationAsync(
+            listing.Shelter.Email,
+            PetListingType.ShelterPetListing,
+            listing
+        );
+
+        if (!emailSent)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+
         return Ok(listing);
     }
 

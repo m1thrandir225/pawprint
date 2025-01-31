@@ -15,37 +15,35 @@ using Web.Config;
 using Web.Services;
 using Web.Services.Interfaces;
 using Web.Extensions;
-using Microsoft.AspNetCore.Authorization;
-using Microsoft.Extensions.Configuration;
+
 
 var builder = WebApplication.CreateBuilder(args);
 
 DotNetEnv.Env.Load();
 
 var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_URL");
+var smtpHost = Environment.GetEnvironmentVariable("SMTP_HOST");
+var smtpPort = Environment.GetEnvironmentVariable("SMTP_PORT");
+var smtpUser = Environment.GetEnvironmentVariable("SMTP_USERNAME");
+var smtpPassword = Environment.GetEnvironmentVariable("SMTP_PASSWORD");
+var smtpSenderName = Environment.GetEnvironmentVariable("SMTP_SENDER_NAME");
+var smtpSenderEmail = Environment.GetEnvironmentVariable("SMTP_SENDER_EMAIL");
+
+
+if (string.IsNullOrWhiteSpace(connectionString) || string.IsNullOrWhiteSpace(smtpHost) ||
+    string.IsNullOrWhiteSpace(smtpPort) || string.IsNullOrWhiteSpace(smtpUser) ||
+    string.IsNullOrWhiteSpace(smtpPassword) || string.IsNullOrWhiteSpace(smtpSenderEmail) || string.IsNullOrWhiteSpace(smtpSenderName))
+{
+    throw new Exception("Invalid configuration, please check your environment variables. (.env)");
+}
 
 
 // Configure EmailSettings
-var emailSettings = new EmailSettings
-{
-    Password = Environment.GetEnvironmentVariable("SMTP_PASS"),
-    Port = int.TryParse(Environment.GetEnvironmentVariable("SMTP_PORT"), out var port) ? port : 25,
-    SenderEmail = "pawprint@sebastijanzindl.me",
-    SmtpServer = Environment.GetEnvironmentVariable("SMTP_SERVER"),
-    Username = Environment.GetEnvironmentVariable("SMTP_USER"),
-};
-builder.Services.AddSingleton(emailSettings);
-
-
+builder.Services.AddTransient<EmailSettings>();
 // Register email services
-builder.Services.AddScoped<IEmailTemplateService, EmailTemplateService>();
-builder.Services.AddScoped<IEmailService, SmtpEmailService>();
-
-
+builder.Services.AddSingleton<IEmailTemplateService, EmailTemplateService>();
+builder.Services.AddSingleton<IEmailService, EmailService>();
 builder.Configuration.AddEnvironmentVariables();
-// Add services to the container.
-// If you need views use this one
-builder.Services.AddControllers();
 
 builder.Services.AddDbContext<ApplicationDbContext>(options =>
     options.UseLazyLoadingProxies().
@@ -54,14 +52,13 @@ builder.Services.AddDbContext<ApplicationDbContext>(options =>
 
 builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen(); // Add this here
+builder.Services.AddSwaggerGen();
 
 
 builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
     {
-        // Disable username requirements (will still exist but won't be validated)
         options.User.AllowedUserNameCharacters = null;
-        options.User.RequireUniqueEmail = true;  // Use email as primary identifier instead
+        options.User.RequireUniqueEmail = true;
 
         options.Password.RequireDigit = true;
         options.Password.RequiredLength = 8;
@@ -87,8 +84,6 @@ builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
 
         // Disable account confirmation
         options.SignIn.RequireConfirmedAccount = false;
-
-
 
     })
     .AddEntityFrameworkStores<ApplicationDbContext>()

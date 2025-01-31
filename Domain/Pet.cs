@@ -1,5 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Domain;
 
@@ -83,7 +84,9 @@ public class Pet : BaseEntity
 
     //public virtual ICollection<OwnerPetListing> OwnerPetListings { get; set; } = new List<OwnerPetListing>();
     //public virtual ICollection<ShelterPetListing> ShelterPetListings { get; set; } = new List<ShelterPetListing>();
-    //public virtual ICollection<Adoption> Adoptions { get; set; } = new List<Adoption>();
+
+    [JsonIgnore]
+    public virtual ICollection<Adoption> Adoptions { get; set; } = new List<Adoption>();
 
     public Pet()
     {

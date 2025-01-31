@@ -5,5 +5,7 @@ using Domain.DTOs;
 
 public interface IOwnerPetListingService : ICRUDService<OwnerPetListing, CreateOwnerPetListingRequest, UpdateOwnerPetListingRequest>
 {
-    public List<OwnerPetListing> GetListingsByOwner(Guid ownerId);
+    public List<OwnerPetListing> FilterListingsByOwner(Guid ownerId);
+
+    List<OwnerPetListing> FilterShelterPetListing(Guid? petSizeId, Guid? petTypeId, Guid? petGenderId, string search);
 }

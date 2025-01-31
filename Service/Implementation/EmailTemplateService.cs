@@ -5,6 +5,10 @@ namespace Service.Implementation;
 
 public class EmailTemplateService : IEmailTemplateService
 {
+    public EmailTemplateService()
+    {
+
+    }
     public string GenerateEmailTemplate(EmailTemplateType templateType, Dictionary<string, string> templateData)
     {
         return templateType switch

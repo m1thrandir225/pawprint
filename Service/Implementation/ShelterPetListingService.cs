@@ -41,18 +41,6 @@ public class ShelterPetListingService : IShelterPetListingService
         );
 
         var createdListing = _repository.Insert(listing);
-        try
-        {
-            await _emailService.SendPetListingAdoptionNotificationAsync(
-                listing.Shelter.Email, 
-                PetListingType.ShelterPetListing,
-                listing
-            );
-        }
-        catch (Exception e)
-        {
-            throw new Exception("Failed to send email.");
-        }
 
         return createdListing;
     }
