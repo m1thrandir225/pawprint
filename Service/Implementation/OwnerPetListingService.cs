@@ -8,10 +8,12 @@ using Service.Interface;
 public class OwnerPetListingService : IOwnerPetListingService
 {
     private readonly IOwnerPetListingRepository _repository;
+    private readonly IEmailService _emailService;
 
-    public OwnerPetListingService(IOwnerPetListingRepository repository)
+    public OwnerPetListingService(IOwnerPetListingRepository repository, IEmailService emailService)
     {
         _repository = repository;
+        _emailService = emailService;
     }
 
     public async Task<IEnumerable<OwnerPetListing>> GetAllAsync()
@@ -26,9 +28,13 @@ public class OwnerPetListingService : IOwnerPetListingService
 
     public async Task<OwnerPetListing> CreateAsync(CreateOwnerPetListingRequest dto)
     {
-        var ownerPetListing = new OwnerPetListing(dto.AdopterId, dto.PetId, dto.SurrenderReasonId);
-        return _repository.Insert(ownerPetListing);
+        var ownerPetListing = new OwnerPetListing(dto.AdopterId, dto.PetId, dto.SurrenderReasonId, dto.AdoptionFee);
+        var createdListing = _repository.Insert(ownerPetListing);
+
+        return createdListing;
     }
+
+    
 
     public async Task<OwnerPetListing> UpdateAsync(Guid id, UpdateOwnerPetListingRequest dto)
     {
@@ -41,7 +47,7 @@ public class OwnerPetListingService : IOwnerPetListingService
         ownerPetListing.AdopterId = dto.AdopterId;
         ownerPetListing.PetId = dto.PetId;
         ownerPetListing.SurrenderReasonId = dto.SurrenderReasonId;
-        ownerPetListing.Approved = dto.Approved;
+        ownerPetListing.AdoptionFee = dto.AdoptionFee;
 
         return _repository.Update(ownerPetListing);
     }
@@ -52,5 +58,15 @@ public class OwnerPetListingService : IOwnerPetListingService
         if (ownerPetListing == null) return Task.FromResult(false);
         _repository.Delete(ownerPetListing);
         return Task.FromResult(true);
+    }
+
+    public List<OwnerPetListing> FilterListingsByOwner(Guid ownerId)
+    {
+        return _repository.FilterListingsByOwner(ownerId);
+    }
+
+    public List<OwnerPetListing> FilterShelterPetListing(Guid? petSizeId, Guid? petTypeId, Guid? petGenderId, string search)
+    {
+        return _repository.FilterListings(petTypeId, petSizeId, petGenderId, search);
     }
 }

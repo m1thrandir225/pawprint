@@ -20,6 +20,11 @@ public class AdoptionService : IAdoptionService
         return _repository.GetAll();
     }
 
+    public List<Adoption> GetAdoptionsForPet(Guid id)
+    {
+        return _repository.GetAdoptionsForPet(id);
+    }
+
     public async Task<Adoption> GetByIdAsync(Guid id)
     {
         return _repository.Get(id);
@@ -31,9 +36,7 @@ public class AdoptionService : IAdoptionService
             dto.PetId,
             dto.AdopterId,
             dto.AdoptionDate,
-            dto.AdoptionFee,
             dto.FollowUpDate,
-            dto.IsSuccessful,
             dto.CounselorNotes);
 
         return _repository.Insert(adoption);
@@ -51,10 +54,9 @@ public class AdoptionService : IAdoptionService
         adoption.PetId = dto.PetId;
         adoption.AdopterId = dto.AdopterId;
         adoption.AdoptionDate = dto.AdoptionDate;
-        adoption.AdoptionFee = dto.AdoptionFee;
         adoption.FollowUpDate = dto.FollowUpDate;
-        adoption.IsSuccessful = dto.IsSuccessful;
         adoption.CounselorNotes = dto.CounselorNotes;
+        adoption.Approved = dto.Approved;
         
         return _repository.Update(adoption);
     }

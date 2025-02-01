@@ -10,14 +10,14 @@ public class UpdateOwnerPetListingRequest
     public Guid SurrenderReasonId { get; set; }
     public DateTime ReviewDate { get; set; }
     public DateTime SubmissionDate { get; set; }
-    public ApprovalStatus Approved { get; set; } = ApprovalStatus.PENDING;
-    
-    public UpdateOwnerPetListingRequest(Guid id, Guid adopterId, Guid petId, Guid surrenderReasonId, ApprovalStatus approved = ApprovalStatus.PENDING)
+
+    public float AdoptionFee { get; set; }
+    public UpdateOwnerPetListingRequest(Guid id, Guid adopterId, Guid petId, Guid surrenderReasonId, float adoptionFee)
     {
         Id = id;
         AdopterId = adopterId;
         PetId = petId;
         SurrenderReasonId = surrenderReasonId;
-        Approved = ApprovalStatus.PENDING;
+        AdoptionFee = adoptionFee;
     }
 }

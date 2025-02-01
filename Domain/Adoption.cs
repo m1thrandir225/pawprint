@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using Domain.enums;
 
 namespace Domain;
 
@@ -21,9 +22,7 @@ public class Adoption : BaseEntity
     [Column("adoption_date", TypeName = "DATE")]
     public DateTime AdoptionDate { get; set; }
 
-    [Required]
-    [Column("adoption_fee", TypeName = "DECIMAL")]
-    public decimal AdoptionFee { get; set; }
+    
 
     [Column("follow_up_date", TypeName = "DATE")]
     public DateTime? FollowUpDate { get; set; }
@@ -33,26 +32,26 @@ public class Adoption : BaseEntity
     public string CounselorNotes { get; set; }
 
     [Required]
-    [Column("is_successful", TypeName = "BOOLEAN")]
-    public bool IsSuccessful { get; set; }
+    [Column("approved", TypeName = "INTEGER")]
+    public virtual ApprovalStatus Approved { get; set; } = ApprovalStatus.PENDING;
+
 
     [Required]
     [Column("created_at", TypeName = "TIMESTAMPTZ")]
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     public Adoption()
     {
     }
 
-    public Adoption(Guid petId, Guid adopterId, DateTime adoptionDate, decimal adoptionFee,
-        DateTime? followUpDate,  bool isSuccessful, string counselorNotes= null)
+    public Adoption(Guid petId, Guid adopterId, DateTime adoptionDate,
+        DateTime? followUpDate, string counselorNotes= null)
     {
         PetId = petId;
         AdopterId = adopterId;
         AdoptionDate = adoptionDate;
-        AdoptionFee = adoptionFee;
         FollowUpDate = followUpDate;
         CounselorNotes = counselorNotes;
-        IsSuccessful = isSuccessful;
+        Approved = ApprovalStatus.PENDING;
     }
 }

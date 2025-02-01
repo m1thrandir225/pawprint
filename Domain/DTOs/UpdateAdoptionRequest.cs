@@ -1,3 +1,5 @@
+using Domain.enums;
+
 namespace Domain.DTOs;
 
 public class UpdateAdoptionRequest
@@ -9,5 +11,8 @@ public class UpdateAdoptionRequest
     public DateTime? FollowUpDate { get; set; }
     public string CounselorNotes { get; set; }
     public bool IsSuccessful { get; set; }
+    
+    public ApprovalStatus Approved { get; set; }
+    
     public DateTime? CreatedAt { get; set; }
 }

@@ -11,12 +11,14 @@ namespace Service.Implementation
     {
         private readonly IShelterRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
+        private readonly IEmailService _emailService;
 
-        public ShelterService(UserManager<ApplicationUser> userManager, IShelterRepository repository)
+        public ShelterService(UserManager<ApplicationUser> userManager, IShelterRepository repository, IEmailService emailService)
         {
             _userManager = userManager;
             _repository = repository;
             _userManager.KeyNormalizer = new UpperInvariantLookupNormalizer();
+            _emailService = emailService;
         }
 
          public async Task<IEnumerable<Shelter>> GetAllAsync()

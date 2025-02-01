@@ -28,20 +28,20 @@ public class ShelterPetListing : BaseEntity
     public DateOnly? IntakeDate { get; set; }
 
     [Required]
-    [Column("approved", TypeName = "INTEGER")]
-    public virtual ApprovalStatus Approved { get; set; } = ApprovalStatus.PENDING;
-    
+    [Column("adoption_fee", TypeName = "DECIMAL")]
+    public float AdoptionFee { get; set; }
+ 
     public ShelterPetListing()
     {
     }
     
-    public ShelterPetListing(Guid petId, Guid medicalRecordId, Guid shelterId, DateOnly? intakeDate)
+    public ShelterPetListing(Guid petId, Guid medicalRecordId, Guid shelterId, DateOnly? intakeDate, float adoptionFee=0)
     {
         Id = Guid.NewGuid();
         PetId = petId;
         MedicalRecordId = medicalRecordId;
         ShelterId = shelterId;
         IntakeDate = intakeDate;
-        Approved = ApprovalStatus.PENDING;
+        AdoptionFee = adoptionFee;
     }
 }

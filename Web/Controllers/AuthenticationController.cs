@@ -16,18 +16,22 @@ namespace Web.Controllers {
         private readonly AuthenticationService _authenticationService;
         private readonly IShelterService _shelterService;
         private readonly JWTService _jwtService;
+        private readonly IEmailService _emailService;
+
 
         public AuthenticationController(
             IAdopterService adopterService, 
             IShelterService shelterService,
             AuthenticationService authenticationService,
-            JWTService jwtService
+            JWTService jwtService,
+            IEmailService emailService
         )
         {
             _authenticationService = authenticationService;
             _adopterService = adopterService;
             _shelterService = shelterService;
             _jwtService = jwtService;
+            _emailService = emailService;
         }
 
         [HttpPost("login")]
@@ -43,11 +47,14 @@ namespace Web.Controllers {
                     LoginShelterResponse response = new LoginShelterResponse();
                     var shelter = await _shelterService.GetByIdAsync(user.Id);
                     var details = new ShelterDTO {
+                        Id = shelter.Id,
                         Address = user.Address,
                         Email = user.Email,
                         Name = shelter.Name,
                         PhoneNumber = shelter.PhoneNumber,
                         Website = shelter.Website,
+                        Capacity = shelter.Capacity,
+                        isNoKill = shelter.isNoKill,
                     };
                     response.Shelter = details;
                     response.AccessToken = accessToken;
@@ -63,6 +70,7 @@ namespace Web.Controllers {
                     var adopter = await _adopterService.GetByIdAsync(user.Id);
                     
                     var details = new UserDTO {
+                        Id = user.Id,
                         Address = user.Address,
                         Email = user.Email,
                         FirstName = adopter.FirstName,
@@ -70,6 +78,7 @@ namespace Web.Controllers {
                         HasChildren = adopter.HasChildren,
                         HasOtherPets = adopter.HasOtherPets,
                         HomeType = adopter.HomeType,
+
                     };
                     
                     response.User = details;
@@ -107,20 +116,30 @@ namespace Web.Controllers {
         [HttpPost("register/adopter")]
         public async Task<ActionResult<UserDTO>> RegisterAdopter([FromBody] CreateAdopterRequest request)
         {
-            try {
-            var adopter = await _adopterService.CreateAsync(request);
-            var response = new UserDTO {
-                Address = adopter.Address,
-                Email = adopter.Email,
-                FirstName = adopter.FirstName,
-                LastName = adopter.LastName,
-                HasChildren = adopter.HasChildren,
-                HasOtherPets = adopter.HasOtherPets,
-                HomeType = adopter.HomeType,
-            };
-            return Ok(response);
+            try
+            {
+                var adopter = await _adopterService.CreateAsync(request);
+                var response = new UserDTO {
+                    Id = adopter.Id,
+                    Address = adopter.Address,
+                    Email = adopter.Email,
+                    FirstName = adopter.FirstName,
+                    LastName = adopter.LastName,
+                    HasChildren = adopter.HasChildren,
+                    HasOtherPets = adopter.HasOtherPets,
+                    HomeType = adopter.HomeType,
 
-            } catch (Exception e) 
+                };
+                var emailSent = await _emailService.SendRegistrationConfirmationAsync(adopter.Email, UserType.Adopter);
+                if (!emailSent)
+                {
+                    throw new Exception("Email could not be sent");
+                }
+
+                return Ok(response);
+
+            }
+            catch (Exception e)
             {
                 return BadRequest(new ErrorResponse {
                     Message = e.Message
@@ -135,6 +154,7 @@ namespace Web.Controllers {
                 var shelter = await _shelterService.CreateAsync(request);
 
                 var response = new ShelterDTO {
+                    Id = shelter.Id,
                     Address = shelter.Address,
                     Email = shelter.Email,
                     Name = shelter.Name,
@@ -142,7 +162,16 @@ namespace Web.Controllers {
                     Website = shelter.Website,
                     Capacity = shelter.Capacity,
                     isNoKill = shelter.isNoKill,
+
                 };
+
+                var emailSent = await _emailService.SendRegistrationConfirmationAsync(shelter.Email, UserType.Shelter);
+                if (!emailSent)
+                {
+                    throw new Exception("Email could not be sent");
+                }
+
+                return Ok(response);
 
                 return Ok(response);
             } catch (Exception e) {

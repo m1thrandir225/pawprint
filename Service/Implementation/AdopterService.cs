@@ -11,12 +11,13 @@ namespace Service.Implementation
     {
         private readonly IUserRepository _repository;
         private readonly UserManager<ApplicationUser> _userManager;
-
-        public AdopterService(UserManager<ApplicationUser> userManager, IUserRepository repository) 
+        private readonly IEmailService _emailService;
+        public AdopterService(UserManager<ApplicationUser> userManager, IUserRepository repository, IEmailService emailService) 
         {
             _userManager = userManager;
             _repository = repository;
             _userManager.KeyNormalizer = new UpperInvariantLookupNormalizer();
+            _emailService = emailService;
         }
 
         public async Task<IEnumerable<User>> GetAllAsync()
