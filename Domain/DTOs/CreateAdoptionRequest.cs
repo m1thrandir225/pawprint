@@ -10,5 +10,5 @@ public class CreateAdoptionRequest
     public DateTime? FollowUpDate { get; set; }
     public string CounselorNotes { get; set; }
 
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 }

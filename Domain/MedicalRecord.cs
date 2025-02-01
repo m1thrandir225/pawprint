@@ -23,7 +23,7 @@ public class MedicalRecord : BaseEntity
 
     [Required]
     [Column("created_at", TypeName = "TIMESTAMPTZ")]
-    public DateTime CreatedAt { get; set; } = DateTime.Now;
+    public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
     [Required]
     public virtual Veterinarian Veterinarian { get; set; }
@@ -44,7 +44,7 @@ public class MedicalRecord : BaseEntity
         SpayNeuterStatus = spayNeuterStatus;
         LastMedicalCheckup = lastMedicalCheckup;
         MicrochipNumber = microchipNumber;
-        CreatedAt = DateTime.Now;
+        CreatedAt = DateTime.UtcNow;
         MedicalConditions = new HashSet<MedicalCondition>();
         Vaccinations = new HashSet<Vaccination>();
     }
