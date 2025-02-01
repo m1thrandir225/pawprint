@@ -1,60 +1,58 @@
 ﻿// Repository Layer: Concrete Email Service
 
-using System.Net;
-using System.Net.Mail;
 using Domain;
 using Domain.enums;
-using Microsoft.Extensions.Logging;
+using MailKit.Net.Smtp;
+using MailKit.Security;
+using MimeKit;
 using Service.Interface;
 
-public class SmtpEmailService : IEmailService
+
+public class EmailService : IEmailService
 {
     private readonly EmailSettings _emailSettings;
     private readonly IEmailTemplateService _emailTemplateService;
-    private readonly ILogger<SmtpEmailService> _logger;
 
-    public SmtpEmailService(
+    public EmailService(
         EmailSettings emailSettings, 
-        IEmailTemplateService emailTemplateService,
-        ILogger<SmtpEmailService> logger)
+        IEmailTemplateService emailTemplateService)
     {
         _emailSettings = emailSettings;
         _emailTemplateService = emailTemplateService;
-        _logger = logger;
     }
 
-    public async Task SendEmailAsync(EmailMessage emailMessage)
+    public async Task<bool> SendEmailAsync(EmailMessage emailMessage)
     {
         try
         {
-            using var client = new SmtpClient(_emailSettings.SmtpServer)
+
+            var message = new MimeMessage();
+            message.From.Add(new MailboxAddress(_emailSettings.SenderName, _emailSettings.SenderEmail));
+            message.To.Add(new MailboxAddress(emailMessage.ToEmail, emailMessage.ToEmail));
+            message.Subject = emailMessage.Subject;
+
+            var bodyBuilder = new BodyBuilder
             {
-                Port = _emailSettings.Port,
-                Credentials = new NetworkCredential(_emailSettings.Username, _emailSettings.Password),
-                EnableSsl = _emailSettings.UseSsl
+                HtmlBody = emailMessage.Body
             };
 
-            var mailMessage = new MailMessage
-            {
-                From = new MailAddress(_emailSettings.SenderEmail, _emailSettings.SenderName),
-                Subject = emailMessage.Subject,
-                Body = emailMessage.Body,
-                IsBodyHtml = true
-            };
-            
-            mailMessage.To.Add(emailMessage.ToEmail);
+            message.Body = bodyBuilder.ToMessageBody();
 
-            await client.SendMailAsync(mailMessage);
-            _logger.LogInformation($"Email sent to {emailMessage.ToEmail}");
+            using var client = new SmtpClient();
+            client.Connect(_emailSettings.Host, _emailSettings.Port, SecureSocketOptions.StartTlsWhenAvailable);
+            client.Authenticate(_emailSettings.Username, _emailSettings.Password);
+            client.Send(message);
+            client.Disconnect(true);
+
+            return true;
         }
         catch (Exception ex)
         {
-            _logger.LogError($"Email sending failed: {ex.Message}");
-            throw;
+            return false;
         }
     }
 
-    public async Task SendRegistrationConfirmationAsync(string toEmail, UserType userType)
+    public  async Task<bool> SendRegistrationConfirmationAsync(string toEmail, UserType userType)
     {
         var templateData = new Dictionary<string, string>
         {
@@ -78,10 +76,10 @@ public class SmtpEmailService : IEmailService
                 : EmailTemplateType.UserRegistration
         };
 
-        await SendEmailAsync(emailMessage);
+        return await SendEmailAsync(emailMessage);
     }
 
-    public async Task SendPetListingAdoptionNotificationAsync(string toEmail, PetListingType petListingType, object petListing)
+    public async Task<bool> SendPetListingAdoptionNotificationAsync(string toEmail, PetListingType petListingType, object petListing)
     {
         var templateData = new Dictionary<string, string>();
 
@@ -115,10 +113,10 @@ public class SmtpEmailService : IEmailService
             TemplateType = EmailTemplateType.PetListingAdoption
         };
 
-        await SendEmailAsync(emailMessage);
+        return await SendEmailAsync(emailMessage);
     }
 
-    public async Task SendAdoptionApprovalNotificationAsync(string toEmail, PetListingType petListingType, object petListing)
+    public async Task<bool> SendAdoptionApprovalNotificationAsync(string toEmail, PetListingType petListingType, object petListing)
     {
         var templateData = new Dictionary<string, string>();
 
@@ -156,7 +154,7 @@ public class SmtpEmailService : IEmailService
                 TemplateType = EmailTemplateType.AdoptionApproval
             };
 
-            await SendEmailAsync(emailMessage);
+            return await SendEmailAsync(emailMessage);
         }
     }
     

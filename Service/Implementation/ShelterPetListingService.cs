@@ -41,18 +41,6 @@ public class ShelterPetListingService : IShelterPetListingService
         );
 
         var createdListing = _repository.Insert(listing);
-        try
-        {
-            await _emailService.SendPetListingAdoptionNotificationAsync(
-                listing.Shelter.Email, 
-                PetListingType.ShelterPetListing,
-                listing
-            );
-        }
-        catch (Exception e)
-        {
-            throw new Exception("Failed to send email.");
-        }
 
         return createdListing;
     }
@@ -84,5 +72,11 @@ public class ShelterPetListingService : IShelterPetListingService
     public List<ShelterPetListing> GetListingsByShelter(Guid id)
     {
         return _repository.GetListingByShelter(id);
+    }
+
+    public List<ShelterPetListing> FilterShelterPetListing(Guid? petSizeId, Guid? petTypeId, Guid? petGenderId,
+        string? search)
+    {
+        return _repository.FilterListings(petTypeId, petSizeId, petGenderId, search);
     }
 }

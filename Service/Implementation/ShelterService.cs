@@ -74,18 +74,6 @@ namespace Service.Implementation
                 throw new Exception("Failed to add user to role");
             }
 
-            try
-            {
-                await _emailService.SendRegistrationConfirmationAsync(
-                    shelter.Email, 
-                    UserType.Shelter
-                );
-            }
-            catch (Exception ex)
-            {
-                throw new Exception("Failed to send email.");
-            }
-
             return shelter;
         }
 

@@ -30,18 +30,6 @@ public class OwnerPetListingService : IOwnerPetListingService
     {
         var ownerPetListing = new OwnerPetListing(dto.AdopterId, dto.PetId, dto.SurrenderReasonId, dto.AdoptionFee);
         var createdListing = _repository.Insert(ownerPetListing);
-        try
-        {
-            await _emailService.SendPetListingAdoptionNotificationAsync(
-                ownerPetListing.Adopter.Email,
-                PetListingType.OwnerPetListing,
-                ownerPetListing
-            );
-        }
-        catch (Exception ex)
-        {
-            throw new Exception("Failed to send email.");
-        }
 
         return createdListing;
     }
@@ -72,8 +60,13 @@ public class OwnerPetListingService : IOwnerPetListingService
         return Task.FromResult(true);
     }
 
-    public List<OwnerPetListing> GetListingsByOwner(Guid ownerId)
+    public List<OwnerPetListing> FilterListingsByOwner(Guid ownerId)
     {
-        return _repository.GetListingsByOwner(ownerId);
+        return _repository.FilterListingsByOwner(ownerId);
+    }
+
+    public List<OwnerPetListing> FilterShelterPetListing(Guid? petSizeId, Guid? petTypeId, Guid? petGenderId, string search)
+    {
+        return _repository.FilterListings(petTypeId, petSizeId, petGenderId, search);
     }
 }

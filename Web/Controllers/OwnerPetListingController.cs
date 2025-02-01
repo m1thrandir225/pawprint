@@ -12,20 +12,23 @@ namespace Web.Controllers;
 public class OwnerPetListingController : ControllerBase
 {
     private readonly IOwnerPetListingService _ownerPetListingService;
+    private readonly IEmailService _emailService;
 
-    public OwnerPetListingController(IOwnerPetListingService ownerPetListingService)
+    public OwnerPetListingController(IOwnerPetListingService ownerPetListingService, IEmailService emailService)
     {
         _ownerPetListingService = ownerPetListingService;
+        _emailService = emailService;
     }
 
     [HttpGet]
-    public async Task<ActionResult<IEnumerable<OwnerPetListing>>> GetAllOwnerPetListings()
+    public async Task<ActionResult<IEnumerable<OwnerPetListing>>> GetAllOwnerPetListings(
+        [FromQuery(Name = "pet-type")] Guid? petTypeId,
+        [FromQuery(Name = "pet-size")] Guid? petSizeId,
+        [FromQuery(Name = "pet-gender")] Guid? petGenderId,
+        [FromQuery(Name = "search")] string? search
+        )
     {
-        var ownerPetListings = await _ownerPetListingService.GetAllAsync();
-        if (ownerPetListings == null)
-        {
-            return BadRequest();
-        }
+        var ownerPetListings = _ownerPetListingService.FilterShelterPetListing(petTypeId, petSizeId, petGenderId, search);
 
         return Ok(ownerPetListings);
     }
@@ -33,7 +36,7 @@ public class OwnerPetListingController : ControllerBase
     [HttpGet("owner/{id:guid}")]
     public List<OwnerPetListing> GetListingsByOwner([FromRoute] Guid id)
     {
-        return _ownerPetListingService.GetListingsByOwner(id);
+        return _ownerPetListingService.FilterListingsByOwner(id);
     }
 
     [HttpGet]
@@ -56,6 +59,23 @@ public class OwnerPetListingController : ControllerBase
         [FromBody] CreateOwnerPetListingRequest request)
     {
         var ownerPetListing = await _ownerPetListingService.CreateAsync(request);
+
+        if (ownerPetListing == null)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
+        var emailSent = await _emailService.SendPetListingAdoptionNotificationAsync(
+            ownerPetListing.Adopter.Email,
+            PetListingType.OwnerPetListing,
+            ownerPetListing
+        );
+
+        if (!emailSent)
+        {
+            return StatusCode(StatusCodes.Status500InternalServerError);
+        }
+
         return Ok(ownerPetListing);
     }
 
