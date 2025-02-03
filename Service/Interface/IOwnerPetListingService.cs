@@ -8,4 +8,6 @@ public interface IOwnerPetListingService : ICRUDService<OwnerPetListing, CreateO
     public List<OwnerPetListing> FilterListingsByOwner(Guid ownerId);
 
     List<OwnerPetListing> FilterShelterPetListing(Guid? petSizeId, Guid? petTypeId, Guid? petGenderId, string search);
+
+    ICollection<OwnerPetListing> FilterByStatus(Guid adoptionStatusId, Guid ownerId);
 }

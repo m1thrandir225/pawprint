@@ -9,6 +9,6 @@ public interface IShelterPetListingRepository : ICrudRepository<ShelterPetListin
 
     public ICollection<ShelterPetListing> FilterListings(Guid? petTypeId, Guid? petSizeId, Guid? petGenderId, string? search);
 
-    public ICollection<ShelterPetListing> FilterByStatus(ApprovalStatus status, Guid shelterId);
+    public ICollection<ShelterPetListing> FilterByStatus(Guid adoptionStatusId, Guid shelterId);
 
 }

@@ -14,6 +14,6 @@ public interface IShelterPetListingService : ICRUDService<ShelterPetListing,
 
     ICollection<ShelterPetListing> GetListingsByShelter(Guid shelterId);
 
-    ICollection<ShelterPetListing> FilterByStatus(ApprovalStatus status, Guid shelterId);
+    ICollection<ShelterPetListing> FilterByStatus(Guid adoptionStatusId, Guid shelterId);
 
 }

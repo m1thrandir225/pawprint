@@ -80,8 +80,8 @@ public class ShelterPetListingService : IShelterPetListingService
         return _repository.FilterListings(petTypeId, petSizeId, petGenderId, search);
     }
 
-    public ICollection<ShelterPetListing> FilterByStatus(ApprovalStatus status, Guid shelterId)
+    public ICollection<ShelterPetListing> FilterByStatus(Guid adoptionStatusId, Guid shelterId)
     {
-        return _repository.FilterByStatus(status, shelterId);
+        return _repository.FilterByStatus(adoptionStatusId, shelterId);
     }
 }

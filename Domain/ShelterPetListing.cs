@@ -31,10 +31,6 @@ public class ShelterPetListing : BaseEntity
     [Required]
     [Column("adoption_fee", TypeName = "DECIMAL")]
     public float AdoptionFee { get; set; }
-
-
-    [JsonIgnore]
-    public virtual ICollection<Adoption> Adoptions { get; set; } = new List<Adoption>();
  
     public ShelterPetListing()
     {

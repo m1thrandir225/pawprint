@@ -48,16 +48,12 @@ public class ShelterPetListingRepository : CrudRepository<ShelterPetListing>, IS
 
     }
 
-    public ICollection<ShelterPetListing> FilterByStatus(ApprovalStatus status, Guid shelterId)
+    public ICollection<ShelterPetListing> FilterByStatus(Guid approvalStatusId, Guid shelterId)
     {
         var listings = _context.ShelterPetListings
-        .Where(l => status == ApprovalStatus.APPROVED 
-            ? l.Adoptions.Any(a => a.Approved == ApprovalStatus.APPROVED)
-            : status  == ApprovalStatus.REJECTED
-                ? l.Adoptions.All(a => a.Approved == ApprovalStatus.REJECTED)
-                : !l.Adoptions.Any(a => a.Approved == ApprovalStatus.REJECTED || a.Approved == ApprovalStatus.REJECTED) 
-        ).Where(l => l.ShelterId == shelterId).ToList();
-
+            .Include(x => x.Pet)
+            .Where(l => l.Pet.AdoptionStatusId == approvalStatusId)
+            .ToList();
         return listings;
     }
 }

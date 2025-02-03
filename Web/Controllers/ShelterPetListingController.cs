@@ -36,11 +36,11 @@ public class ShelterPetListingController : ControllerBase
 
 
     [HttpGet("shelter/{id:guid}")]
-    public ICollection<ShelterPetListing> GetListingsByShelter([FromRoute] Guid id, [FromQuery] ApprovalStatus? status)
+    public ICollection<ShelterPetListing> GetListingsByShelter([FromRoute] Guid id, [FromQuery(Name = "adoption-status")] Guid? adoptionStatusId)
     {
-        if(status is not null)
+        if(adoptionStatusId is not null)
         {
-            return _listingService.FilterByStatus((ApprovalStatus) status, id);
+            return _listingService.FilterByStatus((Guid) adoptionStatusId, id);
         }
         return _listingService.GetListingsByShelter(id);
     }
