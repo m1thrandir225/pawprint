@@ -34,8 +34,12 @@ public class OwnerPetListingController : ControllerBase
     }
 
     [HttpGet("owner/{id:guid}")]
-    public List<OwnerPetListing> GetListingsByOwner([FromRoute] Guid id)
+    public ICollection<OwnerPetListing> GetListingsByOwner([FromRoute] Guid id, [FromQuery(Name = "adoption-status")] Guid? adoptionStatusId)
     {
+        if (adoptionStatusId is not null)
+        {
+            return _ownerPetListingService.FilterByStatus((Guid) adoptionStatusId, id);
+        }
         return _ownerPetListingService.FilterListingsByOwner(id);
     }
 

@@ -69,4 +69,9 @@ public class OwnerPetListingService : IOwnerPetListingService
     {
         return _repository.FilterListings(petTypeId, petSizeId, petGenderId, search);
     }
+
+    public ICollection<OwnerPetListing> FilterByStatus(Guid adoptionStatusId, Guid ownerId)
+    {
+        return _repository.FilterByStatus(adoptionStatusId, ownerId);
+    }
 }
