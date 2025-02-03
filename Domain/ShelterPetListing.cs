@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 using Domain.enums;
 using Microsoft.EntityFrameworkCore;
 
@@ -30,6 +31,10 @@ public class ShelterPetListing : BaseEntity
     [Required]
     [Column("adoption_fee", TypeName = "DECIMAL")]
     public float AdoptionFee { get; set; }
+
+
+    [JsonIgnore]
+    public virtual ICollection<Adoption> Adoptions { get; set; } = new List<Adoption>();
  
     public ShelterPetListing()
     {
