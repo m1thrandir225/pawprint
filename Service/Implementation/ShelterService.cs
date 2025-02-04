@@ -114,5 +114,10 @@ namespace Service.Implementation
             return true;
            
         }
+
+        public List<MonthlyCreation> YearlyShelterStatistics()
+        {
+            return _repository.YearlyShelterStatistics();
+        }
     }
 }

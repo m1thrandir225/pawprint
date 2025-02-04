@@ -4,7 +4,7 @@ public class UpdatePetSizeRequest
 {
     public string Name { get; set; }
 
-    public UpdatePetSizeRequest(Guid id, string name)
+    public UpdatePetSizeRequest(string name)
     {
         Name = name;
     }

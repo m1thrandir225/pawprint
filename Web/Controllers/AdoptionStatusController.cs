@@ -55,9 +55,9 @@ public class AdoptionStatusController : ControllerBase
     [HttpPut]
     [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     [Route("{id}")]
-    public async Task<ActionResult<AdoptionStatus>> UpdateAdoptionStatus([FromBody] UpdateAdoptionStatusRequest request)
+    public async Task<ActionResult<AdoptionStatus>> UpdateAdoptionStatus([FromRoute] Guid id, [FromBody] UpdateAdoptionStatusRequest request)
     {
-        var updated = await _adoptionStatusService.UpdateAsync(request.Id, request);
+        var updated = await _adoptionStatusService.UpdateAsync(id, request);
         if (updated == null)
         {
             return BadRequest();

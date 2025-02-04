@@ -13,7 +13,6 @@ public class OwnerPetListingController : ControllerBase
 {
     private readonly IOwnerPetListingService _ownerPetListingService;
     private readonly IEmailService _emailService;
-
     public OwnerPetListingController(IOwnerPetListingService ownerPetListingService, IEmailService emailService)
     {
         _ownerPetListingService = ownerPetListingService;
