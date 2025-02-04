@@ -4,7 +4,7 @@ public class UpdateHealthStatusRequest
 {
     public string Name { get; set; }
 
-    public UpdateHealthStatusRequest(Guid id, string name)
+    public UpdateHealthStatusRequest(string name)
     {
         Name = name;
     }

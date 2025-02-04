@@ -4,7 +4,7 @@ public class UpdatePetGenderRequest
 {
     public String Name { get; set; }
 
-    public UpdatePetGenderRequest(Guid id, string name)
+    public UpdatePetGenderRequest(string name)
     {
         Name = name;
     }
