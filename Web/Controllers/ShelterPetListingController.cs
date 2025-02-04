@@ -34,11 +34,17 @@ public class ShelterPetListingController : ControllerBase
         return Ok(listings);
     }
 
+
     [HttpGet("shelter/{id:guid}")]
-    public List<ShelterPetListing> GetListingsByShelter([FromRoute] Guid id)
+    public ICollection<ShelterPetListing> GetListingsByShelter([FromRoute] Guid id, [FromQuery(Name = "adoption-status")] Guid? adoptionStatusId)
     {
+        if(adoptionStatusId is not null)
+        {
+            return _listingService.FilterByStatus((Guid) adoptionStatusId, id);
+        }
         return _listingService.GetListingsByShelter(id);
     }
+
 
     [HttpGet("{id:guid}")]
     public async Task<ActionResult<ShelterPetListing>> GetListing([FromRoute] Guid id)

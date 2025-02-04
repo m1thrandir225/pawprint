@@ -1,4 +1,5 @@
 using Domain;
+using Domain.enums;
 using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
 
@@ -12,12 +13,12 @@ public class ShelterPetListingRepository : CrudRepository<ShelterPetListing>, IS
         _context = context;
     }
 
-    public List<ShelterPetListing> GetListingByShelter(Guid shelterId)
+    public ICollection<ShelterPetListing> GetListingByShelter(Guid shelterId)
     {
         return _context.ShelterPetListings.Where(x => x.ShelterId == shelterId).ToList();
     }
 
-    public List<ShelterPetListing> FilterListings(Guid? petTypeId, Guid? petSizeId, Guid? petGenderId, string? search)
+    public ICollection<ShelterPetListing> FilterListings(Guid? petTypeId, Guid? petSizeId, Guid? petGenderId, string? search)
     {
         var query = _context.ShelterPetListings
             .Include(x => x.Pet)
@@ -45,5 +46,14 @@ public class ShelterPetListingRepository : CrudRepository<ShelterPetListing>, IS
 
         return query.ToList();
 
+    }
+
+    public ICollection<ShelterPetListing> FilterByStatus(Guid approvalStatusId, Guid shelterId)
+    {
+        var listings = _context.ShelterPetListings
+            .Include(x => x.Pet)
+            .Where(l => l.Pet.AdoptionStatusId == approvalStatusId)
+            .ToList();
+        return listings;
     }
 }

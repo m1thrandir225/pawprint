@@ -42,7 +42,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetGenderId");
 
-                    b.ToTable("adopter_pet_gender_preferences");
+                    b.ToTable("adopter_pet_gender_preferences", (string)null);
                 });
 
             modelBuilder.Entity("Domain.AdopterPetSizePreference", b =>
@@ -65,7 +65,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetSizeId");
 
-                    b.ToTable("adopter_pet_size_preferences");
+                    b.ToTable("adopter_pet_size_preferences", (string)null);
                 });
 
             modelBuilder.Entity("Domain.AdopterPetTypePreference", b =>
@@ -88,7 +88,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetTypeId");
 
-                    b.ToTable("adopter_pet_type_preferences");
+                    b.ToTable("adopter_pet_type_preferences", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Adoption", b =>
@@ -132,7 +132,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetId");
 
-                    b.ToTable("adoptions");
+                    b.ToTable("adoptions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.AdoptionStatus", b =>
@@ -148,7 +148,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("adoption_statuses");
+                    b.ToTable("adoption_statuses", (string)null);
                 });
 
             modelBuilder.Entity("Domain.HealthStatus", b =>
@@ -164,7 +164,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("health_statuses");
+                    b.ToTable("health_statuses", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Identity.ApplicationUser", b =>
@@ -266,7 +266,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("medical_conditions");
+                    b.ToTable("medical_conditions", (string)null);
                 });
 
             modelBuilder.Entity("Domain.MedicalRecord", b =>
@@ -299,7 +299,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("VetId");
 
-                    b.ToTable("medical_records");
+                    b.ToTable("medical_records", (string)null);
                 });
 
             modelBuilder.Entity("Domain.OwnerPetListing", b =>
@@ -340,7 +340,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("SurrenderReasonId");
 
-                    b.ToTable("owner_pet_listings");
+                    b.ToTable("owner_pet_listings", (string)null);
                 });
 
             modelBuilder.Entity("Domain.OwnerPetListingDocument", b =>
@@ -371,7 +371,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ListingId");
 
-                    b.ToTable("owner_pet_listing_documents");
+                    b.ToTable("owner_pet_listing_documents", (string)null);
                 });
 
             modelBuilder.Entity("Domain.OwnerSurrenderReason", b =>
@@ -387,7 +387,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("owner_surrender_reasons");
+                    b.ToTable("owner_surrender_reasons", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Pet", b =>
@@ -483,7 +483,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetTypeId");
 
-                    b.ToTable("pets");
+                    b.ToTable("pets", (string)null);
                 });
 
             modelBuilder.Entity("Domain.PetGender", b =>
@@ -499,7 +499,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("pet_genders");
+                    b.ToTable("pet_genders", (string)null);
                 });
 
             modelBuilder.Entity("Domain.PetSize", b =>
@@ -515,7 +515,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("pet_sizes");
+                    b.ToTable("pet_sizes", (string)null);
                 });
 
             modelBuilder.Entity("Domain.PetType", b =>
@@ -530,7 +530,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("pet_types");
+                    b.ToTable("pet_types", (string)null);
                 });
 
             modelBuilder.Entity("Domain.ShelterPetListing", b =>
@@ -567,7 +567,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ShelterId");
 
-                    b.ToTable("shelter_pet_listings");
+                    b.ToTable("shelter_pet_listings", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Vaccination", b =>
@@ -593,7 +593,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("vaccinations");
+                    b.ToTable("vaccinations", (string)null);
                 });
 
             modelBuilder.Entity("Domain.Veterinarian", b =>
@@ -623,7 +623,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("veterinarians");
+                    b.ToTable("veterinarians", (string)null);
                 });
 
             modelBuilder.Entity("Domain.VeterinarianSpecilization", b =>
@@ -645,7 +645,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("VeterinarianId");
 
-                    b.ToTable("vet_specializations");
+                    b.ToTable("vet_specializations", (string)null);
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>

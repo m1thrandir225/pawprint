@@ -69,14 +69,19 @@ public class ShelterPetListingService : IShelterPetListingService
         return Task.FromResult(true);
     }
 
-    public List<ShelterPetListing> GetListingsByShelter(Guid id)
+    public ICollection<ShelterPetListing> GetListingsByShelter(Guid id)
     {
         return _repository.GetListingByShelter(id);
     }
 
-    public List<ShelterPetListing> FilterShelterPetListing(Guid? petSizeId, Guid? petTypeId, Guid? petGenderId,
+    public  ICollection<ShelterPetListing> FilterShelterPetListing(Guid? petSizeId, Guid? petTypeId, Guid? petGenderId,
         string? search)
     {
         return _repository.FilterListings(petTypeId, petSizeId, petGenderId, search);
+    }
+
+    public ICollection<ShelterPetListing> FilterByStatus(Guid adoptionStatusId, Guid shelterId)
+    {
+        return _repository.FilterByStatus(adoptionStatusId, shelterId);
     }
 }

@@ -1,7 +1,5 @@
 using Domain;
-using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
-using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
 using Domain.Identity;
@@ -57,8 +55,7 @@ namespace Web.Controllers
 
         [HttpPut("{id:guid}")]
         [Authorize(Roles = $"{UserRole.Admin}")]
-        public async Task<ActionResult<PetGender>> UpdatePetGender([FromBody] UpdatePetGenderRequest request,
-            [FromRoute] Guid id)
+        public async Task<ActionResult<PetGender>> UpdatePetGender([FromRoute] Guid id, [FromBody] UpdatePetGenderRequest request)
         {
             var updated = await _petGenderService.UpdateAsync(id, request);
             if (updated == null)

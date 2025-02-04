@@ -7,12 +7,13 @@ using Microsoft.AspNetCore.Identity;
 using NuGet.Protocol;
 using Repository;
 
+namespace  Web.Config;
 public static class DatabaseSeeder
 {
     const int numberOfUsers = 10;
 
-    private static readonly string[] ShelterNames = new[]
-    {
+    private static string[] ShelterNames { get; } =
+    [
         "PawHavenSanctuary@gmail.com",
         "SecondChanceAnimalShelter@gmail.com",
         "HappyTailsRescueCenter@gmail.com",
@@ -23,10 +24,10 @@ public static class DatabaseSeeder
         "NewBeginningsPeShelter@gmail.com",
         "GuardianAngelsPetRescue@gmail.com",
         "LovingHeartsAnimalHaven@gmail.com"
-    };
+    ];
 
-    private static readonly string[] UserNames = new[]
-    {
+    private static readonly string[] UserNames =
+    [
         "PetLover2024@gmail.com",
         "CatWhisperer@gmail.com",
         "DogWalkerPro@gmail.com",
@@ -37,22 +38,22 @@ public static class DatabaseSeeder
         "PetGuardian@gmail.com",
         "KindSoul4Pets@gmail.com",
         "AnimalAdvocate@gmail.com"
-    };
+    ];
 
-    private static readonly List<Guid> ShelterGuids = new List<Guid>
-    {
+    private static readonly List<Guid> ShelterGuids =
+    [
         Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
         Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()
-    };
+    ];
 
-    private static readonly List<Guid> UserGuids = new List<Guid>
-    {
+    private static readonly List<Guid> UserGuids =
+    [
         Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(),
         Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid(), Guid.NewGuid()
-    };
+    ];
 
 
-    const int numberOfPetsAndRelated = 20;
+    private const int NumberOfPetsAndRelated = 20;
 
     public static void SeedData(IServiceProvider serviceProvider)
     {
@@ -66,11 +67,11 @@ public static class DatabaseSeeder
         SeedRoles(roleManager).Wait();
 
         //Enum Types
-        var petTypes = createPetTypes();
-        var petSizes = createPetSizes();
-        var petGenders = createPetGenders();
-        var healthStatuses = createHealthStatuses();
-        var adoptionStatuses = createAdoptionStatuses();
+        var petTypes = CreatePetTypes();
+        var petSizes = CreatePetSizes();
+        var petGenders = CreatePetGenders();
+        var healthStatuses = CreateHealthStatuses();
+        var adoptionStatuses = CreateAdoptionStatuses();
         var surrenderReasons = createOwnerSurrenderReasons();
 
         // Seed Basic Data
@@ -89,15 +90,15 @@ public static class DatabaseSeeder
         SeedUsersAndShelters(userManager, context, shelters, users).Wait();
 
         //pet ( needs type, gender, health status, adoption status)
-        var pets = new Pet[numberOfPetsAndRelated];
+        var pets = new Pet[NumberOfPetsAndRelated];
         SeedPets(context, petSizes, petGenders, petTypes, healthStatuses, adoptionStatuses, pets);
         //adoption (needs pet and adopter)
         SeedAdoptions(context, users, pets);
         //veterinarian, veterinarian specialization ( needs veterinarian )
-        var veterinarians = new Veterinarian[numberOfPetsAndRelated];
+        var veterinarians = new Veterinarian[NumberOfPetsAndRelated];
         SeedVeterinariansAndSpecializations(context, veterinarians);
         //medical record (needs veterinarian), medical condition (needs medical record)
-        var medicalRecords = new MedicalRecord[numberOfPetsAndRelated];
+        var medicalRecords = new MedicalRecord[NumberOfPetsAndRelated];
         SeedMedicalRecordsAndConditions(context, veterinarians, medicalRecords);
         //vaccinatio
         SeedVaccinactions(context, medicalRecords);
@@ -112,7 +113,7 @@ public static class DatabaseSeeder
         context.SaveChanges();
     }
 
-    public static PetGender[] createPetGenders()
+    private static PetGender[] CreatePetGenders()
     {
         var genders = new PetGender[]
         {
@@ -122,7 +123,7 @@ public static class DatabaseSeeder
         return genders;
     }
 
-    public static PetSize[] createPetSizes()
+    private static PetSize[] CreatePetSizes()
     {
         var sizes = new PetSize[]
         {
@@ -134,7 +135,7 @@ public static class DatabaseSeeder
         return sizes;
     }
 
-    public static PetType[] createPetTypes()
+    private static PetType[] CreatePetTypes()
     {
         var type = new PetType[]
         {
@@ -151,7 +152,7 @@ public static class DatabaseSeeder
         return type;
     }
 
-    public static AdoptionStatus[] createAdoptionStatuses()
+    private static AdoptionStatus[] CreateAdoptionStatuses()
     {
         var adoptionStatuses = new AdoptionStatus[]
         {
@@ -165,7 +166,7 @@ public static class DatabaseSeeder
         return adoptionStatuses;
     }
 
-    public static HealthStatus[] createHealthStatuses()
+    private static HealthStatus[] CreateHealthStatuses()
     {
         var healthStatuses = new HealthStatus[]
         {
@@ -581,7 +582,7 @@ public static class DatabaseSeeder
         if (!context.Pets.Any())
         {
             var faker = new Faker();
-            for (int i = 0; i < numberOfPetsAndRelated; i++)
+            for (int i = 0; i < NumberOfPetsAndRelated; i++)
             {
                 var gender = faker.PickRandom(genders);
                 var type = faker.PickRandom(types);
@@ -630,7 +631,7 @@ public static class DatabaseSeeder
     {
         if (!context.Veterinarians.Any())
         {
-            for (int i = 0; i < numberOfPetsAndRelated; i++)
+            for (int i = 0; i < NumberOfPetsAndRelated; i++)
             {
                 var veterinarian = createBasicVeterinarian();
 
@@ -657,7 +658,7 @@ public static class DatabaseSeeder
     {
         if (!context.MedicalRecords.Any())
         {
-            for (int i = 0; i < numberOfPetsAndRelated; i++)
+            for (int i = 0; i < NumberOfPetsAndRelated; i++)
             {
                 var veterinarian = veterinarians[i];
 
@@ -686,7 +687,7 @@ public static class DatabaseSeeder
     {
         if (!context.Vaccinations.Any())
         {
-            for (int i = 0; i < numberOfPetsAndRelated; i++)
+            for (int i = 0; i < NumberOfPetsAndRelated; i++)
             {
                 var medicalRecord = records[i];
 

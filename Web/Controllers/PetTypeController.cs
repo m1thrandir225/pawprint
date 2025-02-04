@@ -59,9 +59,9 @@ namespace Web.Controllers
 
         [Authorize(Roles = $"{UserRole.Admin}")]
         [HttpPut("{id:guid}")]
-        public async Task<ActionResult<PetType>> UpdatePetType([FromBody] UpdatePetTypeRequest request)
+        public async Task<ActionResult<PetType>> UpdatePetType([FromRoute] Guid id, [FromBody] UpdatePetTypeRequest request)
         {
-            var updated = await _petTypeService.UpdateAsync(request.Id, request);
+            var updated = await _petTypeService.UpdateAsync(id, request);
             if (updated == null)
             {
                 return BadRequest();

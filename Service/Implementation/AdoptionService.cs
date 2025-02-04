@@ -68,4 +68,9 @@ public class AdoptionService : IAdoptionService
         _repository.Delete(adoption);
         return Task.FromResult(true);
     }
+
+    public List<MonthlyCreation> YearlyAdoptions()
+    {
+        return _repository.YearlyAdoptions();
+    }
 }

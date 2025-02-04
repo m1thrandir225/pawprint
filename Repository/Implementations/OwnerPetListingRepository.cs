@@ -17,9 +17,8 @@ public class OwnerPetListingRepository : CrudRepository<OwnerPetListing>, IOwner
     {
         var query = _context.OwnerPetListings
             .Include(x => x.Pet.Adoptions)
-            .AsQueryable();
+            .Where(x => x.AdopterId == id);
 
-        query.Where(x => x.AdopterId == id);
 
         return query.ToList();
     }
@@ -51,5 +50,14 @@ public class OwnerPetListingRepository : CrudRepository<OwnerPetListing>, IOwner
         }
 
         return query.ToList();
+    }
+
+    public ICollection<OwnerPetListing> FilterByStatus(Guid adoptionStatusId, Guid ownerId)
+    {
+        var query = _context.OwnerPetListings
+            .Include(x => x.Pet)
+            .Where(x => x.Pet.AdoptionStatusId == adoptionStatusId).ToList();
+
+        return query;
     }
 }
