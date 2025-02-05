@@ -204,6 +204,8 @@ app.UseCors(x => x
     .SetIsOriginAllowed(origin => true) // allow any origin
     .AllowCredentials());
 
+app.UseRouting();
+
 app.UseAuthentication();
 app.UseAuthorization();
 
