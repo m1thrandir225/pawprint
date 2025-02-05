@@ -197,11 +197,12 @@ if (!app.Environment.IsDevelopment())
 
 app.UseHttpsRedirection();
 app.UseStaticFiles();
+
 app.UseCors(x => x
     .AllowAnyMethod()
     .AllowAnyHeader()
-    .AllowCredentials()
-    .SetIsOriginAllowed(origin => true));
+    .SetIsOriginAllowed(origin => true) // allow any origin
+    .AllowCredentials());
 
 app.UseRouting();
 
@@ -226,7 +227,6 @@ using (var scope = app.Services.CreateScope())
             await roleManager.CreateAsync(new IdentityRole<Guid>(role));
         }
     }
-
 }
 
 app.Run();
