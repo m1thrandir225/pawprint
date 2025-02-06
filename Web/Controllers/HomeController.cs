@@ -3,17 +3,22 @@ using Microsoft.AspNetCore.Mvc;
 
 namespace Web.Controllers
 {
-    [Route("api/home")]
     [ApiController]
     public class HomeController : ControllerBase
     {
         public HomeController()
         {
         }
-
-        public ActionResult Index()
+        [Route("")]
+        public RedirectResult Index()
         {
-            return new JsonResult(new { message = "Hello World!" });
+            return Redirect("https://pawprint.sebastijanzindl.me");
+        }
+
+        [Route("/api/status")]
+        public ActionResult Status()
+        {
+            return new JsonResult(new { health = "Working" });
         }
     }
 }
