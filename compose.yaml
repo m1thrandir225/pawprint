@@ -5,13 +5,13 @@
       context: .
       dockerfile: Web/Dockerfile
     environment:
-    - DB_CONNECTION_URL=Host=pawprint.postgres.database.azure.com;Port=5432;Database=pawprint;Username=pawprintuser;Password=Kfnim5JnHBEv3d
-    - SMTP_HOST=smtp.resend.com
-    - SMTP_PORT=2587
-    - SMTP_USERNAME=resend
-    - SMTP_PASSWORD=re_FAVYr4Sv_4UaKmV1nRv4CpNHE8UJAHtRx
-    - SMTP_SENDER_NAME=PawPrint
-    - SMTP_SENDER_EMAIL=pawprint@sebastijanzindl.me
+    - DB_CONNECTION_URL=
+    - SMTP_HOST=
+    - SMTP_PORT=
+    - SMTP_USERNAME=
+    - SMTP_PASSWORD=
+    - SMTP_SENDER_NAME=
+    - SMTP_SENDER_EMAIL=
     ports:
       - "8080:8080"
       - "8081:8081"
