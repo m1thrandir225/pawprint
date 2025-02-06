@@ -5,29 +5,13 @@
       context: .
       dockerfile: Web/Dockerfile
     environment:
-      - ASPNETCORE_ENVIRONMENT=Development
-      - ASPNETCORE_HTTP_PORTS=5000
-    networks:
-      - pawprint-network
+    - DB_CONNECTION_URL=Host=pawprint.postgres.database.azure.com;Port=5432;Database=pawprint;Username=pawprintuser;Password=Kfnim5JnHBEv3d
+    - SMTP_HOST=smtp.resend.com
+    - SMTP_PORT=2587
+    - SMTP_USERNAME=resend
+    - SMTP_PASSWORD=re_FAVYr4Sv_4UaKmV1nRv4CpNHE8UJAHtRx
+    - SMTP_SENDER_NAME=PawPrint
+    - SMTP_SENDER_EMAIL=pawprint@sebastijanzindl.me
     ports:
-      - "5000:5000"
-
-    depends_on:
-      - db
-  db:
-    image: postgres
-    volumes:
-      - postgres-data:/var/lib/postgresql/data
-    ports:
-      - "5432:5432"
-    networks:
-      - pawprint-network
-    environment:
-      POSTGRES_USER: root
-      POSTGRES_PASSWORD: secret
-      POSTGRES_DB: pawprint
-networks:
-  pawprint-network:
-    driver: bridge
-volumes:
-  postgres-data:
+      - "8080:8080"
+      - "8081:8081"
