@@ -1,4 +1,6 @@
-﻿namespace Service.Interface;
+﻿using Domain.DTOs.OwnerSurrenderReason;
+
+namespace Service.Interface;
 
 using Domain;
 using Domain.DTOs;

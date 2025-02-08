@@ -1,5 +1,6 @@
 using Domain;
 using Domain.DTOs;
+using Domain.DTOs.PetGender;
 using Repository.Interface;
 using Service.Interface;
 

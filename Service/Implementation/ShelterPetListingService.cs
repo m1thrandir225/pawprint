@@ -2,6 +2,7 @@
 using Domain.enums;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.DTOs.ShelterPetListing;
 using Repository.Interface;
 
 namespace Service.Implementation;
@@ -33,20 +34,21 @@ public class ShelterPetListingService : IShelterPetListingService
 
     public async Task<ShelterPetListing> CreateAsync(CreateShelterPetListingRequest dto)
     {
-        var medicalRecord = await _medicalRecordService.CreateAsync(dto.MedicalRecord);
-        
-        // Create new listing with PENDING status by default
-        var listing = new ShelterPetListing(
-            dto.PetId,
-            medicalRecord.Id,
-            dto.ShelterId,
-            dto.IntakeDate,
-            dto.AdoptionFee
-        );
+        // var medicalRecord = await _medicalRecordService.CreateAsync(dto.MedicalRecord);
+        //
+        // // Create new listing with PENDING status by default
+        // var listing = new ShelterPetListing(
+        //     dto.PetId,
+        //     medicalRecord.Id,
+        //     dto.ShelterId,
+        //     dto.IntakeDate,
+        //     dto.AdoptionFee
+        // );
+        //
+        // var createdListing = _repository.Insert(listing);
 
-        var createdListing = _repository.Insert(listing);
-
-        return createdListing;
+        // return object;
+        throw new NotImplementedException();
     }
 
     public async Task<ShelterPetListing> UpdateAsync(Guid id, UpdateShelterPetListingRequest dto)

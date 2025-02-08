@@ -1,4 +1,4 @@
-namespace Domain.Identity;
+namespace Domain.identity;
 
 public static class UserRole
 {

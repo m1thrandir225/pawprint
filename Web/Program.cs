@@ -1,7 +1,7 @@
 using System.Configuration;
 using System.Text;
 using Domain;
-using Domain.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;

@@ -1,5 +1,8 @@
 using Domain;
 using Domain.DTOs;
+using Domain.DTOs.Identity;
+using Domain.DTOs.JWT;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;

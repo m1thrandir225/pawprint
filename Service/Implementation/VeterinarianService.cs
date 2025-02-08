@@ -1,5 +1,6 @@
 using Domain;
 using Domain.DTOs;
+using Domain.DTOs.Veterinarian;
 using Repository.Interface;
 using Service.Interface;
 
@@ -26,7 +27,13 @@ public class VeterinarianService : IVeterinarianService
 
     public async Task<Veterinarian> CreateAsync(CreateVeterinarianRequest dto)
     {
-        var veterinarian = new Veterinarian(dto.Name, dto.ContactNumber, dto.Email);
+        var veterinarian = new Veterinarian
+        {
+            Name = dto.Name,
+            ClinicName = dto.ClinicName,
+            ContactNumber = dto.ContactNumber,
+            Email = dto.Email,
+        };
         
         return _repository.Insert(veterinarian);
     }

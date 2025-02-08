@@ -1,6 +1,7 @@
 using System.Xml;
 using Domain;
 using Domain.DTOs;
+using Domain.DTOs.Adoption;
 using Repository.Interface;
 using Service.Interface;
 

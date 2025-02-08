@@ -1,4 +1,5 @@
-﻿using Domain.Identity;
+﻿using Domain.DTOs.AdoptionStatus;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers;

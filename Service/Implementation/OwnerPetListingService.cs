@@ -1,4 +1,6 @@
-﻿namespace Service.Implementation;
+﻿using Domain.DTOs.OwnerPetListing;
+
+namespace Service.Implementation;
 
 using Domain;
 using Domain.DTOs;

@@ -1,4 +1,6 @@
-﻿namespace Service.Implementation;
+﻿using Domain.DTOs.OwnerSurrenderReason;
+
+namespace Service.Implementation;
 
 using Domain;
 using Service.Interface;

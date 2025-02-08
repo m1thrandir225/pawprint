@@ -1,6 +1,7 @@
 using Domain;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Identity;
 using Repository.Interface;
 using Service.Interface;

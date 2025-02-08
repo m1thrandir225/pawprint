@@ -1,7 +1,8 @@
 using System.Net;
 using Domain;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http.HttpResults;
 using Microsoft.AspNetCore.Identity;

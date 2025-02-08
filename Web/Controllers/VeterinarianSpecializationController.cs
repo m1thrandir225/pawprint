@@ -3,7 +3,8 @@ using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.VeterinarianSpecialization;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers

@@ -1,4 +1,6 @@
-﻿namespace Service.Implementation;
+﻿using Domain.DTOs.AdoptionStatus;
+
+namespace Service.Implementation;
 
 using Domain;
 using Service.Interface;

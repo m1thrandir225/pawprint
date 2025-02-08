@@ -1,6 +1,7 @@
 using Domain;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.DTOs.PetType;
 using Repository.Interface;
 
 namespace Service.Implementation;

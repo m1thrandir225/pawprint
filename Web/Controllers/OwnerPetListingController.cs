@@ -2,7 +2,8 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.OwnerPetListing;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
 
 namespace Web.Controllers;

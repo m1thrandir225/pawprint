@@ -4,7 +4,7 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;

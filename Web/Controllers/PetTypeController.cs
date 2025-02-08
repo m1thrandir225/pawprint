@@ -4,9 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.DTOs.PetType;
+using Domain.identity;
 using Microsoft.AspNetCore.Cors;
 using Microsoft.AspNetCore.Authorization;
-using Domain.Identity;
 
 namespace Web.Controllers
 {
