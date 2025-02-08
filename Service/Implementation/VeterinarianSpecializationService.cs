@@ -17,24 +17,24 @@ public class VeterinarianSpecializationService : IVeterinarianSpecializationServ
 
     public async Task<IEnumerable<VeterinarianSpecilization>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<VeterinarianSpecilization> GetByIdAsync(Guid id)
     {
-        var specialization = _repository.Get(id);
+        var specialization = await _repository.Get(id);
         return specialization;
     }
 
     public async Task<VeterinarianSpecilization> CreateAsync(CreateVeterinarianSpecializationRequest dto)
     {
         var specialization = new VeterinarianSpecilization(dto.VeterinarianId, dto.Specialization);
-        return _repository.Insert(specialization);
+        return await _repository.Insert(specialization);
     }
 
     public async Task<VeterinarianSpecilization> UpdateAsync(Guid id, UpdateVeterinarianSpecializationRequest dto)
     {
-        var specialization = _repository.Get(id);
+        var specialization = await _repository.Get(id);
 
         if (specialization == null)
         {
@@ -43,19 +43,19 @@ public class VeterinarianSpecializationService : IVeterinarianSpecializationServ
 
         specialization.Specialization = dto.Specialization;
 
-        return _repository.Update(specialization);
+        return await _repository.Update(specialization);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var specialization = _repository.Get(id);
+        var specialization = await _repository.Get(id);
 
         if (specialization == null)
         {
-            return Task.FromResult(false);
+            return false;
         }
 
-        _repository.Delete(specialization);
-        return Task.FromResult(true);
+        await _repository.Delete(specialization);
+        return true;
     }
 }

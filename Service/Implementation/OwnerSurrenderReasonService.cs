@@ -18,24 +18,24 @@ public class OwnerSurrenderReasonService : IOwnerSurrenderReasonService
 
     public async Task<IEnumerable<OwnerSurrenderReason>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<OwnerSurrenderReason> GetByIdAsync(Guid id)
     {
-        var ownerSurrenderReason = _repository.Get(id);
+        var ownerSurrenderReason =  await _repository.Get(id);
         return ownerSurrenderReason;
     }
 
     public async Task<OwnerSurrenderReason> CreateAsync(CreateOwnerSurrenderReasonRequest dto)
     {
         var ownerSurrenderReason = new OwnerSurrenderReason(dto.Description);
-        return _repository.Insert(ownerSurrenderReason);
+        return await _repository.Insert(ownerSurrenderReason);
     }
 
     public async Task<OwnerSurrenderReason> UpdateAsync(Guid id, UpdateOwnerSurrenderReasonRequest dto)
     {
-        var ownerSurrenderReason = _repository.Get(id);
+        var ownerSurrenderReason = await _repository.Get(id);
         if (ownerSurrenderReason == null)
         {
             return null;
@@ -43,13 +43,13 @@ public class OwnerSurrenderReasonService : IOwnerSurrenderReasonService
 
         ownerSurrenderReason.Description = dto.Description;
 
-        return _repository.Update(ownerSurrenderReason);
+        return await _repository.Update(ownerSurrenderReason);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var ownerSurrenderReason = _repository.Get(id);
-        _repository.Delete(ownerSurrenderReason);
-        return Task.FromResult(true);
+        var ownerSurrenderReason = await _repository.Get(id);
+        await _repository.Delete(ownerSurrenderReason);
+        return true;
     }
 }

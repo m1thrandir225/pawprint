@@ -1,6 +1,6 @@
-namespace Domain.DTOs;
+namespace Domain.DTOs.Pet;
 
-public class UpdatePetRequest
+public class UpdatePetDTO
 {
     public string Name { get; set; }
 

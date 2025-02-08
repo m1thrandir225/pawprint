@@ -17,24 +17,24 @@ public class HealthStatusService : IHealthStatusService
 
     public async Task<IEnumerable<HealthStatus>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<HealthStatus> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);
+        return await _repository.Get(id);
     }
 
     public async Task<HealthStatus> CreateAsync(CreateHealthStatusRequest dto)
     {
         var healthStatus = new HealthStatus(dto.Name);
         
-        return _repository.Insert(healthStatus);
+        return await _repository.Insert(healthStatus);
     }
 
     public async Task<HealthStatus> UpdateAsync(Guid id, UpdateHealthStatusRequest dto)
     {
-        var healthStatus = _repository.Get(id);
+        var healthStatus = await _repository.Get(id);
 
         if (healthStatus == null)
         {
@@ -43,14 +43,14 @@ public class HealthStatusService : IHealthStatusService
         
         healthStatus.Name = dto.Name;
         
-        return _repository.Update(healthStatus);
+        return await _repository.Update(healthStatus);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var healthStatus = _repository.Get(id);
+        var healthStatus = await _repository.Get(id);
         
-        _repository.Delete(healthStatus);
-        return Task.FromResult(true);
+        await _repository.Delete(healthStatus);
+        return true;
     }
 }

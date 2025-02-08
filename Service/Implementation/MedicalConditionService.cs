@@ -17,24 +17,24 @@ public class MedicalConditionService : IMedicalConditionService
 
     public async Task<IEnumerable<MedicalCondition>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<MedicalCondition> GetByIdAsync(Guid id)
     {
-        var medicalCondition = _repository.Get(id);
+        var medicalCondition = await _repository.Get(id);
         return medicalCondition;
     }
 
     public async Task<MedicalCondition> CreateAsync(CreateMedicalConditionRequest dto)
     {
         var medicalCondition = new MedicalCondition(dto.MedicalRecordId, dto.ConditionName, dto.Notes);
-        return _repository.Insert(medicalCondition);
+        return await _repository.Insert(medicalCondition);
     }
 
     public async Task<MedicalCondition> UpdateAsync(Guid id, UpdateMedicalConditionRequest dto)
     {
-        var medicalCondition = _repository.Get(id);
+        var medicalCondition = await _repository.Get(id);
 
         if (medicalCondition == null)
         {
@@ -45,13 +45,13 @@ public class MedicalConditionService : IMedicalConditionService
         medicalCondition.ConditionName = dto.ConditionName;
         medicalCondition.Notes = dto.Notes;
 
-        return _repository.Update(medicalCondition);
+        return  await _repository.Update(medicalCondition);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var medicalCondition = _repository.Get(id);
-        _repository.Delete(medicalCondition);
-        return Task.FromResult(true);
+        var medicalCondition = await _repository.Get(id);
+        await _repository.Delete(medicalCondition);
+        return true;
     }
 }

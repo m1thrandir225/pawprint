@@ -18,7 +18,7 @@ public class AdoptionService : IAdoptionService
 
     public async Task<IEnumerable<Adoption>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public List<Adoption> GetAdoptionsForPet(Guid id)
@@ -28,7 +28,7 @@ public class AdoptionService : IAdoptionService
 
     public async Task<Adoption> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);
+        return await _repository.Get(id);
     }
 
     public async Task<Adoption> CreateAsync(CreateAdoptionRequest dto)
@@ -40,12 +40,12 @@ public class AdoptionService : IAdoptionService
             dto.FollowUpDate,
             dto.CounselorNotes);
 
-        return _repository.Insert(adoption);
+        return await _repository.Insert(adoption);
     }
 
     public async Task<Adoption> UpdateAsync(Guid id, UpdateAdoptionRequest dto)
     {
-        var adoption = _repository.Get(id);
+        var adoption = await _repository.Get(id);
 
         if (adoption == null)
         {
@@ -59,15 +59,15 @@ public class AdoptionService : IAdoptionService
         adoption.CounselorNotes = dto.CounselorNotes;
         adoption.Approved = dto.Approved;
         
-        return _repository.Update(adoption);
+        return await _repository.Update(adoption);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var adoption = _repository.Get(id);
+        var adoption = await _repository.Get(id);
         
-        _repository.Delete(adoption);
-        return Task.FromResult(true);
+        await _repository.Delete(adoption);
+        return true;
     }
 
     public List<MonthlyCreation> YearlyAdoptions()

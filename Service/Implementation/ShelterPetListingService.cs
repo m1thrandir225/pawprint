@@ -23,12 +23,12 @@ public class ShelterPetListingService : IShelterPetListingService
     public async Task<IEnumerable<ShelterPetListing>> GetAllAsync()
     {
         // return _repository.GetAllWithJoins();
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<ShelterPetListing> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);
+        return await _repository.Get(id);
         // return _repository.GetWithJoins(id);
     }
 
@@ -53,7 +53,7 @@ public class ShelterPetListingService : IShelterPetListingService
 
     public async Task<ShelterPetListing> UpdateAsync(Guid id, UpdateShelterPetListingRequest dto)
     {
-        var listing = _repository.Get(id);
+        var listing = await _repository.Get(id);
 
         if (listing == null)
         {
@@ -64,15 +64,15 @@ public class ShelterPetListingService : IShelterPetListingService
         listing.IntakeDate = dto.IntakeDate;
         listing.AdoptionFee = dto.AdoptionFee;
 
-        return _repository.Update(listing);
+        return await _repository.Update(listing);
     }
     
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var listing = _repository.Get(id);
+        var listing = await _repository.Get(id);
         
-        _repository.Delete(listing);
-        return Task.FromResult(true);
+        await _repository.Delete(listing);
+        return true;
     }
 
     public ICollection<ShelterPetListing> GetListingsByShelter(Guid id)

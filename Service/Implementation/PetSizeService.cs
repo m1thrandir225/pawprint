@@ -17,24 +17,24 @@ public class PetSizeService : IPetSizeService
 
     public async Task<IEnumerable<PetSize>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<PetSize> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);
+        return await _repository.Get(id);
     }
 
     public async Task<PetSize> CreateAsync(CreatePetSizeRequest dto)
     {
         var petSize = new PetSize(dto.Name);
         
-        return _repository.Insert(petSize);
+        return await _repository.Insert(petSize);
     }
 
     public async Task<PetSize> UpdateAsync(Guid id, UpdatePetSizeRequest dto)
     {
-        var petSize = _repository.Get(id);
+        var petSize = await _repository.Get(id);
 
         if (petSize == null)
         {
@@ -43,14 +43,14 @@ public class PetSizeService : IPetSizeService
         
         petSize.Name = dto.Name;
         
-        return _repository.Update(petSize);
+        return await _repository.Update(petSize);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var petSize = _repository.Get(id);
+        var petSize =  await _repository.Get(id);
         
-        _repository.Delete(petSize);
-        return Task.FromResult(true); 
+        await _repository.Delete(petSize);
+        return true;
     }
 }

@@ -1,5 +1,6 @@
 ﻿using Domain.DTOs.MedicalCondition;
 using Domain.DTOs.MedicalRecord;
+using Domain.DTOs.Pet;
 using Domain.DTOs.Vaccination;
 using Domain.DTOs.Veterinarian;
 
@@ -11,7 +12,7 @@ public class CreateShelterPetListingRequest
     public CreateVeterinarianForListingRequest Veterinarian { get; set; }
     public CreateMedicalRecordForListingRequest MedicalRecord { get; set; }
     public CreateFeeRequest Fee { get; set; }
-    public DateTime? IntakeDate { get; set; }
+
 }
 /**
 form: {

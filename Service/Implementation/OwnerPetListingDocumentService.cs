@@ -17,12 +17,12 @@ public class OwnerPetListingDocumentService : IOwnerPetListingDocumentService
 
     public async Task<IEnumerable<OwnerPetListingDocument>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<OwnerPetListingDocument> GetByIdAsync(Guid id)
     {
-        var document = _repository.Get(id);
+        var document = await _repository.Get(id);
         return document;
     }
 
@@ -34,12 +34,12 @@ public class OwnerPetListingDocumentService : IOwnerPetListingDocumentService
             dto.DocumentType
         );
 
-        return _repository.Insert(document);
+        return await _repository.Insert(document);
     }
 
     public async Task<OwnerPetListingDocument> UpdateAsync(Guid id, UpdateOwnerPetListingDocumentRequest dto)
     {
-        var document = _repository.Get(id);
+        var document = await _repository.Get(id);
 
         if (document == null)
         {
@@ -49,14 +49,14 @@ public class OwnerPetListingDocumentService : IOwnerPetListingDocumentService
         document.DocumentUrl = dto.DocumentUrl;
         document.DocumentType = dto.DocumentType;
 
-        return _repository.Update(document);
+        return await _repository.Update(document);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var document = _repository.Get(id);
+        var document = await _repository.Get(id);
         
-        _repository.Delete(document);
-        return Task.FromResult(true);
+        await _repository.Delete(document);
+        return true;
     }
 }

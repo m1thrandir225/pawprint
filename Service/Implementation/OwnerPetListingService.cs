@@ -20,18 +20,18 @@ public class OwnerPetListingService : IOwnerPetListingService
 
     public async Task<IEnumerable<OwnerPetListing>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<OwnerPetListing> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);
+        return await _repository.Get(id);
     }
 
     public async Task<OwnerPetListing> CreateAsync(CreateOwnerPetListingRequest dto)
     {
         var ownerPetListing = new OwnerPetListing(dto.AdopterId, dto.PetId, dto.SurrenderReasonId, dto.AdoptionFee);
-        var createdListing = _repository.Insert(ownerPetListing);
+        var createdListing = await _repository.Insert(ownerPetListing);
 
         return createdListing;
     }
@@ -40,7 +40,7 @@ public class OwnerPetListingService : IOwnerPetListingService
 
     public async Task<OwnerPetListing> UpdateAsync(Guid id, UpdateOwnerPetListingRequest dto)
     {
-        var ownerPetListing = _repository.Get(id);
+        var ownerPetListing = await _repository.Get(id);
         if (ownerPetListing == null)
         {
             return null;
@@ -51,15 +51,16 @@ public class OwnerPetListingService : IOwnerPetListingService
         ownerPetListing.SurrenderReasonId = dto.SurrenderReasonId;
         ownerPetListing.AdoptionFee = dto.AdoptionFee;
 
-        return _repository.Update(ownerPetListing);
+        return await _repository.Update(ownerPetListing);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var ownerPetListing = _repository.Get(id);
-        if (ownerPetListing == null) return Task.FromResult(false);
-        _repository.Delete(ownerPetListing);
-        return Task.FromResult(true);
+        var ownerPetListing = await _repository.Get(id);
+        if (ownerPetListing == null) return false;
+
+        await _repository.Delete(ownerPetListing);
+        return true;
     }
 
     public List<OwnerPetListing> FilterListingsByOwner(Guid ownerId)

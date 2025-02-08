@@ -1,5 +1,6 @@
 using Domain;
 using Domain.DTOs;
+using Domain.DTOs.Pet;
 using Repository.Interface;
 using Service.Interface;
 
@@ -16,15 +17,15 @@ public class PetService : IPetService
 
     public async Task<IEnumerable<Pet>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<Pet> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);
+        return await _repository.Get(id);
     }
 
-    public async Task<Pet> CreateAsync(CreatePetRequest dto)
+    public async Task<Pet> CreateAsync(CreatePetDTO dto)
     {
         var pet = new Pet(
             dto.Name,
@@ -40,18 +41,18 @@ public class PetService : IPetService
             dto.GoodWithCats,
             dto.GoodWithDogs,
             dto.Breed,
-            dto.Description,
+            null,
             dto.SpecialRequirements,
             dto.BehaviorialNotes,
             dto.IntakeDate,
             dto.ImageShowcase);
 
-        return _repository.Insert(pet);
+        return await _repository.Insert(pet);
     }
 
-    public async Task<Pet> UpdateAsync(Guid id, UpdatePetRequest dto)
+    public async Task<Pet> UpdateAsync(Guid id, UpdatePetDTO dto)
     {
-        var pet = _repository.Get(id);
+        var pet = await _repository.Get(id);
 
         if (pet == null)
         {
@@ -77,14 +78,14 @@ public class PetService : IPetService
         pet.IntakeDate = dto.IntakeDate;
         pet.ImageShowcase = dto.ImageShowcase;
         
-        return _repository.Update(pet);
+        return await _repository.Update(pet);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var pet = _repository.Get(id);
+        var pet = await _repository.Get(id);
         
-        _repository.Delete(pet);
-        return Task.FromResult(true);
+        await _repository.Delete(pet);
+        return true;
     }
 }
