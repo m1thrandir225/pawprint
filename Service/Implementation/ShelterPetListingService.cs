@@ -57,7 +57,7 @@ public class ShelterPetListingService : IShelterPetListingService
 
         if (listing == null)
         {
-            return null;
+            throw new Exception("Not Found");
         }
 
         // Only update mutable properties

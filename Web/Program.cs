@@ -1,4 +1,3 @@
-using System.Configuration;
 using System.Text;
 using Domain;
 using Domain.identity;
@@ -113,11 +112,9 @@ builder.Services.AddAuthentication(options =>
             Encoding.UTF8.GetBytes(builder.Configuration["JWTConfig:SecretKey"]))
     };
 });
+builder.Services.AddHttpContextAccessor();
 builder.Services.AddScoped<JWTService>();
 builder.Services.AddScoped<AuthenticationService>();
-
-
-
 // Repos
 builder.Services.AddScoped<IAdopterPetGenderPreferenceRepository, AdopterPetGenderPreferenceRepository>();
 builder.Services.AddScoped<IAdopterPetSizePreferenceRepository, AdopterPetSizePreferenceRepository>();

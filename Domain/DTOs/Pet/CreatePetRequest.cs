@@ -8,7 +8,6 @@ public class CreatePetRequest
     public string Name { get; set; }
     public string Breed { get; set; }
     public int AgeYears { get; set; }
-
     public Guid PetTypeId { get; set; }
     public Guid PetGenderId { get; set; }
     public Guid PetSizeId { get; set; }

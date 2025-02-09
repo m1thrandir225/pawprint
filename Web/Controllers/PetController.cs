@@ -63,7 +63,7 @@ namespace Web.Controllers
             }
 
             // Upload the avatar image
-            request.AvatarImg = await _uploadService.UploadFile(avatar);
+            var avatarImage = await _uploadService.UploadFile(avatar);
 
             // Initialize ImageShowcase if null
             var imageShowcase = new List<string>();
@@ -78,10 +78,32 @@ namespace Web.Controllers
             }
 
             // Set the ImageShowcase property
-            request.ImageShowcase = imageShowcase.ToArray();
+
+
+            var petDto = new CreatePetDTO
+            {
+                Name = request.Name,
+                ImageShowcase = imageShowcase.ToArray(),
+                AvatarImg = avatarImage,
+                Breed = request.Breed,
+                AgeYears = request.AgeYears,
+                BehaviorialNotes = request.BehaviorialNotes,
+                EnergyLevel = request.EnergyLevel,
+                IntakeDate = new DateTime(),
+                SpecialRequirements = request.SpecialRequirements,
+                AdoptionStatusId = request.HealthStatusId,
+                HealthStatusId = request.HealthStatusId,
+                GoodWithCats = request.GoodWithCats,
+                GoodWithChildren = request.GoodWithChildren,
+                GoodWithDogs = request.GoodWithDogs,
+                PetGenderId = request.PetGenderId,
+                PetSizeId = request.PetSizeId,
+                PetTypeId = request.PetTypeId,
+            };
+
 
             // Create the pet
-            var pet = await _petService.CreateAsync(request);
+            var pet = await _petService.CreateAsync(petDto);
 
             return Ok(pet);
         }
