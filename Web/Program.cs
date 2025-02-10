@@ -69,7 +69,7 @@ public static class Program
         var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_URL");
         // Configure EmailSettings
         services.AddTransient<EmailSettings>();
-// Register email services
+        // Register email services
         services.AddSingleton<IEmailTemplateService, EmailTemplateService>();
         services.AddSingleton<IEmailService, EmailService>();
 

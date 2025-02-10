@@ -156,11 +156,11 @@ public static class DatabaseSeeder
     {
         var adoptionStatuses = new AdoptionStatus[]
         {
-            new AdoptionStatus("Available"),
-            new AdoptionStatus("Pending"),
-            new AdoptionStatus("Adopted"),
-            new AdoptionStatus("Not Available"),
-            new AdoptionStatus("Trial Adoption"),
+            new AdoptionStatus(AdoptionStatuses.Available),
+            new AdoptionStatus(AdoptionStatuses.Pending),
+            new AdoptionStatus(AdoptionStatuses.Adopted),
+            new AdoptionStatus(AdoptionStatuses.NotAvailable),
+            new AdoptionStatus(AdoptionStatuses.TrialAdoption),
         };
 
         return adoptionStatuses;
