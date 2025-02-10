@@ -4,7 +4,8 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.Pet;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.IdentityModel.Tokens;
@@ -62,7 +63,7 @@ namespace Web.Controllers
             }
 
             // Upload the avatar image
-            request.AvatarImg = await _uploadService.UploadFile(avatar);
+            var avatarImage = await _uploadService.UploadFile(avatar);
 
             // Initialize ImageShowcase if null
             var imageShowcase = new List<string>();
@@ -77,10 +78,32 @@ namespace Web.Controllers
             }
 
             // Set the ImageShowcase property
-            request.ImageShowcase = imageShowcase.ToArray();
+
+
+            var petDto = new CreatePetDTO
+            {
+                Name = request.Name,
+                ImageShowcase = imageShowcase.ToArray(),
+                AvatarImg = avatarImage,
+                Breed = request.Breed,
+                AgeYears = request.AgeYears,
+                BehaviorialNotes = request.BehaviorialNotes,
+                EnergyLevel = request.EnergyLevel,
+                IntakeDate = new DateTime(),
+                SpecialRequirements = request.SpecialRequirements,
+                AdoptionStatusId = request.HealthStatusId,
+                HealthStatusId = request.HealthStatusId,
+                GoodWithCats = request.GoodWithCats,
+                GoodWithChildren = request.GoodWithChildren,
+                GoodWithDogs = request.GoodWithDogs,
+                PetGenderId = request.PetGenderId,
+                PetSizeId = request.PetSizeId,
+                PetTypeId = request.PetTypeId,
+            };
+
 
             // Create the pet
-            var pet = await _petService.CreateAsync(request);
+            var pet = await _petService.CreateAsync(petDto);
 
             return Ok(pet);
         }
@@ -88,23 +111,23 @@ namespace Web.Controllers
         [HttpPut]
         [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
         [Route("{id:guid}")]
-        public async Task<ActionResult<Pet>> UpdatePet([FromForm] UpdatePetRequest request, [FromRoute] Guid id,
+        public async Task<ActionResult<Pet>> UpdatePet([FromForm] UpdatePetDTO dto, [FromRoute] Guid id,
             [FromForm] IFormFile? avatar,
             [FromForm] List<IFormFile>? images)
         {
             if (avatar != null)
             {
-                request.AvatarImg = await _uploadService.ReplaceFile(avatar, request.AvatarImg);
+                dto.AvatarImg = await _uploadService.ReplaceFile(avatar, dto.AvatarImg);
             }
 
             if (!images.IsNullOrEmpty())
             {
-                if (images.Count == request.ImageSowcaseUpdate.Length)
+                if (images.Count == dto.ImageSowcaseUpdate.Length)
                 {
-                    var imageShowcase = new List<string>(request.ImageShowcase);
+                    var imageShowcase = new List<string>(dto.ImageShowcase);
 
                     // Use Zip to iterate through both images and ImageShowcaseDelete in parallel
-                    foreach (var (newImage, oldImage) in images.Zip(request.ImageSowcaseUpdate))
+                    foreach (var (newImage, oldImage) in images.Zip(dto.ImageSowcaseUpdate))
                     {
                         // Remove the old image
                         imageShowcase.Remove(oldImage);
@@ -115,7 +138,7 @@ namespace Web.Controllers
                     }
 
                     // Update the ImageShowcase property with the modified list
-                    request.ImageShowcase = imageShowcase.ToArray();
+                    dto.ImageShowcase = imageShowcase.ToArray();
                 }
                 else
                 {
@@ -123,23 +146,23 @@ namespace Web.Controllers
                 }
             }
 
-            if (!request.ImageShowcaseDelete.IsNullOrEmpty())
+            if (!dto.ImageShowcaseDelete.IsNullOrEmpty())
             {
                 // Remove files from the storage
-                foreach (var image in request.ImageShowcaseDelete)
+                foreach (var image in dto.ImageShowcaseDelete)
                 {
                     _uploadService.RemoveFile(image);
                 }
 
                 // Update the ImageShowcase to exclude deleted images
 
-                request.ImageShowcase = request.ImageShowcase
-                    .Where(image => !request.ImageShowcaseDelete.Contains(image))
+                dto.ImageShowcase = dto.ImageShowcase
+                    .Where(image => !dto.ImageShowcaseDelete.Contains(image))
                     .ToArray(); // Convert the result back to a string[]
             }
 
 
-            var updated = await _petService.UpdateAsync(id, request);
+            var updated = await _petService.UpdateAsync(id, dto);
 
             if (updated == null)
             {

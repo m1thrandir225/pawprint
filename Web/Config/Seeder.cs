@@ -2,7 +2,7 @@ using System.Drawing;
 using Bogus;
 using Domain;
 using Domain.enums;
-using Domain.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Identity;
 using NuGet.Protocol;
 using Repository;

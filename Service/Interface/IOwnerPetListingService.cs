@@ -1,4 +1,6 @@
-﻿namespace Service.Interface;
+﻿using Domain.DTOs.OwnerPetListing;
+
+namespace Service.Interface;
 
 using Domain;
 using Domain.DTOs;

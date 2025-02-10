@@ -1,5 +1,6 @@
 using Domain;
 using Domain.DTOs;
+using Domain.DTOs.PetGender;
 using Repository.Interface;
 using Service.Interface;
 
@@ -16,24 +17,24 @@ public class PetGenderService : IPetGenderService
 
     public async Task<IEnumerable<PetGender>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<PetGender> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);;
+        return await _repository.Get(id);;
     }
 
     public async Task<PetGender> CreateAsync(CreatePetGenderRequest dto)
     {
         var petGender = new PetGender(dto.Name);
         
-        return _repository.Insert(petGender);
+        return await _repository.Insert(petGender);
     }
 
     public async Task<PetGender> UpdateAsync(Guid id, UpdatePetGenderRequest dto)
     {
-        var petGender = _repository.Get(id);
+        var petGender = await _repository.Get(id);
 
         if (petGender == null)
         {
@@ -42,15 +43,15 @@ public class PetGenderService : IPetGenderService
         
         petGender.Name = dto.Name;
         
-        return _repository.Update(petGender);
+        return await _repository.Update(petGender);
     }
     
     
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var petGender = _repository.Get(id);
+        var petGender = await _repository.Get(id);
         
-        _repository.Delete(petGender);
-        return Task.FromResult(true);
+        await _repository.Delete(petGender);
+        return true;
     }
 }

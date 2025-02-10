@@ -1,8 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Identity;
 
-namespace Domain;
+namespace Domain.identity;
 
 [Table("shelters")]
 public class Shelter : ApplicationUser

@@ -1,9 +1,7 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Identity;
-using Microsoft.AspNetCore.Identity;
 
-namespace Domain;
+namespace Domain.identity;
 
 /*
  * Email, Phone Number & Roles are inherited from IdentityUser

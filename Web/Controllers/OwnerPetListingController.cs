@@ -2,8 +2,10 @@
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.OwnerPetListing;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
+using Web.Filters;
 
 namespace Web.Controllers;
 
@@ -83,8 +85,9 @@ public class OwnerPetListingController : ControllerBase
     }
 
     [HttpPut]
-    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
     [Route("{id:guid}")]
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
+    [AuthorizeWithUserId<UpdateOwnerPetListingRequest>]
     public async Task<ActionResult<OwnerPetListing>> UpdateOwnerPetListing(
         [FromBody] UpdateOwnerPetListingRequest request)
     {
@@ -98,9 +101,10 @@ public class OwnerPetListingController : ControllerBase
     }
 
     [HttpDelete]
-    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
     [Route("{id:guid}")]
-    public async Task<ActionResult<OwnerPetListing>> DeleteOwnerPetListing([FromRoute] Guid id)
+    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
+    [AuthorizeWithUserId<UserResourceId>]
+    public async Task<ActionResult<OwnerPetListing>> DeleteOwnerPetListing([FromRoute] Guid id, [FromBody] UserResourceId userResourceId)
     {
         var deleted = await _ownerPetListingService.DeleteAsync(id);
 

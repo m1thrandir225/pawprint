@@ -3,8 +3,11 @@ using Domain.enums;
 using Microsoft.AspNetCore.Mvc;
 using Service.Interface;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.ShelterPetListing;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
+using Web.Filters;
+using Web.Services.Interfaces;
 
 namespace Web.Controllers;
 
@@ -15,7 +18,10 @@ public class ShelterPetListingController : ControllerBase
     private readonly IShelterPetListingService _listingService;
     private readonly IEmailService _emailService;
 
-    public ShelterPetListingController(IShelterPetListingService listingService, IEmailService emailService)
+    public ShelterPetListingController(
+        IShelterPetListingService listingService,
+        IEmailService emailService
+        )
     {
         _listingService = listingService;
         _emailService = emailService;
@@ -86,6 +92,7 @@ public class ShelterPetListingController : ControllerBase
 
     [HttpPut("{id:guid}")] 
     [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
+    [AuthorizeWithUserId<UpdateShelterPetListingRequest>]
     public async Task<ActionResult<ShelterPetListing>> UpdateListing(
         [FromBody] UpdateShelterPetListingRequest request)
     {
@@ -99,7 +106,8 @@ public class ShelterPetListingController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
-    public async Task<ActionResult<bool>> DeleteListing([FromRoute] Guid id)
+    [AuthorizeWithUserId<UserResourceId>]
+    public async Task<ActionResult<bool>> DeleteListing([FromRoute] Guid id, [FromBody] UserResourceId userResourceId)
     {
         var deleted = await _listingService.DeleteAsync(id);
 

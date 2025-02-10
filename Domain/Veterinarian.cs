@@ -19,14 +19,20 @@ public class Veterinarian : BaseEntity
     public virtual ICollection<VeterinarianSpecilization> VetSpecializations { get; set; }
     // public virtual ICollection<MedicalRecord> MedicalRecords { get; set; }
 
-    public Veterinarian()
-    {
-    }
-
-    public Veterinarian(string name, string contactNumber, string email)
-    {
-        Name = name;
-        ContactNumber = contactNumber;
-        Email = email;
-    }
+    // public Veterinarian()
+    // {
+    // }
+    //
+    // public Veterinarian(
+    //     string name,
+    //     string contactNumber,
+    //     string email,
+    //     string clinicName
+    //     )
+    // {
+    //     Name = name;
+    //     ContactNumber = contactNumber;
+    //     Email = email;
+    //     ClinicName = clinicName;
+    // }
 }

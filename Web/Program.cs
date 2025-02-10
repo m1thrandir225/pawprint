@@ -1,7 +1,6 @@
-using System.Configuration;
 using System.Text;
 using Domain;
-using Domain.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -16,217 +15,254 @@ using Web.Services;
 using Web.Services.Interfaces;
 using Web.Extensions;
 
-
-var builder = WebApplication.CreateBuilder(args);
-
-DotNetEnv.Env.Load();
-
-var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_URL");
-var smtpHost = Environment.GetEnvironmentVariable("SMTP_HOST");
-var smtpPort = Environment.GetEnvironmentVariable("SMTP_PORT");
-var smtpUser = Environment.GetEnvironmentVariable("SMTP_USERNAME");
-var smtpPassword = Environment.GetEnvironmentVariable("SMTP_PASSWORD");
-var smtpSenderName = Environment.GetEnvironmentVariable("SMTP_SENDER_NAME");
-var smtpSenderEmail = Environment.GetEnvironmentVariable("SMTP_SENDER_EMAIL");
-
-
-if (string.IsNullOrWhiteSpace(connectionString) || string.IsNullOrWhiteSpace(smtpHost) ||
-    string.IsNullOrWhiteSpace(smtpPort) || string.IsNullOrWhiteSpace(smtpUser) ||
-    string.IsNullOrWhiteSpace(smtpPassword) || string.IsNullOrWhiteSpace(smtpSenderEmail) || string.IsNullOrWhiteSpace(smtpSenderName))
+public static class Program
 {
-    throw new Exception("Invalid configuration, please check your environment variables. (.env)");
-}
-
-
-// Configure EmailSettings
-builder.Services.AddTransient<EmailSettings>();
-// Register email services
-builder.Services.AddSingleton<IEmailTemplateService, EmailTemplateService>();
-builder.Services.AddSingleton<IEmailService, EmailService>();
-builder.Configuration.AddEnvironmentVariables();
-
-builder.Services.AddDbContext<ApplicationDbContext>(options =>
-    options.UseLazyLoadingProxies().
-        UseNpgsql(connectionString)
-);
-
-builder.Services.AddControllersWithViews();
-builder.Services.AddControllers();
-builder.Services.AddEndpointsApiExplorer();
-builder.Services.AddSwaggerGen();
-
-
-builder.Services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+    public static void Main(string[] args)
     {
-        options.User.AllowedUserNameCharacters = null;
-        options.User.RequireUniqueEmail = true;
+        var builder = WebApplication.CreateBuilder(args);
 
-        options.Password.RequireDigit = true;
-        options.Password.RequiredLength = 8;
-        options.Password.RequireNonAlphanumeric = true;
-        options.Password.RequireUppercase = true;
-        options.Password.RequireLowercase = true;
+        ConfigureEnvironment(builder);
+        ConfigureServices(builder.Services);
+        ConfigureIdentity(builder.Services);
+        ConfigureJWT(builder);
+        RegisterRepositories(builder.Services);
+        RegisterServices(builder.Services);
+        ConfigureControllers(builder);
 
-        // Disable two-factor authentication
-        options.Tokens.ProviderMap.Remove("Default");
-        options.Tokens.ProviderMap.Remove("Email");
-        options.Tokens.ProviderMap.Remove("Phone");
+        var app = builder.Build();
+        ConfigureMiddleware(app);
+        ConfigureEndpoints(app);
+        SeedRoles(app).Wait();
 
-        options.User.RequireUniqueEmail = true;
-
-        // Disable phone number confirmation
-        options.SignIn.RequireConfirmedPhoneNumber = false;
-
-        // Disable lockout
-        options.Lockout.AllowedForNewUsers = false;
-
-        // Disable email confirmation requirement
-        options.SignIn.RequireConfirmedEmail = false;
-
-        // Disable account confirmation
-        options.SignIn.RequireConfirmedAccount = false;
-
-    })
-    .AddEntityFrameworkStores<ApplicationDbContext>()
-    .AddDefaultTokenProviders();
+        app.Run();
 
 
-//JWT Config
-builder.Services.Configure<JWTConfig>(builder.Configuration.GetSection("JWTConfig"));
+    }
 
-builder.Services.AddAuthentication(options =>
-{
-    options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
-    options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
-})
-.AddJwtBearer(options =>
-{
-    options.TokenValidationParameters = new TokenValidationParameters
+    private static void ConfigureEnvironment(WebApplicationBuilder builder)
     {
-        ValidateIssuer = true,
-        ValidateAudience = true,
-        ValidateLifetime = true,
-        ValidateIssuerSigningKey = true,
-        ValidIssuer = builder.Configuration["JWTConfig:Issuer"],
-        ValidAudience =  builder.Configuration["JWTConfig:Audience"],
-        IssuerSigningKey = new SymmetricSecurityKey(
-            Encoding.UTF8.GetBytes(builder.Configuration["JWTConfig:SecretKey"]))
-    };
-});
-builder.Services.AddScoped<JWTService>();
-builder.Services.AddScoped<AuthenticationService>();
-
-
-
-// Repos
-builder.Services.AddScoped<IAdopterPetGenderPreferenceRepository, AdopterPetGenderPreferenceRepository>();
-builder.Services.AddScoped<IAdopterPetSizePreferenceRepository, AdopterPetSizePreferenceRepository>();
-builder.Services.AddScoped<IAdopterPetTypePreferenceRepository, AdopterPetTypePreferenceRepository>();
-builder.Services.AddScoped<IAdoptionRepository, AdoptionRepository>(); // THIS IS THE LINE I MESSED UP
-builder.Services.AddScoped<IAdoptionStatusRepository, AdoptionStatusRepository>();
-builder.Services.AddScoped<IHealthStatusRepository, HealthStatusRepository>();
-builder.Services.AddScoped<IMedicalConditionRepository, MedicalConditionRepository>();
-builder.Services.AddScoped<IMedicalRecordRepository, MedicalRecordRepository>();
-builder.Services.AddScoped<IOwnerPetListingDocumentRepository, OwnerPetListingDocumentRepository>();
-builder.Services.AddScoped<IOwnerPetListingRepository, OwnerPetListingRepository>();
-builder.Services.AddScoped<IOwnerSurrenderReasonRepository, OwnerSurrenderReasonRepository>();
-builder.Services.AddScoped<IPetGenderRepository, PetGenderRepository>();
-builder.Services.AddScoped<IPetRepository, PetRepository>();
-builder.Services.AddScoped<IPetSizeRepository, PetSizeRepository>();
-builder.Services.AddScoped<IPetTypeRepository, PetTypeRepository>();
-builder.Services.AddScoped<IShelterPetListingRepository, ShelterPetListingRepository>();
-builder.Services.AddScoped<IShelterRepository, ShelterRepository>();
-builder.Services.AddScoped<IUserRepository, UserRepository>();
-builder.Services.AddScoped<IVaccinationRepository, VaccinationRepository>();
-builder.Services.AddScoped<IVeterinarianRepository, VeterinarianRepository>();
-builder.Services.AddScoped<IVeterinarianSpecializationRepository, VeterinarianSpecializationRepository>();
-
-
-builder.Services.AddScoped<IPetTypeService, PetTypeService>();
-builder.Services.AddScoped<IAdoptionService, AdoptionService>();
-builder.Services.AddScoped<IPetService, PetService>();
-builder.Services.AddScoped<IVeterinarianService, VeterinarianService>();
-builder.Services.AddScoped<IVaccinationService, VaccinationService>();
-builder.Services.AddScoped<IPetSizeService, PetSizeService>();
-builder.Services.AddScoped<IPetGenderService, PetGenderService>();
-builder.Services.AddScoped<IHealthStatusService, HealthStatusService>();
-builder.Services.AddScoped<IMedicalConditionService, MedicalConditionService>();
-builder.Services.AddScoped<IMedicalRecordService, MedicalRecordService>();
-builder.Services.AddScoped<IOwnerPetListingService, OwnerPetListingService>();
-builder.Services.AddScoped<IOwnerPetListingDocumentService, OwnerPetListingDocumentService>();
-builder.Services.AddScoped<IAdoptionStatusService, AdoptionStatusService>();
-builder.Services.AddScoped<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
-builder.Services.AddScoped<IVeterinarianSpecializationService, VeterinarianSpecializationService>();
-builder.Services.AddScoped<IShelterPetListingService, ShelterPetListingService>();
-builder.Services.AddScoped<IAdopterService, AdopterService>();
-builder.Services.AddScoped<IShelterService, ShelterService>();
-
-// File Service
-builder.Services.AddScoped<IUploadService, UploadService>();
-builder.Services.AddCors();
-
-
-
-// Controllers 
-builder.Services.AddControllers()
-    .AddJsonOptions(options =>
-    {
-        options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
-        options.JsonSerializerOptions.WriteIndented = true;
-    });
-
-
-
-var app = builder.Build();
-
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger(); // Enable Swagger
-    app.UseSwaggerUI();
-    app.ApplyMigrations();
-}
-
-DatabaseSeeder.SeedData(app.Services);
-
-// Configure the HTTP request pipeline.
-if (!app.Environment.IsDevelopment())
-{
-    // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
-    //app.UseHsts();
-}
-
-// app.UseHttpsRedirection();
-app.UseStaticFiles();
-
-app.UseCors(x => x
-    .AllowAnyMethod()
-    .AllowAnyHeader()
-    .SetIsOriginAllowed(origin => true) // allow any origin
-    .AllowCredentials());
-
-app.UseRouting();
-
-app.UseAuthentication();
-app.UseAuthorization();
-
-app.MapControllers();
-
-app.MapControllerRoute(
-    name: "default",
-    pattern: "{controller=Home}/{action=Index}");
-
-using (var scope = app.Services.CreateScope())
-{
-    var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
-    var roles = new[] { UserRole.Admin, UserRole.User, UserRole.Shelter};
-
-    foreach (var role in roles)
-    {
-        if (!await roleManager.RoleExistsAsync(role))
+        DotNetEnv.Env.Load();
+        var requiredVars = new[]
         {
-            await roleManager.CreateAsync(new IdentityRole<Guid>(role));
+            "DB_CONNECTION_URL",
+            "SMTP_HOST",
+            "SMTP_PORT",
+            "SMTP_USERNAME",
+            "SMTP_PASSWORD",
+            "SMTP_SENDER_NAME",
+            "SMTP_SENDER_EMAIL"
+        };
+
+        foreach (var envVar in requiredVars)
+        {
+            if (string.IsNullOrWhiteSpace(Environment.GetEnvironmentVariable(envVar)))
+            {
+                throw new Exception($"Missing required environment variable: {envVar}");
+            }
+        }
+
+        builder.Configuration.AddEnvironmentVariables();
+    }
+
+    public static void ConfigureServices(IServiceCollection services)
+    {
+        var connectionString = Environment.GetEnvironmentVariable("DB_CONNECTION_URL");
+        // Configure EmailSettings
+        services.AddTransient<EmailSettings>();
+// Register email services
+        services.AddSingleton<IEmailTemplateService, EmailTemplateService>();
+        services.AddSingleton<IEmailService, EmailService>();
+
+        services.AddDbContext<ApplicationDbContext>(options =>
+            options.UseLazyLoadingProxies().
+                UseNpgsql(connectionString)
+        );
+        services.AddControllersWithViews();
+        services.AddControllers();
+        services.AddEndpointsApiExplorer();
+        services.AddSwaggerGen();
+        services.AddHttpContextAccessor();
+        services.AddCors();
+    }
+
+    public static void ConfigureIdentity(IServiceCollection services)
+    {
+        services.AddIdentity<ApplicationUser, IdentityRole<Guid>>(options =>
+            {
+                options.User.AllowedUserNameCharacters = null;
+                options.User.RequireUniqueEmail = true;
+
+                options.Password.RequireDigit = true;
+                options.Password.RequiredLength = 8;
+                options.Password.RequireNonAlphanumeric = true;
+                options.Password.RequireUppercase = true;
+                options.Password.RequireLowercase = true;
+
+                // Disable two-factor authentication
+                options.Tokens.ProviderMap.Remove("Default");
+                options.Tokens.ProviderMap.Remove("Email");
+                options.Tokens.ProviderMap.Remove("Phone");
+
+                options.User.RequireUniqueEmail = true;
+
+                // Disable phone number confirmation
+                options.SignIn.RequireConfirmedPhoneNumber = false;
+
+                // Disable lockout
+                options.Lockout.AllowedForNewUsers = false;
+
+                // Disable email confirmation requirement
+                options.SignIn.RequireConfirmedEmail = false;
+
+                // Disable account confirmation
+                options.SignIn.RequireConfirmedAccount = false;
+
+            })
+            .AddEntityFrameworkStores<ApplicationDbContext>()
+            .AddDefaultTokenProviders();
+    }
+
+    public static void ConfigureJWT(WebApplicationBuilder builder)
+    {
+        //JWT Config
+        builder.Services.Configure<JWTConfig>(builder.Configuration.GetSection("JWTConfig"));
+
+        builder.Services.AddAuthentication(options =>
+            {
+                options.DefaultAuthenticateScheme = JwtBearerDefaults.AuthenticationScheme;
+                options.DefaultChallengeScheme = JwtBearerDefaults.AuthenticationScheme;
+            })
+            .AddJwtBearer(options =>
+            {
+                options.TokenValidationParameters = new TokenValidationParameters
+                {
+                    ValidateIssuer = true,
+                    ValidateAudience = true,
+                    ValidateLifetime = true,
+                    ValidateIssuerSigningKey = true,
+                    ValidIssuer = builder.Configuration["JWTConfig:Issuer"],
+                    ValidAudience =  builder.Configuration["JWTConfig:Audience"],
+                    IssuerSigningKey = new SymmetricSecurityKey(
+                        Encoding.UTF8.GetBytes(builder.Configuration["JWTConfig:SecretKey"]))
+                };
+            });
+        builder.Services.AddScoped<JWTService>();
+        builder.Services.AddScoped<AuthenticationService>();
+    }
+
+    private static void RegisterRepositories(IServiceCollection services)
+    {
+       services.AddTransient<IAdopterPetGenderPreferenceRepository, AdopterPetGenderPreferenceRepository>();
+       services.AddTransient<IAdopterPetSizePreferenceRepository, AdopterPetSizePreferenceRepository>();
+       services.AddTransient<IAdopterPetTypePreferenceRepository, AdopterPetTypePreferenceRepository>();
+       services.AddTransient<IAdoptionRepository, AdoptionRepository>();
+       services.AddTransient<IAdoptionStatusRepository, AdoptionStatusRepository>();
+       services.AddTransient<IHealthStatusRepository, HealthStatusRepository>();
+       services.AddTransient<IMedicalConditionRepository, MedicalConditionRepository>();
+       services.AddTransient<IMedicalRecordRepository, MedicalRecordRepository>();
+       services.AddTransient<IOwnerPetListingDocumentRepository, OwnerPetListingDocumentRepository>();
+       services.AddTransient<IOwnerPetListingRepository, OwnerPetListingRepository>();
+       services.AddTransient<IOwnerSurrenderReasonRepository, OwnerSurrenderReasonRepository>();
+       services.AddTransient<IPetGenderRepository, PetGenderRepository>();
+       services.AddTransient<IPetRepository, PetRepository>();
+       services.AddTransient<IPetSizeRepository, PetSizeRepository>();
+       services.AddTransient<IPetTypeRepository, PetTypeRepository>();
+       services.AddTransient<IShelterPetListingRepository, ShelterPetListingRepository>();
+       services.AddTransient<IShelterRepository, ShelterRepository>();
+       services.AddTransient<IUserRepository, UserRepository>();
+       services.AddTransient<IVaccinationRepository, VaccinationRepository>();
+       services.AddTransient<IVeterinarianRepository, VeterinarianRepository>();
+       services.AddTransient<IVeterinarianSpecializationRepository, VeterinarianSpecializationRepository>();
+    }
+
+    private static void RegisterServices(IServiceCollection services)
+    {
+        services.AddTransient<IPetTypeService, PetTypeService>();
+        services.AddTransient<IAdoptionService, AdoptionService>();
+        services.AddTransient<IPetService, PetService>();
+        services.AddTransient<IVeterinarianService, VeterinarianService>();
+        services.AddTransient<IVaccinationService, VaccinationService>();
+        services.AddTransient<IPetSizeService, PetSizeService>();
+        services.AddTransient<IPetGenderService, PetGenderService>();
+        services.AddTransient<IHealthStatusService, HealthStatusService>();
+        services.AddTransient<IMedicalConditionService, MedicalConditionService>();
+        services.AddTransient<IMedicalRecordService, MedicalRecordService>();
+        services.AddTransient<IOwnerPetListingService, OwnerPetListingService>();
+        services.AddTransient<IOwnerPetListingDocumentService, OwnerPetListingDocumentService>();
+        services.AddTransient<IAdoptionStatusService, AdoptionStatusService>();
+        services.AddTransient<IOwnerSurrenderReasonService, OwnerSurrenderReasonService>();
+        services.AddTransient<IVeterinarianSpecializationService, VeterinarianSpecializationService>();
+        services.AddTransient<IShelterPetListingService, ShelterPetListingService>();
+        services.AddTransient<IAdopterService, AdopterService>();
+        services.AddTransient<IShelterService, ShelterService>();
+        services.AddTransient<IUploadService, UploadService>();
+    }
+
+    private static void ConfigureControllers(WebApplicationBuilder builder)
+    {
+        builder.Services.AddControllers()
+            .AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.ReferenceHandler = System.Text.Json.Serialization.ReferenceHandler.IgnoreCycles;
+                options.JsonSerializerOptions.WriteIndented = true;
+            });
+    }
+
+    private static void ConfigureMiddleware(WebApplication app)
+    {
+        if (app.Environment.IsDevelopment())
+        {
+            app.UseSwagger(); // Enable Swagger
+            app.UseSwaggerUI();
+            app.ApplyMigrations();
+            DatabaseSeeder.SeedData(app.Services);
+        }
+
+
+
+        // Configure the HTTP request pipeline.
+        if (!app.Environment.IsDevelopment())
+        {
+            // The default HSTS value is 30 days. You may want to change this for production scenarios, see https://aka.ms/aspnetcore-hsts.
+            //app.UseHsts();
+        }
+
+        // app.UseHttpsRedirection();
+        app.UseStaticFiles();
+
+        app.UseCors(x => x
+            .AllowAnyMethod()
+            .AllowAnyHeader()
+            .SetIsOriginAllowed(origin => true) // allow any origin
+            .AllowCredentials());
+
+        app.UseRouting();
+
+        app.UseAuthentication();
+        app.UseAuthorization();
+
+    }
+
+    private static void ConfigureEndpoints(WebApplication app)
+    {
+        app.MapControllers();
+        app.MapControllerRoute(
+            name: "default",
+            pattern: "{controller=Home}/{action=Index}");
+    }
+
+    private static async Task SeedRoles(WebApplication app)
+    {
+        using var scope = app.Services.CreateScope();
+        var roleManager = scope.ServiceProvider.GetRequiredService<RoleManager<IdentityRole<Guid>>>();
+        var roles = new[] { UserRole.Admin, UserRole.User, UserRole.Shelter};
+
+        foreach (var role in roles)
+        {
+            if (!await roleManager.RoleExistsAsync(role))
+            {
+                await roleManager.CreateAsync(new IdentityRole<Guid>(role));
+            }
         }
     }
 }
-
-app.Run();

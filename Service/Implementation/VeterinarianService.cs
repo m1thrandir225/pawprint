@@ -1,5 +1,6 @@
 using Domain;
 using Domain.DTOs;
+using Domain.DTOs.Veterinarian;
 using Repository.Interface;
 using Service.Interface;
 
@@ -16,24 +17,30 @@ public class VeterinarianService : IVeterinarianService
 
     public async Task<IEnumerable<Veterinarian>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<Veterinarian> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);
+        return await _repository.Get(id);
     }
 
     public async Task<Veterinarian> CreateAsync(CreateVeterinarianRequest dto)
     {
-        var veterinarian = new Veterinarian(dto.Name, dto.ContactNumber, dto.Email);
+        var veterinarian = new Veterinarian
+        {
+            Name = dto.Name,
+            ClinicName = dto.ClinicName,
+            ContactNumber = dto.ContactNumber,
+            Email = dto.Email,
+        };
         
-        return _repository.Insert(veterinarian);
+        return await _repository.Insert(veterinarian);
     }
 
     public async Task<Veterinarian> UpdateAsync(Guid id, UpdateVeterinarianRequest dto)
     {
-        var veterinarian = _repository.Get(id);
+        var veterinarian = await _repository.Get(id);
 
         if (veterinarian == null)
         {
@@ -44,14 +51,14 @@ public class VeterinarianService : IVeterinarianService
         veterinarian.ContactNumber = dto.ContactNumber;
         veterinarian.Email = dto.Email;
         
-        return _repository.Update(veterinarian);
+        return await _repository.Update(veterinarian);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var veterinarian = _repository.Get(id);
+        var veterinarian = await _repository.Get(id);
         
-        _repository.Delete(veterinarian);
-        return Task.FromResult(true);
+        await _repository.Delete(veterinarian);
+        return true;
     }
 }
