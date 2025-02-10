@@ -6,5 +6,4 @@ namespace Service.Interface;
 
 public interface IPetService : ICRUDService<Pet, CreatePetDTO, UpdatePetDTO>
 {
-
 }

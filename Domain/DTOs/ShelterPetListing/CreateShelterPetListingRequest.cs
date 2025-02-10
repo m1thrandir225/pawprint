@@ -17,6 +17,7 @@ public class CreateShelterPetListingRequest
 /**
 form: {
     'pet': {} -> JSON FIELDS,
+    'petName': '',
     'veterinarian': {} -> JSON FIELDS
     'medicalRecord': {} -> JSON FIELDS ,
     'fee': {} -> JSON FIELDS,

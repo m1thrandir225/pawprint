@@ -65,8 +65,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
         modelBuilder.Entity<ApplicationUser>()
             .UseTptMappingStrategy();
-
-
     }
 }
 
