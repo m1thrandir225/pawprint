@@ -7,8 +7,10 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
 using Repository;
 using Repository.Implementations;
+using Repository.integration;
 using Repository.Interface;
 using Service.Implementation;
+using Service.integration;
 using Service.Interface;
 using Web.Config;
 using Web.Services;
@@ -28,7 +30,10 @@ public static class Program
         RegisterRepositories(builder.Services);
         RegisterServices(builder.Services);
         ConfigureControllers(builder);
-
+        
+        //For Restaurant
+        Integration(builder);
+        
         var app = builder.Build();
         ConfigureMiddleware(app);
         ConfigureEndpoints(app);
@@ -264,5 +269,25 @@ public static class Program
                 await roleManager.CreateAsync(new IdentityRole<Guid>(role));
             }
         }
+    }
+
+    
+    private static void Integration(WebApplicationBuilder builder)
+    {
+        // The connection string for the integration (FoodDelivery) database.
+        var integrationConnectionString = "Data Source=tcp:fooddelivery-webdbserver.database.windows.net,1433;Initial Catalog=FoodDelivery_db;User Id=korisnik@fooddelivery-webdbserver;Password=fooddelivery1*";
+    
+        // Register the IntegrationDbContext (using SQL Server here)
+        builder.Services.AddDbContext<IntegrationDbContext>(options =>
+            options.UseSqlServer(integrationConnectionString));
+
+        // Register the integration-layer repositories and services.
+        // (Make sure that these interfaces and classes exist in your project.)
+        builder.Services.AddTransient<IRestaurantRepository, RestaurantRepository>();
+        builder.Services.AddTransient<IRestaurantService, RestaurantService>();
+
+        // Register a hosted service that will run at startup and apply any pending migrations 
+        // on the Integration database.
+        // builder.Services.AddHostedService<IntegrationDbInitializer>();
     }
 }
