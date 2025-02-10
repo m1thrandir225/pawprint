@@ -65,29 +65,30 @@ public class ShelterPetListingController : ControllerBase
     }
 
     [HttpPost]
-    [Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
+    //[Authorize(Roles = $"{UserRole.Admin}, {UserRole.Shelter}")]
     public async Task<ActionResult<ShelterPetListing>> CreateListing(
-        [FromBody] CreateShelterPetListingRequest request)
+        [FromForm] CreateShelterPetListingRequest request, [FromForm] List<IFormFile> imageShowcase, [FromForm] IFormFile avatarImg)
     {
-        var listing = await _listingService.CreateAsync(request);
-        if (listing == null)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-
-        var emailSent = await _emailService.SendPetListingAdoptionNotificationAsync(
-            listing.Shelter.Email,
-            PetListingType.ShelterPetListing,
-            listing
-        );
-
-        if (!emailSent)
-        {
-            return StatusCode(StatusCodes.Status500InternalServerError);
-        }
-
-
-        return Ok(listing);
+        return Ok(request);
+        // var listing = await _listingService.CreateAsync(request);
+        // if (listing == null)
+        // {
+        //     return StatusCode(StatusCodes.Status500InternalServerError);
+        // }
+        //
+        // var emailSent = await _emailService.SendPetListingAdoptionNotificationAsync(
+        //     listing.Shelter.Email,
+        //     PetListingType.ShelterPetListing,
+        //     listing
+        // );
+        //
+        // if (!emailSent)
+        // {
+        //     return StatusCode(StatusCodes.Status500InternalServerError);
+        // }
+        //
+        //
+        // return Ok(listing);
     }
 
     [HttpPut("{id:guid}")] 
