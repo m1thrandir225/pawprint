@@ -49,7 +49,12 @@ public class AdoptionStatusService : IAdoptionStatusService
     public async Task<bool> DeleteAsync(Guid id)
     {
         var adoptionStatus = await _repository.Get(id);
-await        _repository.Delete(adoptionStatus);
+        await _repository.Delete(adoptionStatus);
         return true;
+    }
+
+    public async Task<AdoptionStatus> GetAdoptionStatusByName(string name)
+    {
+        return await _repository.GetAdoptionStatusByName(name);
     }
 }

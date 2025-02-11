@@ -1,6 +1,6 @@
 namespace Web.Services.Interfaces;
 
-public class IUserContextService
+public interface IUserContextService
 {
-    
+    public Guid GetUserId();
 }

@@ -98,7 +98,7 @@ public class JWTService
         }
     }
 
-    public string GenerateAccessTokenFromRefreshToken(string refreshToken, string userEmail) {
+    public string GenerateAccessTokenFromRefreshToken(string refreshToken, string userEmail, Guid userId) {
         var principal = VerifyToken(refreshToken);
         if (principal == null) {
             throw new Exception("Invalid refresh token");
@@ -107,15 +107,20 @@ public class JWTService
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
 
-        var tokenDescriptor = new SecurityTokenDescriptor
+        var claims = new List<Claim>
         {
-            Issuer = _jwtConfig.Issuer,
-            Audience = _jwtConfig.Audience,
-            Expires = DateTime.UtcNow.AddMinutes(15), // Extend expiration time
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            new Claim(JwtRegisteredClaimNames.Sub, userId.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, userEmail),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
+        var token = new JwtSecurityToken(
+            issuer: _jwtConfig.Issuer,
+            audience: _jwtConfig.Audience,
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(_jwtConfig.ExpireMinutes),
+            signingCredentials:  new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        );
 
-        var token = tokenHandler.CreateToken(tokenDescriptor);
         return tokenHandler.WriteToken(token);
     }
 

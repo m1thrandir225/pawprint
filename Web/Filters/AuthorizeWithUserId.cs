@@ -14,7 +14,7 @@ public class AuthorizeWithUserId<RequestDTO> : AuthorizeAttribute, IAsyncAuthori
     public async Task OnAuthorizationAsync(AuthorizationFilterContext context)
     {
         // Extract userId from the JWT token
-        var userIdString = context.HttpContext.User.FindFirst(JwtRegisteredClaimNames.Sub)?.Value;
+        var userIdString = context.HttpContext.User.FindFirst(ClaimTypes.NameIdentifier)?.Value;
         if (string.IsNullOrEmpty(userIdString) || !Guid.TryParse(userIdString, out Guid tokenUserId))
         {
             context.Result = new UnauthorizedResult(); // 401 Unauthorized

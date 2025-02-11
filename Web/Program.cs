@@ -201,6 +201,7 @@ public static class Program
         services.AddTransient<IAdopterService, AdopterService>();
         services.AddTransient<IShelterService, ShelterService>();
         services.AddTransient<IUploadService, UploadService>();
+        services.AddTransient<IUserContextService, UserContextService>();
     }
 
     private static void ConfigureControllers(WebApplicationBuilder builder)

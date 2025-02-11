@@ -188,7 +188,7 @@ namespace Web.Controllers {
         public  ActionResult<string> GenerateRefreshToken([FromBody] RefreshTokenRequest request)
         {
             try {
-                var token = _jwtService.GenerateAccessTokenFromRefreshToken(request.RefreshToken, request.Email);
+                var token = _jwtService.GenerateAccessTokenFromRefreshToken(request.RefreshToken, request.Email, request.UserId);
                 var refreshTime = _jwtService.GetExpirationTime(token);
                 var response = new RefreshTokenResponse {
                     AccessToken = token,
