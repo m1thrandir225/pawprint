@@ -32,23 +32,17 @@ public class ShelterPetListingService : IShelterPetListingService
         // return _repository.GetWithJoins(id);
     }
 
-    public async Task<ShelterPetListing> CreateAsync(CreateShelterPetListingRequest dto)
+    public async Task<ShelterPetListing> CreateAsync(CreateShelterPetListingDTO dto)
     {
-        // var medicalRecord = await _medicalRecordService.CreateAsync(dto.MedicalRecord);
-        //
-        // // Create new listing with PENDING status by default
-        // var listing = new ShelterPetListing(
-        //     dto.PetId,
-        //     medicalRecord.Id,
-        //     dto.ShelterId,
-        //     dto.IntakeDate,
-        //     dto.AdoptionFee
-        // );
-        //
-        // var createdListing = _repository.Insert(listing);
-
-        // return object;
-        throw new NotImplementedException();
+        var listing = new ShelterPetListing
+        {
+            AdoptionFee = dto.AdoptionFee,
+            IntakeDate = dto.IntakeDate,
+            ShelterId = dto.ShelterId,
+            PetId = dto.PetId,
+            MedicalRecordId = dto.MedicalRecordId,
+        };
+        return await _repository.Insert(listing);
     }
 
     public async Task<ShelterPetListing> UpdateAsync(Guid id, UpdateShelterPetListingRequest dto)
