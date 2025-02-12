@@ -891,7 +891,7 @@ namespace Repository.Migrations
             modelBuilder.Entity("Domain.Adoption", b =>
                 {
                     b.HasOne("Domain.identity.User", "Adopter")
-                        .WithMany()
+                        .WithMany("Adoptions")
                         .HasForeignKey("AdopterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1151,6 +1151,8 @@ namespace Repository.Migrations
                     b.Navigation("AdopterPetSizePreferences");
 
                     b.Navigation("AdopterPetTypePreferences");
+
+                    b.Navigation("Adoptions");
                 });
 #pragma warning restore 612, 618
         }

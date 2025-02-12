@@ -42,6 +42,21 @@ namespace Web.Controllers
             return _adoptionService.GetAdoptionsForPet(id);
         }
 
+        [HttpGet("user/{id:guid}")]
+        public async Task<ActionResult<List<Adoption>>> GetAdoptionsForUser([FromRoute] Guid id)
+        {
+            var userIdFromContext = _userContextService.GetUserId();
+
+            if (id != userIdFromContext)
+            {
+                return Unauthorized("You can't view this resource");
+            }
+
+            var adoptions = await _adoptionService.GetAdoptionsForUser(id);
+
+            return Ok(adoptions);
+        }
+
         [HttpGet]
         [Route("{id:guid}")]
         public async Task<ActionResult<Adoption>> GetAdoption([FromRoute] Guid id)
@@ -62,11 +77,11 @@ namespace Web.Controllers
         {
             try
             {
-                var adopter = _userContextService.GetUserId();
+                var adopterId = _userContextService.GetUserId();
 
                 var createDto = new CreateAdoptionDTO
                 {
-                    AdopterId = adopter,
+                    AdopterId = adopterId,
                     PetId = request.PetId,
                 };
 
@@ -82,8 +97,21 @@ namespace Web.Controllers
         }
 
         [HttpPut]
+        [Route("{id:guid}/status")]
+        public async Task<ActionResult<Adoption>> UpdateApprovalStatus([FromRoute] Guid id,
+            [FromBody] UpdateApprovalStatusRequest request)
+        {
+            var updated = await _adoptionService.UpdateApprovalStatus(id, request.Status);
+
+            if (updated == null)
+            {
+                return BadRequest();
+            }
+            return Ok(updated);
+        }
+
+        [HttpPut]
         [Route("{id:guid}")]
-        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
         public async Task<ActionResult<Adoption>> UpdateAdoption([FromBody] UpdateAdoptionRequest request,
             [FromRoute] Guid id)
         {

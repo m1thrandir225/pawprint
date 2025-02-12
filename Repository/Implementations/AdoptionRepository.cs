@@ -1,5 +1,6 @@
 using Domain;
 using Domain.DTOs;
+using Microsoft.EntityFrameworkCore;
 using Repository.Interface;
 
 namespace Repository.Implementations;
@@ -15,6 +16,11 @@ public class AdoptionRepository : CrudRepository<Adoption>, IAdoptionRepository
     public List<Adoption> GetAdoptionsForPet(Guid id)
     {
         return _context.Adoptions.Where(a => a.PetId == id).ToList();
+    }
+
+    public async Task<List<Adoption>> GetAdoptionsForUser(Guid id)
+    {
+        return await _context.Adoptions.Where(a => a.AdopterId == id).ToListAsync();
     }
 
     public List<MonthlyCreation> YearlyAdoptions()

@@ -1,5 +1,6 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
+using System.Text.Json.Serialization;
 
 namespace Domain.identity;
 
@@ -29,4 +30,7 @@ public class User : ApplicationUser
     public virtual ICollection<AdopterPetGenderPreference> AdopterPetGenderPreferences { get; set; } = null!;
     public virtual ICollection<AdopterPetSizePreference> AdopterPetSizePreferences { get; set; } = null!;
     public virtual ICollection<AdopterPetTypePreference> AdopterPetTypePreferences { get; set; } = null!;
+
+    [JsonIgnore]
+    public virtual ICollection<Adoption> Adoptions { get; set; } = null!;
 }

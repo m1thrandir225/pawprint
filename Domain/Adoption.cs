@@ -12,7 +12,8 @@ public class Adoption : BaseEntity
     [ForeignKey(nameof(Pet))]
     public Guid PetId { get; set; }
 
-    [Required] public virtual Pet Pet { get; set; } = null!;
+    [Required]
+    public virtual Pet Pet { get; set; } = null!;
 
     [ForeignKey(nameof(Adopter))]
     [Column("adopter_id", TypeName = "UUID")]
