@@ -22,6 +22,7 @@
       <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.1" />
       <PackageReference Include="Microsoft.IdentityModel.JsonWebTokens" Version="7.1.2" />
       <PackageReference Include="Microsoft.IdentityModel.Protocols" Version="7.1.2" />
+      <PackageReference Include="Microsoft.IdentityModel.Protocols.OpenIdConnect" Version="7.1.2" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL" Version="9.0.2" />
       <PackageReference Include="Npgsql.EntityFrameworkCore.PostgreSQL.Design" Version="1.1.0" />
       <PackageReference Include="System.IdentityModel.Tokens.Jwt" Version="7.1.2" />
