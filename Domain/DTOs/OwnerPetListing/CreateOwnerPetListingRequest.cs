@@ -8,8 +8,6 @@ public class CreateOwnerPetListingRequest
 {
     public string Name { get; set; }
     public string Breed { get; set; }
-    //AVATAR_IMG
-    //IMAGE_SHOWCASE
     public int AgeYears { get; set; }
     public Guid PetTypeId { get; set; }
     public Guid PetGenderId { get; set; }
@@ -21,19 +19,9 @@ public class CreateOwnerPetListingRequest
     public int EnergyLevel { get; set; }
     public string? SpecialRequirements { get; set; }
     public string? BehaviorialNotes { get; set; }
-    public bool spayNeuterStatus  { get; set; }
-    public DateOnly? LastMedicalCheckup { get; set; }
-    public string MicrochipNumber { get; set; }
-    public List<MedicalConditionDTO>? MedicalConditions { get; set; }
-    public List<VaccinationDTO> Vaccinations { get; set; }
+    public DateOnly? IntakeDate { get; set; }
+    public Guid SurrenderReasonId { get; set; }
     public float Fee { get; set; }
     public string FeeCurrency { get; set; }
-    public Guid AdopterId { get; set; }
-    public Guid PetId { get; set; }
-    public Guid SurrenderReasonId { get; set; }
-    public DateTime? ReviewDate { get; set; }
-    public DateTime? SubmissionDate { get; set; }
-    public ApprovalStatus? Approved { get; set; }
-    public float AdoptionFee { get; set; }
 
 }

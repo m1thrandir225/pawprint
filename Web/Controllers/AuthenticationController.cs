@@ -185,10 +185,10 @@ namespace Web.Controllers {
             
         }
         [HttpPost("refresh")]
-        public  ActionResult<string> GenerateRefreshToken([FromBody] RefreshTokenRequest request)
+        public async Task<ActionResult<string>> GenerateRefreshToken([FromBody] RefreshTokenRequest request)
         {
             try {
-                var token = _jwtService.GenerateAccessTokenFromRefreshToken(request.RefreshToken, request.Email, request.UserId);
+                var token = await _jwtService.GenerateAccessTokenFromRefreshToken(request.RefreshToken, request.Email);
                 var refreshTime = _jwtService.GetExpirationTime(token);
                 var response = new RefreshTokenResponse {
                     AccessToken = token,
