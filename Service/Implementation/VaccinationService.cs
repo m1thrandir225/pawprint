@@ -1,5 +1,6 @@
 using Domain;
 using Domain.DTOs;
+using Domain.DTOs.Vaccination;
 using Repository.Interface;
 using Service.Interface;
 
@@ -16,24 +17,24 @@ public class VaccinationService : IVaccinationService
 
     public async Task<IEnumerable<Vaccination>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<Vaccination> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);
+        return await _repository.Get(id);
     }
 
     public async Task<Vaccination> CreateAsync(CreateVaccinationRequest dto)
     {
         var vaccination = new Vaccination(dto.MedicalRecordId, dto.VaccinationName, dto.VaccineDate);
         
-        return _repository.Insert(vaccination);
+        return await _repository.Insert(vaccination);
     }
 
     public async Task<Vaccination> UpdateAsync(Guid id, UpdateVaccinationRequest dto)
     {
-        var vaccination = _repository.Get(id);
+        var vaccination = await _repository.Get(id);
 
         if (vaccination == null)
         {
@@ -44,14 +45,14 @@ public class VaccinationService : IVaccinationService
         vaccination.VaccineName = dto.VaccinationName;
         vaccination.VaccineDate = dto.VaccineDate;
         
-        return _repository.Update(vaccination);
+        return await _repository.Update(vaccination);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var vaccination = _repository.Get(id);
+        var vaccination = await _repository.Get(id);
         
-        _repository.Delete(vaccination);
-        return Task.FromResult(true);
+        await _repository.Delete(vaccination);
+        return true;
     }
 }

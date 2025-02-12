@@ -1,6 +1,7 @@
 using Domain;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.DTOs.PetType;
 using Repository.Interface;
 
 namespace Service.Implementation;
@@ -15,12 +16,12 @@ public class PetTypeService : IPetTypeService
     }
     public async Task<IEnumerable<PetType>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<PetType> GetByIdAsync(Guid id)
     {
-        var petType =  _repository.Get(id);
+        var petType =  await _repository.Get(id);
 
         return petType;
     }
@@ -29,12 +30,12 @@ public class PetTypeService : IPetTypeService
     {
         var petType = new PetType(dto.Name);
 
-        return _repository.Insert(petType);
+        return await _repository.Insert(petType);
     }
 
     public async Task<PetType> UpdateAsync(Guid id, UpdatePetTypeRequest dto)
     {
-        var petType = _repository.Get(id);
+        var petType = await _repository.Get(id);
 
         if (petType == null)
         {
@@ -43,14 +44,14 @@ public class PetTypeService : IPetTypeService
 
         petType.Name = dto.Name;
 
-        return _repository.Update(petType);
+        return await _repository.Update(petType);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var petType = _repository.Get(id);
+        var petType = await _repository.Get(id);
 
-        _repository.Delete(petType);
-        return Task.FromResult(true);
+        await _repository.Delete(petType);
+        return true;
     }
 }

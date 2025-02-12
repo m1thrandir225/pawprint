@@ -42,7 +42,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetGenderId");
 
-                    b.ToTable("adopter_pet_gender_preferences", (string)null);
+                    b.ToTable("adopter_pet_gender_preferences");
                 });
 
             modelBuilder.Entity("Domain.AdopterPetSizePreference", b =>
@@ -65,7 +65,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetSizeId");
 
-                    b.ToTable("adopter_pet_size_preferences", (string)null);
+                    b.ToTable("adopter_pet_size_preferences");
                 });
 
             modelBuilder.Entity("Domain.AdopterPetTypePreference", b =>
@@ -88,7 +88,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetTypeId");
 
-                    b.ToTable("adopter_pet_type_preferences", (string)null);
+                    b.ToTable("adopter_pet_type_preferences");
                 });
 
             modelBuilder.Entity("Domain.Adoption", b =>
@@ -101,7 +101,7 @@ namespace Repository.Migrations
                         .HasColumnType("UUID")
                         .HasColumnName("adopter_id");
 
-                    b.Property<DateTime>("AdoptionDate")
+                    b.Property<DateTime?>("AdoptionDate")
                         .HasColumnType("DATE")
                         .HasColumnName("adoption_date");
 
@@ -110,7 +110,6 @@ namespace Repository.Migrations
                         .HasColumnName("approved");
 
                     b.Property<string>("CounselorNotes")
-                        .IsRequired()
                         .HasColumnType("TEXT")
                         .HasColumnName("counselor_notes");
 
@@ -132,7 +131,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetId");
 
-                    b.ToTable("adoptions", (string)null);
+                    b.ToTable("adoptions");
                 });
 
             modelBuilder.Entity("Domain.AdoptionStatus", b =>
@@ -148,7 +147,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("adoption_statuses", (string)null);
+                    b.ToTable("adoption_statuses");
                 });
 
             modelBuilder.Entity("Domain.HealthStatus", b =>
@@ -164,83 +163,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("health_statuses", (string)null);
-                });
-
-            modelBuilder.Entity("Domain.Identity.ApplicationUser", b =>
-                {
-                    b.Property<Guid>("Id")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("uuid");
-
-                    b.Property<int>("AccessFailedCount")
-                        .HasColumnType("integer");
-
-                    b.Property<string>("Address")
-                        .IsRequired()
-                        .HasColumnType("TEXT")
-                        .HasColumnName("address");
-
-                    b.Property<string>("ConcurrencyStamp")
-                        .IsConcurrencyToken()
-                        .HasColumnType("text");
-
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("TIMESTAMPTZ")
-                        .HasColumnName("created_at");
-
-                    b.Property<string>("Email")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<bool>("EmailConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<bool>("LockoutEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<DateTimeOffset?>("LockoutEnd")
-                        .HasColumnType("timestamp with time zone");
-
-                    b.Property<string>("NormalizedEmail")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("NormalizedUserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.Property<string>("PasswordHash")
-                        .HasColumnType("text");
-
-                    b.Property<string>("PhoneNumber")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("PhoneNumberConfirmed")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("SecurityStamp")
-                        .HasColumnType("text");
-
-                    b.Property<bool>("TwoFactorEnabled")
-                        .HasColumnType("boolean");
-
-                    b.Property<string>("UserName")
-                        .HasMaxLength(256)
-                        .HasColumnType("character varying(256)");
-
-                    b.HasKey("Id");
-
-                    b.HasIndex("NormalizedEmail")
-                        .HasDatabaseName("EmailIndex");
-
-                    b.HasIndex("NormalizedUserName")
-                        .IsUnique()
-                        .HasDatabaseName("UserNameIndex");
-
-                    b.ToTable("AspNetUsers", (string)null);
-
-                    b.UseTptMappingStrategy();
+                    b.ToTable("health_statuses");
                 });
 
             modelBuilder.Entity("Domain.MedicalCondition", b =>
@@ -266,7 +189,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("medical_conditions", (string)null);
+                    b.ToTable("medical_conditions");
                 });
 
             modelBuilder.Entity("Domain.MedicalRecord", b =>
@@ -299,7 +222,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("VetId");
 
-                    b.ToTable("medical_records", (string)null);
+                    b.ToTable("medical_records");
                 });
 
             modelBuilder.Entity("Domain.OwnerPetListing", b =>
@@ -340,7 +263,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("SurrenderReasonId");
 
-                    b.ToTable("owner_pet_listings", (string)null);
+                    b.ToTable("owner_pet_listings");
                 });
 
             modelBuilder.Entity("Domain.OwnerPetListingDocument", b =>
@@ -371,7 +294,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ListingId");
 
-                    b.ToTable("owner_pet_listing_documents", (string)null);
+                    b.ToTable("owner_pet_listing_documents");
                 });
 
             modelBuilder.Entity("Domain.OwnerSurrenderReason", b =>
@@ -387,7 +310,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("owner_surrender_reasons", (string)null);
+                    b.ToTable("owner_surrender_reasons");
                 });
 
             modelBuilder.Entity("Domain.Pet", b =>
@@ -483,7 +406,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("PetTypeId");
 
-                    b.ToTable("pets", (string)null);
+                    b.ToTable("pets");
                 });
 
             modelBuilder.Entity("Domain.PetGender", b =>
@@ -499,7 +422,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("pet_genders", (string)null);
+                    b.ToTable("pet_genders");
                 });
 
             modelBuilder.Entity("Domain.PetSize", b =>
@@ -515,7 +438,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("pet_sizes", (string)null);
+                    b.ToTable("pet_sizes");
                 });
 
             modelBuilder.Entity("Domain.PetType", b =>
@@ -530,7 +453,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("pet_types", (string)null);
+                    b.ToTable("pet_types");
                 });
 
             modelBuilder.Entity("Domain.ShelterPetListing", b =>
@@ -567,7 +490,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("ShelterId");
 
-                    b.ToTable("shelter_pet_listings", (string)null);
+                    b.ToTable("shelter_pet_listings");
                 });
 
             modelBuilder.Entity("Domain.Vaccination", b =>
@@ -593,7 +516,7 @@ namespace Repository.Migrations
 
                     b.HasIndex("MedicalRecordId");
 
-                    b.ToTable("vaccinations", (string)null);
+                    b.ToTable("vaccinations");
                 });
 
             modelBuilder.Entity("Domain.Veterinarian", b =>
@@ -623,7 +546,7 @@ namespace Repository.Migrations
 
                     b.HasKey("Id");
 
-                    b.ToTable("veterinarians", (string)null);
+                    b.ToTable("veterinarians");
                 });
 
             modelBuilder.Entity("Domain.VeterinarianSpecilization", b =>
@@ -645,7 +568,83 @@ namespace Repository.Migrations
 
                     b.HasIndex("VeterinarianId");
 
-                    b.ToTable("vet_specializations", (string)null);
+                    b.ToTable("vet_specializations");
+                });
+
+            modelBuilder.Entity("Domain.identity.ApplicationUser", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uuid");
+
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("integer");
+
+                    b.Property<string>("Address")
+                        .IsRequired()
+                        .HasColumnType("TEXT")
+                        .HasColumnName("address");
+
+                    b.Property<string>("ConcurrencyStamp")
+                        .IsConcurrencyToken()
+                        .HasColumnType("text");
+
+                    b.Property<DateTime>("CreatedAt")
+                        .HasColumnType("TIMESTAMPTZ")
+                        .HasColumnName("created_at");
+
+                    b.Property<string>("Email")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("timestamp with time zone");
+
+                    b.Property<string>("NormalizedEmail")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("NormalizedUserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("text");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("text");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("boolean");
+
+                    b.Property<string>("UserName")
+                        .HasMaxLength(256)
+                        .HasColumnType("character varying(256)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("NormalizedEmail")
+                        .HasDatabaseName("EmailIndex");
+
+                    b.HasIndex("NormalizedUserName")
+                        .IsUnique()
+                        .HasDatabaseName("UserNameIndex");
+
+                    b.ToTable("AspNetUsers", (string)null);
+
+                    b.UseTptMappingStrategy();
                 });
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRole<System.Guid>", b =>
@@ -778,9 +777,9 @@ namespace Repository.Migrations
                     b.ToTable("AspNetUserTokens", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.Shelter", b =>
+            modelBuilder.Entity("Domain.identity.Shelter", b =>
                 {
-                    b.HasBaseType("Domain.Identity.ApplicationUser");
+                    b.HasBaseType("Domain.identity.ApplicationUser");
 
                     b.Property<int>("Capacity")
                         .HasColumnType("integer")
@@ -802,9 +801,9 @@ namespace Repository.Migrations
                     b.ToTable("shelters", (string)null);
                 });
 
-            modelBuilder.Entity("Domain.User", b =>
+            modelBuilder.Entity("Domain.identity.User", b =>
                 {
-                    b.HasBaseType("Domain.Identity.ApplicationUser");
+                    b.HasBaseType("Domain.identity.ApplicationUser");
 
                     b.Property<string>("FirstName")
                         .IsRequired()
@@ -834,7 +833,7 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Domain.AdopterPetGenderPreference", b =>
                 {
-                    b.HasOne("Domain.User", "Adopter")
+                    b.HasOne("Domain.identity.User", "Adopter")
                         .WithMany("AdopterPetGenderPreferences")
                         .HasForeignKey("AdopterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -853,7 +852,7 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Domain.AdopterPetSizePreference", b =>
                 {
-                    b.HasOne("Domain.User", "Adopter")
+                    b.HasOne("Domain.identity.User", "Adopter")
                         .WithMany("AdopterPetSizePreferences")
                         .HasForeignKey("AdopterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -872,7 +871,7 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Domain.AdopterPetTypePreference", b =>
                 {
-                    b.HasOne("Domain.User", "Adopter")
+                    b.HasOne("Domain.identity.User", "Adopter")
                         .WithMany("AdopterPetTypePreferences")
                         .HasForeignKey("AdopterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -891,14 +890,14 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Domain.Adoption", b =>
                 {
-                    b.HasOne("Domain.User", "Adopter")
-                        .WithMany()
+                    b.HasOne("Domain.identity.User", "Adopter")
+                        .WithMany("Adoptions")
                         .HasForeignKey("AdopterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.HasOne("Domain.Pet", "Pet")
-                        .WithMany()
+                        .WithMany("Adoptions")
                         .HasForeignKey("PetId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -930,7 +929,7 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Domain.OwnerPetListing", b =>
                 {
-                    b.HasOne("Domain.User", "Adopter")
+                    b.HasOne("Domain.identity.User", "Adopter")
                         .WithMany()
                         .HasForeignKey("AdopterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1023,7 +1022,7 @@ namespace Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Shelter", "Shelter")
+                    b.HasOne("Domain.identity.Shelter", "Shelter")
                         .WithMany()
                         .HasForeignKey("ShelterId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1065,7 +1064,7 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<System.Guid>", b =>
                 {
-                    b.HasOne("Domain.Identity.ApplicationUser", null)
+                    b.HasOne("Domain.identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1074,7 +1073,7 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<System.Guid>", b =>
                 {
-                    b.HasOne("Domain.Identity.ApplicationUser", null)
+                    b.HasOne("Domain.identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1089,7 +1088,7 @@ namespace Repository.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("Domain.Identity.ApplicationUser", null)
+                    b.HasOne("Domain.identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -1098,27 +1097,27 @@ namespace Repository.Migrations
 
             modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<System.Guid>", b =>
                 {
-                    b.HasOne("Domain.Identity.ApplicationUser", null)
+                    b.HasOne("Domain.identity.ApplicationUser", null)
                         .WithMany()
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.Shelter", b =>
+            modelBuilder.Entity("Domain.identity.Shelter", b =>
                 {
-                    b.HasOne("Domain.Identity.ApplicationUser", null)
+                    b.HasOne("Domain.identity.ApplicationUser", null)
                         .WithOne()
-                        .HasForeignKey("Domain.Shelter", "Id")
+                        .HasForeignKey("Domain.identity.Shelter", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
 
-            modelBuilder.Entity("Domain.User", b =>
+            modelBuilder.Entity("Domain.identity.User", b =>
                 {
-                    b.HasOne("Domain.Identity.ApplicationUser", null)
+                    b.HasOne("Domain.identity.ApplicationUser", null)
                         .WithOne()
-                        .HasForeignKey("Domain.User", "Id")
+                        .HasForeignKey("Domain.identity.User", "Id")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
                 });
@@ -1135,18 +1134,25 @@ namespace Repository.Migrations
                     b.Navigation("OwnerPetListingDocuments");
                 });
 
+            modelBuilder.Entity("Domain.Pet", b =>
+                {
+                    b.Navigation("Adoptions");
+                });
+
             modelBuilder.Entity("Domain.Veterinarian", b =>
                 {
                     b.Navigation("VetSpecializations");
                 });
 
-            modelBuilder.Entity("Domain.User", b =>
+            modelBuilder.Entity("Domain.identity.User", b =>
                 {
                     b.Navigation("AdopterPetGenderPreferences");
 
                     b.Navigation("AdopterPetSizePreferences");
 
                     b.Navigation("AdopterPetTypePreferences");
+
+                    b.Navigation("Adoptions");
                 });
 #pragma warning restore 612, 618
         }

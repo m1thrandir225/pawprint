@@ -1,5 +1,5 @@
 using Domain;
-using Domain.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -65,8 +65,6 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
 
         modelBuilder.Entity<ApplicationUser>()
             .UseTptMappingStrategy();
-
-
     }
 }
 

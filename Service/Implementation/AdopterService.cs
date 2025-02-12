@@ -1,6 +1,7 @@
 using Domain;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Identity;
 using Repository.Interface;
 using Service.Interface;
@@ -22,14 +23,14 @@ namespace Service.Implementation
 
         public async Task<IEnumerable<User>> GetAllAsync()
         {
-            var adopters = _repository.GetAll();
+            var adopters = await _repository.GetAll();
 
             return adopters;
         }
 
         public async Task<User> GetByIdAsync(Guid id)
         {
-            var adopter =  _repository.Get(id);
+            var adopter =  await _repository.Get(id);
             if (adopter == null)
             {
                 throw new Exception("User not found");
@@ -78,7 +79,7 @@ namespace Service.Implementation
 
         public async Task<User> UpdateAsync(Guid id, UpdateAdopterRequest dto)
         {
-            var adopter = _repository.Get(id);
+            var adopter = await _repository.Get(id);
             if (adopter == null)
             {
                 throw new Exception("Adopter not found");
@@ -97,7 +98,7 @@ namespace Service.Implementation
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var adopter = _repository.Get(id);
+            var adopter = await _repository.Get(id);
 
             if (adopter == null)
             {

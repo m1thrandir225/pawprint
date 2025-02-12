@@ -1,5 +1,4 @@
-
-using Domain.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Web.Services.Interfaces;

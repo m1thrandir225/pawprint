@@ -3,7 +3,7 @@ using System.Security.Claims;
 using System.Security.Cryptography;
 using System.Text;
 using Domain;
-using Domain.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
@@ -98,8 +98,17 @@ public class JWTService
         }
     }
 
-    public string GenerateAccessTokenFromRefreshToken(string refreshToken, string userEmail) {
+    public async Task<string> GenerateAccessTokenFromRefreshToken(string refreshToken, string userEmail) {
+
         var principal = VerifyToken(refreshToken);
+
+        var user = await _userManager.FindByEmailAsync(userEmail);
+
+        if (user == null)
+        {
+            throw new Exception("Invalid token");
+        }
+
         if (principal == null) {
             throw new Exception("Invalid refresh token");
         }
@@ -107,15 +116,24 @@ public class JWTService
         var tokenHandler = new JwtSecurityTokenHandler();
         var key = Encoding.ASCII.GetBytes(_jwtConfig.SecretKey);
 
-        var tokenDescriptor = new SecurityTokenDescriptor
+        var claims = new List<Claim>
         {
-            Issuer = _jwtConfig.Issuer,
-            Audience = _jwtConfig.Audience,
-            Expires = DateTime.UtcNow.AddMinutes(15), // Extend expiration time
-            SigningCredentials = new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+            new Claim(JwtRegisteredClaimNames.Sub, user.Id.ToString()),
+            new Claim(JwtRegisteredClaimNames.Email, user.Email),
+            new Claim(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString()),
         };
+        var roles = await _userManager.GetRolesAsync(user);
 
-        var token = tokenHandler.CreateToken(tokenDescriptor);
+        claims.AddRange(roles.Select(role => new Claim(ClaimTypes.Role, role)));
+
+        var token = new JwtSecurityToken(
+            issuer: _jwtConfig.Issuer,
+            audience: _jwtConfig.Audience,
+            claims: claims,
+            expires: DateTime.UtcNow.AddMinutes(_jwtConfig.ExpireMinutes),
+            signingCredentials:  new SigningCredentials(new SymmetricSecurityKey(key), SecurityAlgorithms.HmacSha256Signature)
+        );
+
         return tokenHandler.WriteToken(token);
     }
 

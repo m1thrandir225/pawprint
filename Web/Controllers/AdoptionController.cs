@@ -4,8 +4,10 @@ using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
 using Service.Interface;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.Adoption;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
+using Web.Services.Interfaces;
 
 namespace Web.Controllers
 {
@@ -14,10 +16,12 @@ namespace Web.Controllers
     public class AdoptionController : ControllerBase
     {
         private readonly IAdoptionService _adoptionService;
+        private readonly IUserContextService _userContextService;
 
-        public AdoptionController(IAdoptionService adoptionService)
+        public AdoptionController(IAdoptionService adoptionService, IUserContextService userContextService)
         {
             _adoptionService = adoptionService;
+            _userContextService = userContextService;
         }
 
         [HttpGet]
@@ -38,6 +42,21 @@ namespace Web.Controllers
             return _adoptionService.GetAdoptionsForPet(id);
         }
 
+        [HttpGet("user/{id:guid}")]
+        public async Task<ActionResult<List<Adoption>>> GetAdoptionsForUser([FromRoute] Guid id)
+        {
+            var userIdFromContext = _userContextService.GetUserId();
+
+            if (id != userIdFromContext)
+            {
+                return Unauthorized("You can't view this resource");
+            }
+
+            var adoptions = await _adoptionService.GetAdoptionsForUser(id);
+
+            return Ok(adoptions);
+        }
+
         [HttpGet]
         [Route("{id:guid}")]
         public async Task<ActionResult<Adoption>> GetAdoption([FromRoute] Guid id)
@@ -56,13 +75,42 @@ namespace Web.Controllers
         [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
         public async Task<ActionResult<Adoption>> CreateAdoption([FromBody] CreateAdoptionRequest request)
         {
-            var adoption = await _adoptionService.CreateAsync(request);
+            try
+            {
+                var adopterId = _userContextService.GetUserId();
 
-            return Ok(adoption);
+                var createDto = new CreateAdoptionDTO
+                {
+                    AdopterId = adopterId,
+                    PetId = request.PetId,
+                };
+
+                var adoption = await _adoptionService.CreateAsync(createDto);
+
+                return Ok(adoption);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
 
         [HttpPut]
-        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
+        [Route("{id:guid}/status")]
+        public async Task<ActionResult<Adoption>> UpdateApprovalStatus([FromRoute] Guid id,
+            [FromBody] UpdateApprovalStatusRequest request)
+        {
+            var updated = await _adoptionService.UpdateApprovalStatus(id, request.Status);
+
+            if (updated == null)
+            {
+                return BadRequest();
+            }
+            return Ok(updated);
+        }
+
+        [HttpPut]
         [Route("{id:guid}")]
         public async Task<ActionResult<Adoption>> UpdateAdoption([FromBody] UpdateAdoptionRequest request,
             [FromRoute] Guid id)

@@ -2,6 +2,7 @@ using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
 using System.Text.Json.Serialization;
 using Domain.enums;
+using Domain.identity;
 using Microsoft.EntityFrameworkCore;
 
 namespace Domain;

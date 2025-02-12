@@ -2,6 +2,7 @@
 using Domain.enums;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.DTOs.ShelterPetListing;
 using Repository.Interface;
 
 namespace Service.Implementation;
@@ -22,55 +23,50 @@ public class ShelterPetListingService : IShelterPetListingService
     public async Task<IEnumerable<ShelterPetListing>> GetAllAsync()
     {
         // return _repository.GetAllWithJoins();
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<ShelterPetListing> GetByIdAsync(Guid id)
     {
-        return _repository.Get(id);
+        return await _repository.Get(id);
         // return _repository.GetWithJoins(id);
     }
 
-    public async Task<ShelterPetListing> CreateAsync(CreateShelterPetListingRequest dto)
+    public async Task<ShelterPetListing> CreateAsync(CreateShelterPetListingDTO dto)
     {
-        var medicalRecord = await _medicalRecordService.CreateAsync(dto.MedicalRecord);
-        
-        // Create new listing with PENDING status by default
-        var listing = new ShelterPetListing(
-            dto.PetId,
-            medicalRecord.Id,
-            dto.ShelterId,
-            dto.IntakeDate,
-            dto.AdoptionFee
-        );
-
-        var createdListing = _repository.Insert(listing);
-
-        return createdListing;
+        var listing = new ShelterPetListing
+        {
+            AdoptionFee = dto.AdoptionFee,
+            IntakeDate = dto.IntakeDate,
+            ShelterId = dto.ShelterId,
+            PetId = dto.PetId,
+            MedicalRecordId = dto.MedicalRecordId,
+        };
+        return await _repository.Insert(listing);
     }
 
     public async Task<ShelterPetListing> UpdateAsync(Guid id, UpdateShelterPetListingRequest dto)
     {
-        var listing = _repository.Get(id);
+        var listing = await _repository.Get(id);
 
         if (listing == null)
         {
-            return null;
+            throw new Exception("Not Found");
         }
 
         // Only update mutable properties
         listing.IntakeDate = dto.IntakeDate;
         listing.AdoptionFee = dto.AdoptionFee;
 
-        return _repository.Update(listing);
+        return await _repository.Update(listing);
     }
     
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var listing = _repository.Get(id);
+        var listing = await _repository.Get(id);
         
-        _repository.Delete(listing);
-        return Task.FromResult(true);
+        await _repository.Delete(listing);
+        return true;
     }
 
     public ICollection<ShelterPetListing> GetListingsByShelter(Guid id)

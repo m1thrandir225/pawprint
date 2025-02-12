@@ -1,9 +1,8 @@
 using System.ComponentModel.DataAnnotations;
 using System.ComponentModel.DataAnnotations.Schema;
-using Domain.Identity;
-using Microsoft.AspNetCore.Identity;
+using System.Text.Json.Serialization;
 
-namespace Domain;
+namespace Domain.identity;
 
 /*
  * Email, Phone Number & Roles are inherited from IdentityUser
@@ -31,4 +30,7 @@ public class User : ApplicationUser
     public virtual ICollection<AdopterPetGenderPreference> AdopterPetGenderPreferences { get; set; } = null!;
     public virtual ICollection<AdopterPetSizePreference> AdopterPetSizePreferences { get; set; } = null!;
     public virtual ICollection<AdopterPetTypePreference> AdopterPetTypePreferences { get; set; } = null!;
+
+    [JsonIgnore]
+    public virtual ICollection<Adoption> Adoptions { get; set; } = null!;
 }

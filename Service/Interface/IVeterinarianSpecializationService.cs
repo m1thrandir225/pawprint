@@ -1,5 +1,6 @@
 ﻿using Domain;
 using Domain.DTOs;
+using Domain.DTOs.VeterinarianSpecialization;
 
 namespace Service.Interface;
 

@@ -1,5 +1,6 @@
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.EntityFrameworkCore;
 
@@ -8,6 +9,12 @@ namespace Service.Implementation
     public class AuthenticationService 
     {
         private readonly UserManager<ApplicationUser> _userManager;
+
+        public async Task<bool> IsUserAdmin(ApplicationUser user)
+        {
+            var isAdmin = await _userManager.IsInRoleAsync(user, UserRole.Admin);
+            return isAdmin;
+        }
 
         public AuthenticationService(UserManager<ApplicationUser> userManager) 
         {

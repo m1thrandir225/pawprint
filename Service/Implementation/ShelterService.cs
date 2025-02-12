@@ -1,6 +1,7 @@
 using Domain;
 using Domain.DTOs;
-using Domain.Identity;
+using Domain.DTOs.Identity;
+using Domain.identity;
 using Microsoft.AspNetCore.Identity;
 using Repository.Interface;
 using Service.Interface;
@@ -23,14 +24,14 @@ namespace Service.Implementation
 
          public async Task<IEnumerable<Shelter>> GetAllAsync()
         {
-            var shelters = _repository.GetAll();
+            var shelters = await _repository.GetAll();
 
             return shelters;
         }
 
         public async Task<Shelter> GetByIdAsync(Guid id)
         {
-            var shelter = _repository.Get(id);
+            var shelter = await _repository.Get(id);
             if (shelter == null)
             {
                 throw new Exception("User not found");
@@ -79,7 +80,7 @@ namespace Service.Implementation
 
         public async Task<Shelter> UpdateAsync(Guid id, UpdateShelterRequest dto)
         {
-            var shelter = _repository.Get(id);
+            var shelter = await _repository.Get(id);
             if (shelter == null)
             {
                 throw new Exception("Adopter not found");
@@ -91,14 +92,14 @@ namespace Service.Implementation
             shelter.PhoneNumber = dto.PhoneNumber;
             shelter.Website = dto.Website;
 
-            _repository.Update(shelter);
+            await _repository.Update(shelter);
 
             return shelter;
         }
 
         public async Task<bool> DeleteAsync(Guid id)
         {
-            var shelter = _repository.Get(id);
+            var shelter = await _repository.Get(id);
 
             if (shelter == null)
             {
@@ -109,7 +110,7 @@ namespace Service.Implementation
             if(result == null) {
                 return false;
             }
-            _repository.Delete(shelter);
+            await _repository.Delete(shelter);
 
             return true;
            

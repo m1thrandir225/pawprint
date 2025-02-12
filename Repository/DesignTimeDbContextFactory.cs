@@ -6,6 +6,7 @@ namespace Repository;
 
 public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<ApplicationDbContext>
 {
+    //TODO: refactor to use environment variables
     public ApplicationDbContext CreateDbContext(string[] args)
     {
         // Build configuration

@@ -1,11 +1,12 @@
 ﻿using Domain;
 using Domain.DTOs;
+using Domain.DTOs.ShelterPetListing;
 using Domain.enums;
 
 namespace Service.Interface;
 
 public interface IShelterPetListingService : ICRUDService<ShelterPetListing, 
-    CreateShelterPetListingRequest, UpdateShelterPetListingRequest>
+    CreateShelterPetListingDTO, UpdateShelterPetListingRequest>
 {
     ICollection<ShelterPetListing> FilterShelterPetListing(Guid? petSizeId, Guid? petTypeId, Guid? petGenderId, string search);
 

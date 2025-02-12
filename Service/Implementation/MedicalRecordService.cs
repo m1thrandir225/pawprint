@@ -1,6 +1,9 @@
-﻿using Domain;
+﻿using System.Net;
+using Domain;
 using Service.Interface;
 using Domain.DTOs;
+using Domain.DTOs.MedicalRecord;
+using Microsoft.AspNetCore.Http;
 using Repository.Interface;
 
 namespace Service.Implementation;
@@ -16,12 +19,12 @@ public class MedicalRecordService : IMedicalRecordService
 
     public async Task<IEnumerable<MedicalRecord>> GetAllAsync()
     {
-        return _repository.GetAll();
+        return await _repository.GetAll();
     }
 
     public async Task<MedicalRecord> GetByIdAsync(Guid id)
     {
-        var medicalRecord = _repository.Get(id);
+        var medicalRecord = await _repository.Get(id);
         return medicalRecord;
     }
 
@@ -35,16 +38,16 @@ public class MedicalRecordService : IMedicalRecordService
             dto.MicrochipNumber
         );
 
-        return _repository.Insert(medicalRecord);
+        return  await _repository.Insert(medicalRecord);
     }
 
     public async Task<MedicalRecord> UpdateAsync(Guid id, UpdateMedicalRecordRequest dto)
     {
-        var medicalRecord = _repository.Get(id);
+        var medicalRecord = await _repository.Get(id);
 
         if (medicalRecord == null)
         {
-            return null;
+            throw new Exception("Medical record not found");
         }
 
         medicalRecord.VetId = dto.VetId;
@@ -52,13 +55,13 @@ public class MedicalRecordService : IMedicalRecordService
         medicalRecord.LastMedicalCheckup = dto.LastMedicalCheckup;
         medicalRecord.MicrochipNumber = dto.MicrochipNumber;
 
-        return _repository.Update(medicalRecord);
+        return await _repository.Update(medicalRecord);
     }
 
-    public Task<bool> DeleteAsync(Guid id)
+    public async Task<bool> DeleteAsync(Guid id)
     {
-        var medicalRecord = _repository.Get(id);
-        _repository.Delete(medicalRecord);
-        return Task.FromResult(true);
+        var medicalRecord = await _repository.Get(id);
+        await _repository.Delete(medicalRecord);
+        return true;
     }
 }

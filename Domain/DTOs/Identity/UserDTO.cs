@@ -1,4 +1,4 @@
-namespace Domain.DTOs
+namespace Domain.DTOs.Identity
 {
     public class UserDTO
     {
@@ -11,5 +11,7 @@ namespace Domain.DTOs
         public bool HasChildren { get; set; }
         public bool HasOtherPets { get; set; }
         public string HomeType { get; set; }
+
+        public bool? IsAdmin { get; set; }
     }
 }

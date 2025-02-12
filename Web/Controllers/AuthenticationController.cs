@@ -1,5 +1,8 @@
 using Domain;
 using Domain.DTOs;
+using Domain.DTOs.Identity;
+using Domain.DTOs.JWT;
+using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Service.Implementation;
@@ -68,7 +71,7 @@ namespace Web.Controllers {
                 {
                     LoginUserResponse response = new LoginUserResponse();
                     var adopter = await _adopterService.GetByIdAsync(user.Id);
-                    
+                    var isAdmin = await _authenticationService.IsUserAdmin(user);
                     var details = new UserDTO {
                         Id = user.Id,
                         Address = user.Address,
@@ -78,7 +81,7 @@ namespace Web.Controllers {
                         HasChildren = adopter.HasChildren,
                         HasOtherPets = adopter.HasOtherPets,
                         HomeType = adopter.HomeType,
-
+                        IsAdmin = isAdmin,
                     };
                     
                     response.User = details;
@@ -182,10 +185,10 @@ namespace Web.Controllers {
             
         }
         [HttpPost("refresh")]
-        public  ActionResult<string> GenerateRefreshToken([FromBody] RefreshTokenRequest request)
+        public async Task<ActionResult<string>> GenerateRefreshToken([FromBody] RefreshTokenRequest request)
         {
             try {
-                var token = _jwtService.GenerateAccessTokenFromRefreshToken(request.RefreshToken, request.Email);
+                var token = await _jwtService.GenerateAccessTokenFromRefreshToken(request.RefreshToken, request.Email);
                 var refreshTime = _jwtService.GetExpirationTime(token);
                 var response = new RefreshTokenResponse {
                     AccessToken = token,
