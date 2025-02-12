@@ -1,7 +1,9 @@
-﻿using Domain;
+﻿using System.Net;
+using Domain;
 using Service.Interface;
 using Domain.DTOs;
 using Domain.DTOs.MedicalRecord;
+using Microsoft.AspNetCore.Http;
 using Repository.Interface;
 
 namespace Service.Implementation;
@@ -45,7 +47,7 @@ public class MedicalRecordService : IMedicalRecordService
 
         if (medicalRecord == null)
         {
-            return null;
+            throw new Exception("Medical record not found");
         }
 
         medicalRecord.VetId = dto.VetId;

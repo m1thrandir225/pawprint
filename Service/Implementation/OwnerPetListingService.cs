@@ -28,9 +28,15 @@ public class OwnerPetListingService : IOwnerPetListingService
         return await _repository.Get(id);
     }
 
-    public async Task<OwnerPetListing> CreateAsync(CreateOwnerPetListingRequest dto)
+    public async Task<OwnerPetListing> CreateAsync(CreateOwnerPetListingDTO dto)
     {
-        var ownerPetListing = new OwnerPetListing(dto.AdopterId, dto.PetId, dto.SurrenderReasonId, dto.AdoptionFee);
+        var ownerPetListing = new OwnerPetListing
+        {
+            AdopterId = dto.AdopterId,
+            AdoptionFee = dto.AdoptionFee,
+            PetId = dto.PetId,
+            SurrenderReasonId = dto.SurrenderReasonId,
+        };
         var createdListing = await _repository.Insert(ownerPetListing);
 
         return createdListing;

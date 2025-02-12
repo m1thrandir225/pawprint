@@ -24,6 +24,7 @@ public static class Program
         var builder = WebApplication.CreateBuilder(args);
 
         ConfigureEnvironment(builder);
+        ConfigureKestrel(builder);
         ConfigureServices(builder.Services);
         ConfigureIdentity(builder.Services);
         ConfigureJWT(builder);
@@ -67,6 +68,12 @@ public static class Program
         }
 
         builder.Configuration.AddEnvironmentVariables();
+
+    }
+
+    public static void ConfigureKestrel(WebApplicationBuilder builder)
+    {
+        builder.WebHost.ConfigureKestrel(options => options.Limits.MaxRequestBodySize = 50 * 1024 * 1024);
     }
 
     public static void ConfigureServices(IServiceCollection services)
