@@ -10,6 +10,12 @@ namespace Service.Implementation
     {
         private readonly UserManager<ApplicationUser> _userManager;
 
+        public async Task<bool> IsUserAdmin(ApplicationUser user)
+        {
+            var isAdmin = await _userManager.IsInRoleAsync(user, UserRole.Admin);
+            return isAdmin;
+        }
+
         public AuthenticationService(UserManager<ApplicationUser> userManager) 
         {
             _userManager = userManager;

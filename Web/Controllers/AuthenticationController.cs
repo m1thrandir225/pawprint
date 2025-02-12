@@ -71,7 +71,7 @@ namespace Web.Controllers {
                 {
                     LoginUserResponse response = new LoginUserResponse();
                     var adopter = await _adopterService.GetByIdAsync(user.Id);
-                    
+                    var isAdmin = await _authenticationService.IsUserAdmin(user);
                     var details = new UserDTO {
                         Id = user.Id,
                         Address = user.Address,
@@ -81,7 +81,7 @@ namespace Web.Controllers {
                         HasChildren = adopter.HasChildren,
                         HasOtherPets = adopter.HasOtherPets,
                         HomeType = adopter.HomeType,
-
+                        IsAdmin = isAdmin,
                     };
                     
                     response.User = details;

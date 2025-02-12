@@ -86,7 +86,7 @@ public class Pet : BaseEntity
     //public virtual ICollection<ShelterPetListing> ShelterPetListings { get; set; } = new List<ShelterPetListing>();
 
     [JsonIgnore]
-    public virtual ICollection<Adoption> Adoptions { get; set; } = new List<Adoption>();
+    public virtual ICollection<Adoption> Adoptions { get; set; }
 
     public Pet()
     {

@@ -2,6 +2,7 @@
 using System;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 using Npgsql.EntityFrameworkCore.PostgreSQL.Metadata;
 using Repository;
@@ -11,9 +12,11 @@ using Repository;
 namespace Repository.Migrations
 {
     [DbContext(typeof(ApplicationDbContext))]
-    partial class ApplicationDbContextModelSnapshot : ModelSnapshot
+    [Migration("20250212161027_AdoptionNullableFields")]
+    partial class AdoptionNullableFields
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -891,7 +894,7 @@ namespace Repository.Migrations
             modelBuilder.Entity("Domain.Adoption", b =>
                 {
                     b.HasOne("Domain.identity.User", "Adopter")
-                        .WithMany("Adoptions")
+                        .WithMany()
                         .HasForeignKey("AdopterId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
@@ -1151,8 +1154,6 @@ namespace Repository.Migrations
                     b.Navigation("AdopterPetSizePreferences");
 
                     b.Navigation("AdopterPetTypePreferences");
-
-                    b.Navigation("Adoptions");
                 });
 #pragma warning restore 612, 618
         }
