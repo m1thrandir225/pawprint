@@ -5,13 +5,13 @@
       context: .
       dockerfile: Web/Dockerfile
     environment:
-    - DB_CONNECTION_URL=
-    - SMTP_HOST=
-    - SMTP_PORT=
-    - SMTP_USERNAME=
-    - SMTP_PASSWORD=
-    - SMTP_SENDER_NAME=
-    - SMTP_SENDER_EMAIL=
+      - DB_CONNECTION_URL=
+      - SMTP_HOST=
+      - SMTP_PORT=
+      - SMTP_USERNAME=
+      - SMTP_PASSWORD=
+      - SMTP_SENDER_NAME=
+      - SMTP_SENDER_EMAIL=
     ports:
       - "8080:8080"
       - "8081:8081"
