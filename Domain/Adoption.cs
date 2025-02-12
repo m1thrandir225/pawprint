@@ -18,19 +18,19 @@ public class Adoption : BaseEntity
     [Column("adopter_id", TypeName = "UUID")]
     public Guid AdopterId { get; set; }
 
-    [Required] public virtual User Adopter { get; set; } = null!;
+    [Required]
+    public virtual User Adopter { get; set; } = null!;
 
     [Column("adoption_date", TypeName = "DATE")]
-    public DateTime AdoptionDate { get; set; }
+    public DateTime? AdoptionDate { get; set; }
 
-    
+
 
     [Column("follow_up_date", TypeName = "DATE")]
     public DateTime? FollowUpDate { get; set; }
 
-    [Required]
     [Column("counselor_notes", TypeName = "TEXT")]
-    public string CounselorNotes { get; set; }
+    public string? CounselorNotes { get; set; }
 
     [Required]
     [Column("approved", TypeName = "INTEGER")]
@@ -41,18 +41,4 @@ public class Adoption : BaseEntity
     [Column("created_at", TypeName = "TIMESTAMPTZ")]
     public DateTime CreatedAt { get; set; } = DateTime.UtcNow;
 
-    public Adoption()
-    {
-    }
-
-    public Adoption(Guid petId, Guid adopterId, DateTime adoptionDate,
-        DateTime? followUpDate, string counselorNotes= null)
-    {
-        PetId = petId;
-        AdopterId = adopterId;
-        AdoptionDate = adoptionDate;
-        FollowUpDate = followUpDate;
-        CounselorNotes = counselorNotes;
-        Approved = ApprovalStatus.PENDING;
-    }
 }

@@ -11,5 +11,7 @@ namespace Domain.DTOs.Identity
         public bool HasChildren { get; set; }
         public bool HasOtherPets { get; set; }
         public string HomeType { get; set; }
+
+        public bool? IsAdmin { get; set; }
     }
 }

@@ -31,14 +31,16 @@ public class AdoptionService : IAdoptionService
         return await _repository.Get(id);
     }
 
-    public async Task<Adoption> CreateAsync(CreateAdoptionRequest dto)
+    public async Task<Adoption> CreateAsync(CreateAdoptionDTO dto)
     {
-        var adoption = new Adoption(
-            dto.PetId,
-            dto.AdopterId,
-            dto.AdoptionDate,
-            dto.FollowUpDate,
-            dto.CounselorNotes);
+        var adoption = new Adoption{
+            PetId = dto.PetId,
+            AdopterId = dto.AdopterId,
+            AdoptionDate = dto.AdoptionDate,
+            FollowUpDate = dto.FollowUpDate,
+            CounselorNotes = dto.CounselorNotes
+
+        };
 
         return await _repository.Insert(adoption);
     }
@@ -51,12 +53,23 @@ public class AdoptionService : IAdoptionService
         {
             return null;
         }
-        
-        adoption.PetId = dto.PetId;
-        adoption.AdopterId = dto.AdopterId;
-        adoption.AdoptionDate = dto.AdoptionDate;
-        adoption.FollowUpDate = dto.FollowUpDate;
-        adoption.CounselorNotes = dto.CounselorNotes;
+
+        if (dto.AdoptionDate is not null && adoption.AdoptionDate is not null)
+        {
+            adoption.AdoptionDate = dto.AdoptionDate;
+        }
+
+        if (dto.FollowUpDate is not null && adoption.FollowUpDate is not null)
+        {
+            adoption.FollowUpDate = dto.FollowUpDate;
+        }
+
+        if (dto.CounselorNotes is not null && adoption.CounselorNotes is not null)
+        {
+            adoption.CounselorNotes = dto.CounselorNotes;
+        }
+
+
         adoption.Approved = dto.Approved;
         
         return await _repository.Update(adoption);

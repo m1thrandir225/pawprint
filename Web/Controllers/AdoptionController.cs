@@ -7,6 +7,7 @@ using Domain.DTOs;
 using Domain.DTOs.Adoption;
 using Domain.identity;
 using Microsoft.AspNetCore.Authorization;
+using Web.Services.Interfaces;
 
 namespace Web.Controllers
 {
@@ -15,10 +16,12 @@ namespace Web.Controllers
     public class AdoptionController : ControllerBase
     {
         private readonly IAdoptionService _adoptionService;
+        private readonly IUserContextService _userContextService;
 
-        public AdoptionController(IAdoptionService adoptionService)
+        public AdoptionController(IAdoptionService adoptionService, IUserContextService userContextService)
         {
             _adoptionService = adoptionService;
+            _userContextService = userContextService;
         }
 
         [HttpGet]
@@ -57,14 +60,30 @@ namespace Web.Controllers
         [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
         public async Task<ActionResult<Adoption>> CreateAdoption([FromBody] CreateAdoptionRequest request)
         {
-            var adoption = await _adoptionService.CreateAsync(request);
+            try
+            {
+                var adopter = _userContextService.GetUserId();
 
-            return Ok(adoption);
+                var createDto = new CreateAdoptionDTO
+                {
+                    AdopterId = adopter,
+                    PetId = request.PetId,
+                };
+
+                var adoption = await _adoptionService.CreateAsync(createDto);
+
+                return Ok(adoption);
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+
         }
 
         [HttpPut]
-        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
         [Route("{id:guid}")]
+        [Authorize(Roles = $"{UserRole.Admin}, {UserRole.User}")]
         public async Task<ActionResult<Adoption>> UpdateAdoption([FromBody] UpdateAdoptionRequest request,
             [FromRoute] Guid id)
         {

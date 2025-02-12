@@ -4,7 +4,7 @@ using Domain.DTOs.Adoption;
 
 namespace Service.Interface;
 
-public interface IAdoptionService : ICRUDService<Adoption, CreateAdoptionRequest, UpdateAdoptionRequest>
+public interface IAdoptionService : ICRUDService<Adoption, CreateAdoptionDTO, UpdateAdoptionRequest>
 {
     public List<Adoption> GetAdoptionsForPet(Guid id);
 
