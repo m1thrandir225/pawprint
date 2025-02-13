@@ -17,12 +17,6 @@ public class DonationController : ControllerBase
         _paymentService = paymentService;
     }
 
-    [HttpGet]
-    [Route("donation")]
-    public async Task<ActionResult<String>> Test()
-    {
-        return "AAAAAAAAAA";
-    }
     
     [HttpPost]
     [Route("donation")]
