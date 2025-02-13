@@ -39,19 +39,13 @@ namespace Web.Controllers
 
             return Ok(pets);
         }
-        
+
         [HttpGet("csv")]
         public async Task<ActionResult> GetAllPetsCsv()
         {
-            var pets = await _petService.GetAllAsync();
-            if (pets == null)
-            {
-                return BadRequest();
-            }
-
             // Generate CSV content
-            var csvBytes = ConvertToCsvBytes(pets);
-    
+            var csvBytes = await _petService.GetAllCsv();
+
             // Return CSV file
             return File(csvBytes, "text/csv", "pets.csv");
         }
@@ -221,17 +215,5 @@ namespace Web.Controllers
 
             return Ok(deleted);
         }
-        
-        private byte[] ConvertToCsvBytes(IEnumerable<Pet> pets)
-        {
-            using var memoryStream = new MemoryStream();
-            using (var streamWriter = new StreamWriter(memoryStream, leaveOpen: true))
-            using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
-            {
-                csvWriter.WriteRecords(pets);
-            }
-            return memoryStream.ToArray();
-        }
     }
-    
 }
