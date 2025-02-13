@@ -1,3 +1,5 @@
+using System.Globalization;
+using CsvHelper;
 using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +38,22 @@ namespace Web.Controllers
             }
 
             return Ok(pets);
+        }
+        
+        [HttpGet("csv")]
+        public async Task<ActionResult> GetAllPetsCsv()
+        {
+            var pets = await _petService.GetAllAsync();
+            if (pets == null)
+            {
+                return BadRequest();
+            }
+
+            // Generate CSV content
+            var csvBytes = ConvertToCsvBytes(pets);
+    
+            // Return CSV file
+            return File(csvBytes, "text/csv", "pets.csv");
         }
 
         [HttpGet]
@@ -203,5 +221,17 @@ namespace Web.Controllers
 
             return Ok(deleted);
         }
+        
+        private byte[] ConvertToCsvBytes(IEnumerable<Pet> pets)
+        {
+            using var memoryStream = new MemoryStream();
+            using (var streamWriter = new StreamWriter(memoryStream, leaveOpen: true))
+            using (var csvWriter = new CsvWriter(streamWriter, CultureInfo.InvariantCulture))
+            {
+                csvWriter.WriteRecords(pets);
+            }
+            return memoryStream.ToArray();
+        }
     }
+    
 }
