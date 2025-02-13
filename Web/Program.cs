@@ -1,6 +1,7 @@
 using System.Text;
 using Domain;
 using Domain.identity;
+using Domain.Stripe;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.EntityFrameworkCore;
@@ -9,9 +10,12 @@ using Repository;
 using Repository.Implementations;
 using Repository.integration;
 using Repository.Interface;
+using Repository.Stripe;
 using Service.Implementation;
 using Service.integration;
 using Service.Interface;
+using Service.Stripe;
+using Stripe;
 using Web.Config;
 using Web.Services;
 using Web.Services.Interfaces;
@@ -31,6 +35,8 @@ public static class Program
         RegisterRepositories(builder.Services);
         RegisterServices(builder.Services);
         ConfigureControllers(builder);
+
+        builder.Services.Configure<StripeSettings>(builder.Configuration.GetSection("StripeSettings"));
         
         //For Restaurant
         Integration(builder);
@@ -56,7 +62,9 @@ public static class Program
             "SMTP_USERNAME",
             "SMTP_PASSWORD",
             "SMTP_SENDER_NAME",
-            "SMTP_SENDER_EMAIL"
+            "SMTP_SENDER_EMAIL",
+            "STRIPE_PUBLIC_KEY",
+            "STRIPE_SECRET_KEY",
         };
 
         foreach (var envVar in requiredVars)
@@ -185,6 +193,9 @@ public static class Program
        services.AddTransient<IVaccinationRepository, VaccinationRepository>();
        services.AddTransient<IVeterinarianRepository, VeterinarianRepository>();
        services.AddTransient<IVeterinarianSpecializationRepository, VeterinarianSpecializationRepository>();
+       
+       //Stripe
+       services.AddTransient<IPaymentRepository, PaymentRepository>();
     }
 
     private static void RegisterServices(IServiceCollection services)
@@ -209,6 +220,10 @@ public static class Program
         services.AddTransient<IShelterService, ShelterService>();
         services.AddTransient<IUploadService, UploadService>();
         services.AddTransient<IUserContextService, UserContextService>();
+        
+        //Stripe
+        services.AddSingleton(new StripeClient(Environment.GetEnvironmentVariable("STRIPE_SECRET_KEY")));
+        services.AddTransient<IPaymentService, PaymentService>();
     }
 
     private static void ConfigureControllers(WebApplicationBuilder builder)
