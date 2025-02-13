@@ -1,5 +1,6 @@
 using Domain;
 using Domain.identity;
+using Domain.Stripe;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
@@ -51,6 +52,10 @@ public class ApplicationDbContext : IdentityDbContext<ApplicationUser, IdentityR
     public DbSet<User> Users { get; set; }
     public DbSet<Shelter> Shelters { get; set; }
 
+    /**
+     * Payment 
+     */
+    public DbSet<Payment> Payments { get; set; } 
     public ApplicationDbContext(DbContextOptions<ApplicationDbContext> options)
         : base(options)
     {
