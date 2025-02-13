@@ -1,3 +1,5 @@
+using System.Globalization;
+using CsvHelper;
 using Domain;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -36,6 +38,16 @@ namespace Web.Controllers
             }
 
             return Ok(pets);
+        }
+
+        [HttpGet("csv")]
+        public async Task<ActionResult> GetAllPetsCsv()
+        {
+            // Generate CSV content
+            var csvBytes = await _petService.GetAllCsv();
+
+            // Return CSV file
+            return File(csvBytes, "text/csv", "pets.csv");
         }
 
         [HttpGet]

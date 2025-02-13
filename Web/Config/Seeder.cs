@@ -84,30 +84,30 @@ public static class DatabaseSeeder
 
         //Data Types
         //user 
-        var users = new User[numberOfUsers];
-        var shelters = new Shelter[numberOfUsers];
-        // Seed Sample Users and Shelters
-        SeedUsersAndShelters(userManager, context, shelters, users).Wait();
-
-        //pet ( needs type, gender, health status, adoption status)
-        var pets = new Pet[NumberOfPetsAndRelated];
-        SeedPets(context, petSizes, petGenders, petTypes, healthStatuses, adoptionStatuses, pets);
-        //adoption (needs pet and adopter)
-        SeedAdoptions(context, users, pets);
-        //veterinarian, veterinarian specialization ( needs veterinarian )
-        var veterinarians = new Veterinarian[NumberOfPetsAndRelated];
-        SeedVeterinariansAndSpecializations(context, veterinarians);
-        //medical record (needs veterinarian), medical condition (needs medical record)
-        var medicalRecords = new MedicalRecord[NumberOfPetsAndRelated];
-        SeedMedicalRecordsAndConditions(context, veterinarians, medicalRecords);
-        //vaccinatio
-        SeedVaccinactions(context, medicalRecords);
-        //shelter listing (first half of pets and medical records)
-        var firstHalfPets = pets.Take(10).ToArray();
-        SeedShelterPetListings(context, shelters, firstHalfPets, medicalRecords);
-        //owner listing (second half of pets and medical records)
-        var secondHalfPets = pets.Skip(10).Take(10).ToArray();
-        SeedOwnerPetListings(context, users, secondHalfPets, surrenderReasons);
+        // var users = new User[numberOfUsers];
+        // var shelters = new Shelter[numberOfUsers];
+        // // Seed Sample Users and Shelters
+        // SeedUsersAndShelters(userManager, context, shelters, users).Wait();
+        //
+        // //pet ( needs type, gender, health status, adoption status)
+        // var pets = new Pet[NumberOfPetsAndRelated];
+        // SeedPets(context, petSizes, petGenders, petTypes, healthStatuses, adoptionStatuses, pets);
+        // //adoption (needs pet and adopter)
+        // SeedAdoptions(context, users, pets);
+        // //veterinarian, veterinarian specialization ( needs veterinarian )
+        // var veterinarians = new Veterinarian[NumberOfPetsAndRelated];
+        // SeedVeterinariansAndSpecializations(context, veterinarians);
+        // //medical record (needs veterinarian), medical condition (needs medical record)
+        // var medicalRecords = new MedicalRecord[NumberOfPetsAndRelated];
+        // SeedMedicalRecordsAndConditions(context, veterinarians, medicalRecords);
+        // //vaccinatio
+        // SeedVaccinactions(context, medicalRecords);
+        // //shelter listing (first half of pets and medical records)
+        // var firstHalfPets = pets.Take(10).ToArray();
+        // SeedShelterPetListings(context, shelters, firstHalfPets, medicalRecords);
+        // //owner listing (second half of pets and medical records)
+        // var secondHalfPets = pets.Skip(10).Take(10).ToArray();
+        // SeedOwnerPetListings(context, users, secondHalfPets, surrenderReasons);
 
         // Save changes to ensure IDs are generated
         context.SaveChanges();
