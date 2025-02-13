@@ -201,8 +201,10 @@ text-decoration: none
 <![endif]-->
 <!--[if !mso]>-->
 <td class=""t21"" style=""background-color:#03045E;overflow:hidden;width:auto;border-radius:40px 40px 40px 40px;"">
-<!--<![endif]-->
+<!--<![endif]--><a href=""https://pawprint.sebastijanzindl.me/login"" style=""text-decoration: none;"">
 <table class=""t20"" role=""presentation"" cellpadding=""0"" cellspacing=""0"" style=""width:auto;""><tr><td class=""t19"" style=""text-align:center;line-height:34px;mso-line-height-rule:exactly;mso-text-raise:5px;padding:0 23px 0 23px;""><span class=""t17"" style=""display:block;margin:0;Margin:0;font-family:Sofia Sans,BlinkMacSystemFont,Segoe UI,Helvetica Neue,Arial,sans-serif;line-height:34px;font-weight:700;font-style:normal;font-size:16px;text-decoration:none;text-transform:none;letter-spacing:-0.2px;direction:ltr;color:#FFFFFF;text-align:center;mso-line-height-rule:exactly;mso-text-raise:5px;"">Find Your Pawfect Match</span></td></tr></table>
+</a>
+
 </td></tr></table>
 </td></tr><tr><td><div class=""t31"" style=""mso-line-height-rule:exactly;mso-line-height-alt:40px;line-height:40px;font-size:1px;display:block;"">&nbsp;&nbsp;</div></td></tr><tr><td align=""center"">
 <table class=""t35"" role=""presentation"" cellpadding=""0"" cellspacing=""0"" style=""Margin-left:auto;Margin-right:auto;""><tr>
