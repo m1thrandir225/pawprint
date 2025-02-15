@@ -14,6 +14,9 @@ this project aims to empower shelters and individuals to list pets available for
 complete with detailed profiles, photos, and adoption requirements. Users can easily search, 
 filter, and connect with pets that match their preferences, lifestyle, and location.
 
+## Database & Entities 
+![Database Design](./.github/db-design.png)
+
 ## Features
 - Browsing and filtering available listings from both shelters and users.
 - Creation of listings both as a Adopter (User) or as a Shelter.
