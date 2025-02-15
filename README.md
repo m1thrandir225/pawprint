@@ -15,7 +15,7 @@ complete with detailed profiles, photos, and adoption requirements. Users can ea
 filter, and connect with pets that match their preferences, lifestyle, and location.
 
 ## Database & Entities 
-<iframe width="560" height="315" src='https://dbdiagram.io/e/67601dcce763df1f0013e550/67ae1157263d6cf9a0127b58'> </iframe>
+![Database Design](./.github/db-design.png)
 
 ## Features
 - Browsing and filtering available listings from both shelters and users.
