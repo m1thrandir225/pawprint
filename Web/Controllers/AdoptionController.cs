@@ -32,7 +32,6 @@ namespace Web.Controllers
             {
                 return BadRequest();
             }
-
             return Ok(adoptions);
         }
 
