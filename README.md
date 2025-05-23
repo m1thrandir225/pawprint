@@ -51,7 +51,7 @@ This project under a [MIT License](LICENSE).
 
 ## Authors
 
-This project has been made by Sebastijan Zindl, Marko Ilievski and Sara Apostolovska. 
+This project has been made by Sebastijan Zindl, Marko Ilioski and Sara Apostolovska. 
 
 ## Related Projects
 - [Frontend](https://github.com/m1thrandir225/pawprint-frontend)
